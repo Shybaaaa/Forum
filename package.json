@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "npx tailwindcss -i ./private/css/input.css -o ./public/css/main.css --watch",
-    "serve": "php -S localhost:8888"
+    "serve": "php -S localhost:8888",
+    "installRequirement": "npm install tailwindcss postcss autoprefixer flowbite"
   },
   "devDependencies": {
     "flowbite": "^2.3.0",
