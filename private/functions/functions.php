@@ -110,12 +110,12 @@ function addPost($title, $reference, $description){
 
     $pdo = dbConnect();
 
-    $sql = "INSERT INTO posts (Title, ArtistId) VALUES (?, ?)";
+    $sql = "INSERT INTO posts () VALUES (?, ?)";
 
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([$title, $artist]);
+    $stmt->execute([]);
 
-    header("Location: ./index.php");
+    header("Location: ");
 
 }
