@@ -102,3 +102,17 @@ function updateUser($id, $username, $surname, $email, $password, $image)
 
     header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
 }
+
+function addPost($title, $reference, $description){
+
+    $pdo = dbConnect();
+
+    $sql = "INSERT INTO posts (Title, ArtistId) VALUES (?, ?)";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([$title, $artist]);
+
+    header("Location: ./index.php");
+
+}
