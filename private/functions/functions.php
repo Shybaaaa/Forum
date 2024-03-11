@@ -11,17 +11,17 @@ function dbConnect()
     return $pdo;
 }
 
-function addUser($username, $email, $password, $vpassword)
+function addUser($username, $email, $password, $vPassword)
 {
     $username = htmlspecialchars($username);
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
-    $vpassword = htmlspecialchars($vpassword);
+    $vPassword = htmlspecialchars($vPassword);
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $hPassword = md5($password);
 
-        if ($password == $vpassword) {
+        if ($password == $vPassword) {
             $pdo = dbConnect();
             $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
 
