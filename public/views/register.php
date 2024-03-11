@@ -1,7 +1,6 @@
 <?php 
 
     require('./private/functions/functions.php');
-    $pdo = DBconnect();
 
     if ($_SERVER['REQUEST_METHOD'] ==='POST'){
         $username = $_POST['username'];
