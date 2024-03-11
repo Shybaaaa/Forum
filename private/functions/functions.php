@@ -11,12 +11,15 @@ function dbConnect()
     return $pdo;
 }
 
-function addUser($username, $email, $password, $vpassword)
+function addUser($username, $description, $email, $password, $vpassword)
 {
     $username = htmlspecialchars($username);
+    $description = htmlspecialchars($description);
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
     $vpassword = htmlspecialchars($vpassword);
+
+    if ($description != "" );
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $hPassword = md5($password);
