@@ -34,12 +34,7 @@
     <div class="py-4 overflow-y-auto">
         <ul class="space-y-2 font-medium">
             <li>
-<<<<<<< HEAD
                 <a href="../../public/views/home.php" data-drawer-hide="drawer-navigation" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-=======
-                <a href="#home" data-drawer-hide="drawer-navigation"
-                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
->>>>>>> b02b6f0b5c530692913b9199257e55580db056af
                     <i class="fa-solid fa-house text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
                     <span class="ms-3">Accueil</span>
                 </a>
