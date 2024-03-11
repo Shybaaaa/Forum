@@ -63,12 +63,12 @@ function loginUser($email, $password)
                 "roleId" => $isUser["roleId"],
                 "surname" => $isUser["surname"],
             ];
-            header("Location: ./index.php?success=1&message=Vous êtes connecté avec succès");
+            header("Location: /index.php?success=1&message=Vous êtes connecté avec succès");
         } else {
-            header("Location: ./index.php?error=1&message=Identifiants incorrects");
+            header("Location: login.php?error=2");
         }
     } else {
-        header("Location: ./index.php?error=2&message=Mauvaise adresse email");
+        header("Location: login.php?error=3");
     }
 }
 

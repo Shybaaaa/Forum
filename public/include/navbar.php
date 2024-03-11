@@ -1,12 +1,12 @@
-<nav class="z-40 bg-white fixed top-0 w-screen">
+<nav class="z-20 bg-blue-500 fixed top-0 w-screen">
     <div class="flex flex-row items-center justify-evenly">
         <div class="w-1/3">
-            <button class="h-16 w-16 text-2xl text-gray-600 font-bold hover:text-black transition-all" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+            <button class="h-16 w-16 text-2xl text-gray-100 font-bold hover:text-white transition-all" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
         <div class="w-1/3 text-center">
-            <h1 class="text-2xl font-bold text-black transition-all">
+            <h1 class="text-2xl font-bold text-white transition-all">
                 Forum
             </h1>
         </div>
