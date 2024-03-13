@@ -119,3 +119,22 @@ function addPost($title, $reference, $description){
     header("Location: ");
   
 }
+
+function upload($file, $fileName, $upload){
+
+$pdo = DBconnect();
+
+$file = $_FILES["image"];
+
+$fileName = $file["name"];
+
+$upload = "../../public/uploads/" . $fileName;
+
+move_uploaded_file($file["tmp_name"], $upload);
+
+$sql = "INSERT INTO images (`NAME`) VALUES (?)";
+
+$stmt = $pdo->prepare($sql);
+
+$stmt->execute([$fileName]);
+}

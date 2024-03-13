@@ -11,10 +11,12 @@
 
         adduser($_POST['username'], $_POST['description'], $_POST['email'], $_POST['password'], $_POST['vpassword']);
     }
+
+    upload($file, $fileName, $upload);
 ?>
 
 
-    ?>
+    
 <!doctype html>
 <html lang="fr">
 <head>
