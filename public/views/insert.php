@@ -43,10 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!-- Button dropdown  -->       
             <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option selected>Choisis une catégorie</option>
-                <option value="US">sport</option>
-                <option value="CA">jeux vidéo</option>
-                <option value="FR">politique</option>
-                <option value="DE">littérature</option>
+                <option value="SP">sport</option>
+                <option value="JV">jeux vidéo</option>
+                <option value="PO">politique</option>
+                <option value="LI">littérature</option>
             </select>
 
             <div>
