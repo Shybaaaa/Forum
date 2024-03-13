@@ -4,7 +4,7 @@ function dbConnect()
 {
     $config = parse_ini_file(__DIR__ . "/../../config.ini");
     try {
-        $pdo = new PDO("mysql:host=$config[DB_HOST];dbname=$config[DB_NAME];charset=utf8", $config['DB_USER'], $config["DB_PASS"]);
+        $pdo = new PDO("mysql:host=$config[DB_HOST];port=$config[DB_PORT];dbname=$config[DB_NAME];charset=utf8", $config['DB_USER'], $config["DB_PASS"]);
     } catch (PDOException $e) {
         header("Location: ./index.php?error=1&message=Erreur de connexion à la base de données");
     }
@@ -122,7 +122,7 @@ function addPost($title, $reference, $description){
 
 function upload($file, $fileName, $upload){
 
-$pdo = DBconnect();
+$pdo = dbConnect();
 
 $file = $_FILES["image"];
 
