@@ -108,11 +108,11 @@ function addPost($title, $reference, $description){
 
     $pdo = dbConnect();
 
-    $sql = "INSERT INTO posts () VALUES (?, ?)";
+    $sql = "INSERT INTO posts (title, description, postCategoryId) VALUES (?, ?)";
 
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([]);
+    $stmt->execute([$title, $description, $postCategoryId]);
 
     header("Location: ");
   
