@@ -20,6 +20,7 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
     <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
+
 <?php require_once("public/include/navbar.php") ?>
 
 
