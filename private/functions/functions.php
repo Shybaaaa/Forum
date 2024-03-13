@@ -110,12 +110,31 @@ function addPost($title, $reference, $description){
 
     $pdo = dbConnect();
 
-    $sql = "INSERT INTO posts (Title, ArtistId) VALUES (?, ?)";
+    $sql = "INSERT INTO posts () VALUES (?, ?)";
 
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([$title, $artist]);
+    $stmt->execute([]);
 
-    header("Location: ./index.php");
+    header("Location: ");
+  
+}
 
+function upload($file, $fileName, $upload){
+
+$pdo = DBconnect();
+
+$file = $_FILES["image"];
+
+$fileName = $file["name"];
+
+$upload = "../../public/uploads/" . $fileName;
+
+move_uploaded_file($file["tmp_name"], $upload);
+
+$sql = "INSERT INTO images (`NAME`) VALUES (?)";
+
+$stmt = $pdo->prepare($sql);
+
+$stmt->execute([$fileName]);
 }
