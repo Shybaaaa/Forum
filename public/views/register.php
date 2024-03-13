@@ -1,6 +1,6 @@
 <?php 
 
-    require('./private/functions/functions.php');
+    require('../../private/functions/functions.php');
 
     if ($_SERVER['REQUEST_METHOD'] ==='POST'){
         $username = $_POST['username'];
