@@ -28,13 +28,13 @@ function addUser($username, $description, $email, $password, $vPassword)
 
 //            On vérifie si la description est vide ou non pour l'ajouter à la base de données.
             if ($description == ""){
-                $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, ?)";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$username, $email, $hPassword]);
+                $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s")]);
             } else {
-                $sql = "INSERT INTO users (username, biography, email, password) VALUES (?, ?, ?, ?)";
+                $sql = "INSERT INTO users (username, biography, email, password, createdAt) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$username, $description, $email, $hPassword]);
+                $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s")]);
             }
             header("Location: /index.php?success=1&message=Votre compte a été créé avec succès");
         } else {
@@ -110,7 +110,7 @@ function updateUser($id, $username, $surname, $email, $password, $image)
     header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
 }
 
-function addPost($title, $reference, $description){
+function addPost($title, $reference, $description, $postCategoryId){
 
     $pdo = dbConnect();
 
