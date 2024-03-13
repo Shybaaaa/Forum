@@ -1337,6 +1337,18 @@ input:checked + .toggle-bg {
   top: -1;
 }
 
+.top-\[calc\(0\%-1\)\] {
+  top: calc(0% - 1);
+}
+
+.top-\[calc\(0\%-1\%\)\] {
+  top: calc(0% - 1%);
+}
+
+.top-\[calc\(0\%-2\%\)\] {
+  top: calc(0% - 2%);
+}
+
 .isolate {
   isolation: isolate;
 }

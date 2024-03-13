@@ -115,14 +115,17 @@ function addPost($title, $reference, $description){
     $stmt->execute([$title, $description, $postCategoryId]);
 
     header("Location: ");
-  
 }
 
-function upload($file, $fileName, $upload){
+function uploadImage($file, $fileName, $upload){
     $pdo = dbConnect();
+    $url = __DIR__ . "/../../public/uploads/";
+    $folder = uniqid();
+    mkdir($url . $folder);
+
     $file = $_FILES["image"];
     $fileName = $file["name"];
-    $upload = "../../public/uploads/" . $fileName;
+    $upload = "../../public/uploads/" . $folder . $fileName;
     move_uploaded_file($file["tmp_name"], $upload);
     $sql = "INSERT INTO images (`NAME`) VALUES (?)";
     $stmt = $pdo->prepare($sql);
@@ -133,4 +136,20 @@ function disconnect()
 {
     session_destroy();
     header("Location: /index.php?success=1&message=Vous êtes déconnecté avec succès");
+}
+
+function getPosts($post)
+{
+    $pdo = dbConnect();
+
+    if ($post === "all") {
+        $sql = "SELECT * FROM posts";
+    } else {
+        $sql = "SELECT * FROM posts WHERE id = ?";
+    }
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$post]);
+
+    return $stmt->fetchAll();
 }
