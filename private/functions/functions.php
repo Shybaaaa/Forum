@@ -117,5 +117,5 @@ function addPost($title, $reference, $description){
     $stmt->execute([]);
 
     header("Location: ");
-
+  
 }
