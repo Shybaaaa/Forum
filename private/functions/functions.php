@@ -13,29 +13,35 @@ function dbConnect()
 
 function addUser($username, $description, $email, $password, $vPassword)
 {
+//    Déclaration des variables.
     $username = htmlspecialchars($username);
     $description = htmlspecialchars($description);
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
     $vPassword = htmlspecialchars($vPassword);
 
+//    Vérification de l'entré email
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $hPassword = md5($password);
-
-        if ($password == $vPassword) {
+        if ($password === $vPassword) {
+            $hPassword = md5($password);
             $pdo = dbConnect();
-            $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
 
-            $stmt = $pdo->prepare($sql);
-
-            $stmt->execute([$username, $description, $email, $hPassword]);
-
-            header("Location: ./index.php?succes=1&message=Votre compte a été créé avec succès");
+//            On vérifie si la description est vide ou non pour l'ajouter à la base de données.
+            if ($description == ""){
+                $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$username, $email, $hPassword]);
+            } else {
+                $sql = "INSERT INTO users (username, biography, email, password) VALUES (?, ?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$username, $description, $email, $hPassword]);
+            }
+            header("Location: /index.php?success=1&message=Votre compte a été créé avec succès");
         } else {
-            header("Location: ./index.php?error=1&message=Entrez le même mot de passe");
+            header("Location: /index.php?error=1&message=Entrez le même mot de passe");
         }
     } else {
-        header("Location: ./index.php?error=2&message=Mauvaise adresse email");
+        header("Location: /index.php?error=2&message=Mauvaise adresse email");
     }
 }
 
