@@ -28,7 +28,7 @@ function addUser($username, $description, $email, $password, $vPassword)
 
             $stmt = $pdo->prepare($sql);
 
-            $stmt->execute([$username, $email, $hPassword]);
+            $stmt->execute([$username, $description, $email, $hPassword]);
 
             header("Location: ./index.php?succes=1&message=Votre compte a été créé avec succès");
         } else {
