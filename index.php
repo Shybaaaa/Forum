@@ -3,6 +3,11 @@ session_start();
 require_once "private/functions/functions.php";
 dbConnect();
 $config = parse_ini_file("config.ini");
+
+if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
+    disconnect();
+}
+
 ?>
 
 <!doctype html>
@@ -12,7 +17,7 @@ $config = parse_ini_file("config.ini");
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title></title>
+    <title><?= $config["APP_NAME"]?></title>
     <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
@@ -21,11 +26,18 @@ $config = parse_ini_file("config.ini");
 
 <div class="app">
     <?php
-    switch ($_GET["page"]) {
-        default:
+        if (isset($_GET["page"])) {
+            switch ($_GET["page"]) {
+                case "home":
+                    require_once "public/views/home.php";
+                    break;
+                default:
+                    require_once "public/views/home.php";
+                    break;
+            }
+        } else {
             require_once "public/views/home.php";
-            break;
-    }
+        }
     ?>
 </div>
 

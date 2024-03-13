@@ -11,15 +11,13 @@ function dbConnect()
     return $pdo;
 }
 
-function addUser($username, $description, $email, $password, $vpassword)
+function addUser($username, $description, $email, $password, $vPassword)
 {
     $username = htmlspecialchars($username);
     $description = htmlspecialchars($description);
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
     $vPassword = htmlspecialchars($vPassword);
-
-    if ($description != "" );
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $hPassword = md5($password);
@@ -121,20 +119,18 @@ function addPost($title, $reference, $description){
 }
 
 function upload($file, $fileName, $upload){
+    $pdo = dbConnect();
+    $file = $_FILES["image"];
+    $fileName = $file["name"];
+    $upload = "../../public/uploads/" . $fileName;
+    move_uploaded_file($file["tmp_name"], $upload);
+    $sql = "INSERT INTO images (`NAME`) VALUES (?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$fileName]);
+}
 
-$pdo = dbConnect();
-
-$file = $_FILES["image"];
-
-$fileName = $file["name"];
-
-$upload = "../../public/uploads/" . $fileName;
-
-move_uploaded_file($file["tmp_name"], $upload);
-
-$sql = "INSERT INTO images (`NAME`) VALUES (?)";
-
-$stmt = $pdo->prepare($sql);
-
-$stmt->execute([$fileName]);
+function disconnect()
+{
+    session_destroy();
+    header("Location: /index.php?success=1&message=Vous êtes déconnecté avec succès");
 }
