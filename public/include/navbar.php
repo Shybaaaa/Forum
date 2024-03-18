@@ -56,21 +56,21 @@ if (isset($_SESSION["user"])){
                     <a href="#" data-drawer-hide="drawer-navigation"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-user text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
-                        <span class="flex-1 ms-3">Moi</span>
+                        <span class="flex-1 ms-3">a changer</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" data-drawer-hide="drawer-navigation"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-tarp text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
-                        <span class="flex-1 ms-3">Projets</span>
+                        <span class="flex-1 ms-3">a changer</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" data-drawer-hide="drawer-navigation"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-envelope text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
-                        <span class="flex-1 ms-3">Contactez-moi</span>
+                        <span class="flex-1 ms-3">a changer</span>
                     </a>
                 </li>
                 <li>
@@ -145,10 +145,10 @@ if (isset($_SESSION["user"])){
                 <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tableau de bord</a>
+                            <a href="/public/views/dashboard/index.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tableau de bord</a>
                         </li>
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Paramètres</a>
+                            <a href="/public/views/dashboard/index.php?page=setting" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Paramètres</a>
                         </li>
                         <li>
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Support</a>
