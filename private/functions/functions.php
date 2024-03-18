@@ -85,7 +85,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
 
         } else {
             newLogs("CREATE USER ERROR", "Mots de passe différents");
-            header("Location: /public/views/register.php.php?error=1&message=Entrez le même mot de passe");
+            header("Location: /public/views/register.php?error=1&message=Entrez le même mot de passe");
             exit();
         }
     } else {
