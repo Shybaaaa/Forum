@@ -36,12 +36,12 @@ function addUser($username, $description, $email, $password, $vPassword)
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s")]);
             }
-            header("Location: /index.php?success=1&message=Votre compte a été créé avec succès");
+            header("Location: /public/views/login.php?success=1&message=Votre compte a été créé avec succès.");
         } else {
-            header("Location: /index.php?error=1&message=Entrez le même mot de passe");
+            header("Location: /public/views/register.php.php?error=1&message=Entrez le même mot de passe");
         }
     } else {
-        header("Location: /index.php?error=2&message=Mauvaise adresse email");
+        header("Location: /public/views/register.php?error=2&message=Mauvaise adresse email");
     }
 }
 
