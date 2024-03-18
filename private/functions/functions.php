@@ -163,14 +163,24 @@ function updateUser($id, $username, $surname, $email, $password, $image)
 function addPost($title, $description, $postCategoryId, $photo){
 
     $pdo = dbConnect();
-
-    $sql = "INSERT INTO posts (title, description, postCategoryId, photo) VALUES (?, ?, ?, ?)";
-
+    $sql = "SELECT * FROM postCategory WHERE id = ?";
     $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    $isCategory = $stmt->fetch();
 
-    $stmt->execute([$title, $description, $postCategoryId, $photo]);
+    if ($isCategory) {
+        header("Location: /public/views/insert.php?error=3&message=catégorie non valide");
+                exit();
+    } else {
 
-    header("Location: ./index.php");
+        $sql = "INSERT INTO posts (title, description, postCategoryId, photo) VALUES (?, ?, ?, ?)";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute([$title, $description, $postCategoryId, $photo]);
+
+        header("Location: ./index.php");
+    }
 }
 
 function uploadImage($image){
