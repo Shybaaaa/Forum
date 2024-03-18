@@ -1,3 +1,14 @@
+<?php
+
+if (isset($_SESSION["user"])){
+    $pdo = dbConnect();
+    $sql = "SELECT name FROM roles where id = " . $_SESSION["user"]["roleId"];
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $role = $stmt->fetch();
+}
+?>
+
 <nav class="z-20 bg-blue-500 sticky top-0 w-screen">
     <div class="flex flex-row items-center justify-evenly">
         <div class="w-1/3">
@@ -74,7 +85,7 @@
                     <?php endif; ?>
                     <div class="font-medium dark:text-white">
                         <div><?= $_SESSION["user"]["username"] ?></div>
-                        <div class="text-sm text-gray-500 dark:text-gray-400">surname</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400"><?= $role["name"]  ?></div>
                     </div>
                 </div>
                 <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
