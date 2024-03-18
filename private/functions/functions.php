@@ -33,6 +33,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
             $isUsername = $stmt->fetch();
 
             if ($isUsername) {
+                newLogs("CREATE USER ERROR", "Nom d'utilisateur déjà utilisé : " . $username);
                 header("Location: /public/views/register.php?error=3&message=Nom d'utilisateur déjà utilisé");
                 exit();
             } else {
@@ -44,6 +45,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                 $isEmail = $stmt->fetch();
 
                 if ($isEmail) {
+                    newLogs("CREATE USER ERROR", "Adresse email déjà utilisée : " . $email);
                     header("Location: /public/views/register.php?error=3&message=Cette adresse email est déjà utilisée");
                     exit();
                 } else {
@@ -74,6 +76,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                         }
                     }
                 }
+                newLogs("CREATE USER ERROR", "Utilisateur créé avec succès : " . $username . " - " . $email);
                 header("Location: /public/views/login.php?success=1&message=Votre compte a été créé avec succès.");
                 exit();
             }
@@ -81,10 +84,12 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
 
 
         } else {
+            newLogs("CREATE USER ERROR", "Mots de passe différents");
             header("Location: /public/views/register.php.php?error=1&message=Entrez le même mot de passe");
             exit();
         }
     } else {
+        newLogs("CREATE USER ERROR", "Mauvaise adresse email");
         header("Location: /public/views/register.php?error=2&message=Mauvaise adresse email");
         exit();
     }
