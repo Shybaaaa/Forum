@@ -235,13 +235,14 @@ function getPosts($post)
     $pdo = dbConnect();
 
     if ($post === "all") {
-        $sql = "SELECT * FROM posts";
+        $sql = "SELECT * FROM posts where isActive = 1 and isDeleted = 0";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
     } else {
-        $sql = "SELECT * FROM posts WHERE id = ?";
+        $sql = "SELECT * FROM posts WHERE id = ? and isActive = 1 and isDeleted = 0";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$post]);
     }
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$post]);
 
     return $stmt->fetchAll();
 }
