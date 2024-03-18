@@ -10,6 +10,9 @@ module.exports = {
     plugins: [
         require('flowbite/plugin')
     ],
-    darkMode: 'class',
+    darkMode: ['selector', '[data-mode="dark"]'],
+    
+
 }
+
 

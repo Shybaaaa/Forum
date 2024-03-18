@@ -1,14 +1,3 @@
-<?php
-
-if (isset($_SESSION["user"])){
-    $pdo = dbConnect();
-    $sql = "SELECT name FROM roles where id = " . $_SESSION["user"]["roleId"];
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $role = $stmt->fetch();
-}
-?>
-
 <nav class="z-20 bg-blue-500 sticky top-0 w-screen">
     <div class="flex flex-row items-center justify-evenly">
         <div class="w-1/3">
@@ -56,24 +45,24 @@ if (isset($_SESSION["user"])){
                     <a href="#" data-drawer-hide="drawer-navigation"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-user text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
-                        <span class="flex-1 ms-3">Moi</span>
+                        <span class="flex-1 ms-3">a changer</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" data-drawer-hide="drawer-navigation"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-tarp text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
-                        <span class="flex-1 ms-3">Projets</span>
+                        <span class="flex-1 ms-3">a changer</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" data-drawer-hide="drawer-navigation"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-envelope text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
-                        <span class="flex-1 ms-3">Contactez-moi</span>
+                        <span class="flex-1 ms-3">a changer</span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
 
                     <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                         <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
@@ -126,8 +115,8 @@ if (isset($_SESSION["user"])){
                         }
 
                         });
-                </script>
-                </li>
+                </script> 
+                </li>-->
             </ul>
         </div>
         <div class="w-full mb-4 select-none">
@@ -140,16 +129,16 @@ if (isset($_SESSION["user"])){
                     <?php endif; ?>
                     <div class="font-medium dark:text-white">
                         <div><?= $_SESSION["user"]["username"] ?></div>
-                        <div class="text-sm text-gray-500 dark:text-gray-400"><?= $role["name"]  ?></div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">surname</div>
                     </div>
                 </div>
                 <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tableau de bord</a>
+                            <a href="/public/views/dashboard/index.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tableau de bord</a>
                         </li>
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Paramètres</a>
+                            <a href="/public/views/dashboard/index.php?page=setting" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Paramètres</a>
                         </li>
                         <li>
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Support</a>
