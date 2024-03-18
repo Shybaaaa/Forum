@@ -161,12 +161,12 @@ function updateUser($id, $username, $surname, $email, $password, $image)
 }
 
 function addPost($title, $description, $postCategoryId, $photo){
-
     $pdo = dbConnect();
     $sql = "SELECT * FROM postCategory WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
     $isCategory = $stmt->fetch();
+    $reference = uniqid("post_", "true");
 
     if ($isCategory) {
         header("Location: /public/views/insert.php?error=3&message=catégorie non valide");
@@ -185,7 +185,7 @@ function addPost($title, $description, $postCategoryId, $photo){
 
 function uploadImage($image){
     if (!$image["error"]) {
-        $folderName = uniqid();
+        $folderName = uniqid("img_", "true");
         $targetDir = "/public/uploads/";
         mkdir( $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName);
         $target_file = $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . basename($image["name"]);
