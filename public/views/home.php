@@ -8,7 +8,6 @@
 <section class="w-full md:w-2/3 flex flex-col items-center px-3">
 
     <?php foreach (getPosts("all") as $post): ?>
-    <?php print_r($post) ?>
         <article class="flex flex-col shadow my-4">
             <!-- Article Image -->
             <a href="#" class="hover:opacity-75">
