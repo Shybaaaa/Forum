@@ -155,15 +155,15 @@ function updateUser($id, $username, $surname, $email, $password, $image)
     header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
 }
 
-function addPost($title, $description, $postCategoryId){
+function addPost($title, $description, $postCategoryId, $photo){
 
     $pdo = dbConnect();
 
-    $sql = "INSERT INTO posts (title, description, postCategoryId) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO posts (title, description, postCategoryId, photo) VALUES (?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([$title, $description, $postCategoryId]);
+    $stmt->execute([$title, $description, $postCategoryId, $photo]);
 
     header("Location: ./index.php");
 }
