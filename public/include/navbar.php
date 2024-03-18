@@ -1,9 +1,11 @@
 <?php
-$pdo = dbConnect();
-$sql = "SELECT name From roles where id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$_SESSION["user"]["roleId"]]);
-$role = $stmt->fetch();
+if (isset($_SESSION["user"])) {
+    $pdo = dbConnect();
+    $sql = "SELECT name From roles where id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_SESSION["user"]["roleId"]]);
+    $role = $stmt->fetch();
+}
 
 ?>
 
