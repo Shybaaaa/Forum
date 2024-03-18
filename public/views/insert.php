@@ -11,7 +11,7 @@ $stmt = $pdo->query($sql);
 $postCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    addPost($_POST["title"], $_POST["description"], $_POST["postCategoryId"]);
+    addPost($_POST["title"], $_POST["description"], $_POST["postCategoryId"], uploadImage($_FILES["image"]));
 } 
 
 ?>
