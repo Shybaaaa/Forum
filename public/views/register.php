@@ -3,17 +3,20 @@
     require('../../private/functions/functions.php');
 
     if ($_SERVER['REQUEST_METHOD'] ==='POST'){
-        $username = $_POST['username'];
-        $description = $_POST['description'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $vpassword = $_POST['vpassword'];
+        $username = htmlspecialchars($_POST['username']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
+        $vPassword = htmlspecialchars($_POST['vpassword']);
 
-        adduser($_POST['username'], $_POST['description'], $_POST['email'], $_POST['password'], $_POST['vpassword']);
+        if (isset($_POST["about"])){
+            $description = htmlspecialchars($_POST["about"]);
+        } else {
+            $description = "";
+        }
 
-        upload($file, $fileName, $upload);
+        adduser($username, $description, $email, $password, $vPassword);
+//        upload($file, $fileName, $upload);
     }
-
 ?>
 
 
@@ -22,17 +25,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum - register</title>
     <link rel="stylesheet" href="/public/css/main.css">
 </head>
     <body class="overflow-hidden">
-    <form action="" method="post" class="mt-8 space-y-6">
         <div class="flex flex-col items-center justify-center min-h-screen bg-[url('/public/image/background/login_bg.jpeg')] bg-fixed bg-no-repeat bg-center bg-blend-darken">
             <div class="w-96 backdrop-blur-2xl p-6 rounded-xl bg-black/10 shadow-2xl">
-                <h1 class="text-4xl font-bold text-center text-white">Inscription</h1>
+                <h1 class="text-4xl font-bold mb-3 text-center text-white">Création de compte</h1>
                 <form action="" method="post" class="mt-8 space-y-6">
                     <div class="col-span-full">
                         <label for="photo" class="block text-sm font-medium text-white">Photo</label>
@@ -60,8 +61,8 @@
                         <input type="password" id="password" name="password" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
                     </div>
                     <div class="space-y-2">
-                        <label for="password" class="block text-sm font-medium text-white">Entrez le même mot de passe</label>
-                        <input type="password" id="password" name="password" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
+                        <label for="vpassword" class="block text-sm font-medium text-white">Entrez le même mot de passe</label>
+                        <input type="password" id="vpassword" name="vpassword" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
                     </div>
                     <div>
                         <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">S'inscire</button>
@@ -74,7 +75,8 @@
             </div>
         </div>
 
-    <script src="https://kit.fontawesome.com/abcb30c057.js"></script>
+
+        <script src="https://kit.fontawesome.com/abcb30c057.js"></script>
     <script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
     </body>
 </html>

@@ -17,7 +17,7 @@
 </nav>
 
 <div id="drawer-navigation"
-     class="fixed top-0 left-0 z-50 w-64 h-screen p-4 overflow-y-hidden transition-transform -translate-x-full bg-white dark:bg-gray-800"
+     class="fixed top-0 left-0 z-50 select-none w-64 h-screen p-4 overflow-y-hidden transition-transform -translate-x-full bg-white dark:bg-gray-800"
      tabindex="-1" aria-labelledby="drawer-navigation-label">
     <h5 id="drawer-navigation-label" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
         navigation</h5>
@@ -35,7 +35,8 @@
         <div class="w-full">
             <ul class="font-medium">
                 <li>
-                    <a href="../../public/views/home.php" data-drawer-hide="drawer-navigation" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="/index.php?page=home" data-drawer-hide="drawer-navigation"
+                       class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="fa-solid fa-house text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
                         <span class="ms-3">Accueil</span>
                     </a>
@@ -63,11 +64,11 @@
                 </li>
             </ul>
         </div>
-        <div class="w-full mb-4">
+        <div class="w-full mb-4 select-none">
             <?php if (isset($_SESSION["user"]) && $_SESSION["user"]): ?>
-                <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 w-full">
+                <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded p-1 w-full hover:bg-gray-100">
                     <?php if ($_SESSION["user"]["image"]): ?>
-                        <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+                        <img class="w-10 h-10 rounded-full" src="<?= $_SESSION["user"]["image"] ?>" alt="">
                     <?php else: ?>
                         <i class="fa-solid fa-user text-xl rounded-full p-3 bg-gray-500 text-white"></i>
                     <?php endif; ?>

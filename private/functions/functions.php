@@ -13,29 +13,35 @@ function dbConnect()
 
 function addUser($username, $description, $email, $password, $vPassword)
 {
+//    Déclaration des variables.
     $username = htmlspecialchars($username);
     $description = htmlspecialchars($description);
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
     $vPassword = htmlspecialchars($vPassword);
 
+//    Vérification de l'entré email
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $hPassword = md5($password);
-
-        if ($password == $vPassword) {
+        if ($password === $vPassword) {
+            $hPassword = md5($password);
             $pdo = dbConnect();
-            $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
 
-            $stmt = $pdo->prepare($sql);
-
-            $stmt->execute([$username, $email, $hPassword]);
-
-            header("Location: ./index.php?succes=1&message=Votre compte a été créé avec succès");
+//            On vérifie si la description est vide ou non pour l'ajouter à la base de données.
+            if ($description == ""){
+                $sql = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s")]);
+            } else {
+                $sql = "INSERT INTO users (username, biography, email, password, createdAt) VALUES (?, ?, ?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s")]);
+            }
+            header("Location: /public/views/login.php?success=1&message=Votre compte a été créé avec succès.");
         } else {
-            header("Location: ./index.php?error=1&message=Entrez le même mot de passe");
+            header("Location: /public/views/register.php.php?error=1&message=Entrez le même mot de passe");
         }
     } else {
-        header("Location: ./index.php?error=2&message=Mauvaise adresse email");
+        header("Location: /public/views/register.php?error=2&message=Mauvaise adresse email");
     }
 }
 
@@ -117,11 +123,15 @@ function addPost($title, $description, $postCategoryId){
     header("Location: ./index.php");
 }
 
-function upload($file, $fileName, $upload){
+function uploadImage($file, $fileName, $upload){
     $pdo = dbConnect();
+    $url = __DIR__ . "/../../public/uploads/";
+    $folder = uniqid();
+    mkdir($url . $folder);
+
     $file = $_FILES["image"];
     $fileName = $file["name"];
-    $upload = "../../public/uploads/" . $fileName;
+    $upload = "../../public/uploads/" . $folder . $fileName;
     move_uploaded_file($file["tmp_name"], $upload);
     $sql = "INSERT INTO images (`NAME`) VALUES (?)";
     $stmt = $pdo->prepare($sql);
@@ -132,4 +142,20 @@ function disconnect()
 {
     session_destroy();
     header("Location: /index.php?success=1&message=Vous êtes déconnecté avec succès");
+}
+
+function getPosts($post)
+{
+    $pdo = dbConnect();
+
+    if ($post === "all") {
+        $sql = "SELECT * FROM posts";
+    } else {
+        $sql = "SELECT * FROM posts WHERE id = ?";
+    }
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$post]);
+
+    return $stmt->fetchAll();
 }
