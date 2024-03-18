@@ -11,7 +11,7 @@ function dbConnect()
     return $pdo;
 }
 
-function addUser($username, $description, $email, $password, $vPassword)
+function addUser($username, $description, $email, $password, $vPassword, $image)
 {
 //    Déclaration des variables.
     $username = htmlspecialchars($username);
@@ -22,26 +22,71 @@ function addUser($username, $description, $email, $password, $vPassword)
 
 //    Vérification de l'entré email
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+//        Vérification des mots de passe
         if ($password === $vPassword) {
-            $hPassword = md5($password);
-            $pdo = dbConnect();
 
-//            On vérifie si la description est vide ou non pour l'ajouter à la base de données.
-            if ($description == ""){
-                $sql = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, ?)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s")]);
+//            Vérification de l'unicité du username
+            $pdo = dbConnect();
+            $sql = "SELECT * FROM users WHERE username = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$username]);
+            $isUsername = $stmt->fetch();
+
+            if ($isUsername) {
+                header("Location: /public/views/register.php?error=3&message=Nom d'utilisateur déjà utilisé");
+                exit();
             } else {
-                $sql = "INSERT INTO users (username, biography, email, password, createdAt) VALUES (?, ?, ?, ?, ?)";
+                // Vérification de l'unicité de l'email
+                $pdo = dbConnect();
+                $sql = "SELECT * FROM users WHERE email = ?";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s")]);
+                $stmt->execute([$email]);
+                $isEmail = $stmt->fetch();
+
+                if ($isEmail) {
+                    header("Location: /public/views/register.php?error=3&message=Cette adresse email est déjà utilisée");
+                    exit();
+                } else {
+                    $hPassword = md5($password);
+                    $pdo = dbConnect();
+                    if ($description == "") {
+                        if ($image == "") {
+                            $sql = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, ?)";
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s")]);
+                        } else {
+                            $urlFile = uploadImage($image);
+                            print_r($urlFile);
+                            $sql = "INSERT INTO users (username, email, password, createdAt, image) VALUES (?, ?, ?, ?, ?)";
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile]);
+                        }
+                    } else {
+                        if ($image == "") {
+                            $sql = "INSERT INTO users (username, biography, email, password, createdAt) VALUES (?, ?, ?, ?, ?)";
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s")]);
+                        } else {
+                            $urlFile = uploadImage($image);
+                            $sql = "INSERT INTO users (username, biography, email, password, createdAt, image) VALUES (?, ?, ?, ?, ?, ?)";
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile]);
+                        }
+                    }
+                }
+                header("Location: /public/views/login.php?success=1&message=Votre compte a été créé avec succès.");
+                exit();
             }
-            header("Location: /public/views/login.php?success=1&message=Votre compte a été créé avec succès.");
+
+
+
         } else {
             header("Location: /public/views/register.php.php?error=1&message=Entrez le même mot de passe");
+            exit();
         }
     } else {
         header("Location: /public/views/register.php?error=2&message=Mauvaise adresse email");
+        exit();
     }
 }
 
@@ -123,25 +168,51 @@ function addPost($title, $description, $postCategoryId){
     header("Location: ./index.php");
 }
 
-function uploadImage($file, $fileName, $upload){
-    $pdo = dbConnect();
-    $url = __DIR__ . "/../../public/uploads/";
-    $folder = uniqid();
-    mkdir($url . $folder);
+function uploadImage($image){
+    if (!$image["error"]) {
+        $folderName = uniqid();
+        $targetDir = "/public/uploads/";
+        mkdir( $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName);
+        $target_file = $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . basename($image["name"]);
+        $url_file = $target_file . $folderName . "/" . basename($image["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    $file = $_FILES["image"];
-    $fileName = $file["name"];
-    $upload = "../../public/uploads/" . $folder . $fileName;
-    move_uploaded_file($file["tmp_name"], $upload);
-    $sql = "INSERT INTO images (`NAME`) VALUES (?)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$fileName]);
+        if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
+            if (move_uploaded_file($image["tmp_name"], $target_file)) {
+                $url = $targetDir . $folderName . "/" . basename($image["name"]);
+                newLogs("Image upload", "Image uploadé avec succès : " . $url_file);
+                return $url;
+            } else {
+                newLogs("error", "Erreur upload image (move_uploaded_file)");
+                return "Erreur lors de l'upload de l'image";
+            }
+        } else {
+            newLogs("error", "Erreur lors de l'upload de l'image (imageFileType)");
+            return "Erreur lors de l'upload de l'image";
+        }
+    } else {
+        newLogs("error", "Erreur lors de l'upload de l'image (error)");
+        return "Erreur lors de l'upload de l'image";
+    }
 }
 
 function disconnect()
 {
     session_destroy();
     header("Location: /index.php?success=1&message=Vous êtes déconnecté avec succès");
+}
+
+function newLogs($type, $logs)
+{
+    $ip = $_SERVER["REMOTE_ADDR"];
+    $type = htmlspecialchars($type);
+    $logs = htmlspecialchars($logs);
+    $created = date("Y-m-d H:i:s");
+    $pdo = dbConnect();
+
+    $sql = "INSERT INTO logs (type, logs, ip, createdAt) VALUES (?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$type, $logs, $ip, $created]);
 }
 
 function getPosts($post)
