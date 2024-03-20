@@ -73,8 +73,6 @@ if (isset($_SESSION["user"])) {
                         <span class="flex-1 ms-3">a changer</span>
                     </a>
                 </li>
-                <!-- DEBUT DARK MODE -->
-                <!-- FIN DARK MODE -->
             </ul>
         </div>
         <div class="w-full mb-4 select-none">
