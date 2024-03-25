@@ -7,7 +7,6 @@ $config = parse_ini_file("config.ini");
 if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
     disconnect();
 }
-
 ?>
 
 <!doctype html>
