@@ -22,7 +22,6 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
 
 <?php require_once("public/include/navbar.php") ?>
 
-
 <div class="app">
     <?php
         if (isset($_GET["page"])) {
