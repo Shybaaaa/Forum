@@ -10,7 +10,7 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
 ?>
 
 <!doctype html>
-<html lang="fr" class="dark">
+<html lang="fr" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">

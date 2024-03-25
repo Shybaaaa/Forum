@@ -6793,6 +6793,11 @@ input:checked + .toggle-bg {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.dark\:text-gray-300:where([data-mode="dark"], [data-mode="dark"] *) {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
 .dark\:placeholder-gray-400:where([data-mode="dark"], [data-mode="dark"] *)::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(156 163 175 / var(--tw-placeholder-opacity));
