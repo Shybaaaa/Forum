@@ -253,3 +253,10 @@ function getPosts($post)
 
     return $stmt->fetchAll();
 }
+
+function safeDelete($type, $id){
+    $pdo = dbConnect();
+    $sql = "UPDATE $type SET isDeleted = 1 WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+}
