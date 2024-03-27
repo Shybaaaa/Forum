@@ -5,7 +5,7 @@
 <div class="container mx-auto flex flex-wrap py-6">
 
 <!-- Posts Section -->
-<section class="w-full min-h-screen grid grid-cols-3 gap-x-7 gap-y-9 overflow-x-hidden">
+<section class="w-full min-h-screen w-fit grid grid-cols-3 gap-x-7 gap-y-9 overflow-x-hidden">
     <?php foreach (getPosts("all") as $post): ?>
         <article class="flex flex-col shadow w-auto h-auto">
             <!-- Article Image -->
