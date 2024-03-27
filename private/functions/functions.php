@@ -277,3 +277,20 @@ function safeDelete($type, $id){
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 }
+
+function addCategory($name, $category){
+    $pdo = dbConnect();
+    
+    $sql = "SELECT * FROM postCategory WHERE id = ?";
+    
+    $stmt = $pdo->prepare($sql);
+    
+    $stmt->execute([$id]);
+
+    $sql = "INSERT INTO posts (name) VALUES (?)";
+    
+    $stmt = $pdo->prepare($sql);
+    
+    $stmt->execute([$name,]);
+        header("Location: ./index.php");
+}
