@@ -23,7 +23,7 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum - Tableau de bord</title>
     <link rel="stylesheet" href="../../css/main.css">
-    <script src="../../js/app.js"></script>
+    <script src="https://kit.fontawesome.com/abcb30c057.js"></script>
 </head>
 <body>
 <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
@@ -36,19 +36,19 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
 
         <div class="flex flex-col items-center justify-center mt-5">
             <div class="h-32 w-32 rounded-full bg-gray-500 text-white flex justify-center items-center">
-                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-user text-6xl"></i>
             </div>
             <div class="flex flex-col text-center mt-2 mb-2">
                 <span class="mt-4 text-xl font-semibold text-gray-600 lg:blockd"><?= $_SESSION["user"]["username"] ?></span>
                 <span class="font-bold uppercase text-sm text-gray-400 tracking-tight subpixel-antialiased"><?= getRole($_SESSION["user"]["roleId"])["name"] ?></span>
             </div>
         </div>
-        <ul class="space-y-2 tracking-wide mt-8 flex flex-col items-center">
+        <ul class="space-y-2 tracking-wide mt-8 flex flex-col justify-center text-gray-600 items-center">
             <li>
-                <a href=""></a>
-            </li>
-            <li>
-                TEST
+                <a href="index.php?page=myaccount" class="hover:bg-gradient-to-bl hover:text-white from-blue-400 to-indigo-500 px-4 py-2 rounded-lg transition-all duration-150">
+                    <i class="fa-solid fa-user mr-2 text-lg"></i>
+                    Mon compte
+                </a>
             </li>
             <li>
                 TEST
@@ -80,8 +80,8 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
             </h5>
         </div>
     </div>
-    <div class="px-6 pt-6 h-screen rounded-tl-lg 2xl:container bg-gray-50">
-        div.app
+    <div class="px-6 pt-6 h-screen rounded-tl-lg 2xl:container bg-slate-50">
+
     </div>
 </div>
 

@@ -3,3 +3,4 @@
 </footer>
 <script src="https://kit.fontawesome.com/abcb30c057.js"></script>
 <script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
+<!--<script src="/public/js/dark_mode.js"></script>-->
