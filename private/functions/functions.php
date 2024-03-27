@@ -277,3 +277,11 @@ function safeDelete($type, $id){
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 }
+
+function getRole($id){
+    $pdo = dbConnect();
+    $sql = "SELECT name FROM roles WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    return $stmt->fetch();
+}
