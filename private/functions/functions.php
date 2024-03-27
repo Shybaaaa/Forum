@@ -254,9 +254,25 @@ function getPosts($post)
     return $stmt->fetchAll();
 }
 
-function safeDelete($type, $id){
+function safeDelete($id){
     $pdo = dbConnect();
-    $sql = "UPDATE $type SET isDeleted = 1 WHERE id = ?";
+    $sql = "UPDATE users SET isDeleted = 1 WHERE id = ?";
+    $sql = "UPDATE users SET isActive = 0 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
+
+    header("Location: /public/views/dashboard/setting.php");
+}
+
+function getUsers($id){
+
+    $pdo = DBConnect();
+
+    $sql = "SELECT * FROM users WHERE id = ?";
+    
+    $stmt = $pdo->prepare($sql);
+    
+    $stmt->execute([$id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }

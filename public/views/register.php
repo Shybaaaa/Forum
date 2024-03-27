@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum - register</title>
     <link rel="stylesheet" href="/public/css/main.css">
@@ -34,11 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php if (isset($_GET["error"])): ?>
     <?php $msgError = $_GET["message"] ?>
     <div id="toast-danger"
-         class="fixed top-5 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
-         role="alert">
+        class="fixed top-5 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
+        role="alert">
         <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                 viewBox="0 0 20 20">
+                viewBox="0 0 20 20">
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
             </svg>
             <span class="sr-only">icon erreur</span>
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <span class="sr-only">Fermer</span>
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
             </svg>
         </button>
     </div>
@@ -71,33 +71,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="photo" class="block text-sm font-medium text-white">Photo</label>
                 <div class="mt-2 flex items-center gap-x-3">
                     <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                           name="image" aria-describedby="user_avatar_help" id="image" type="file">
+                        name="image" aria-describedby="user_avatar_help" id="image" type="file">
                 </div>
             </div>
             <div class="space-y-2">
                 <label for="username" class="block text-sm font-medium text-white">Username</label>
                 <input type="text" name="username" id="username" autocomplete="username"
-                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
+                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="col-span-full">
                 <label for="about" class="block text-sm font-medium text-white">Description</label>
                 <textarea id="about" name="about" rows="3"
-                          class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"></textarea>
+                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"></textarea>
             </div>
             <div class="space-y-2">
                 <label for="email" class="block text-sm font-medium text-white">Adresse e-mail</label>
                 <input type="email" id="email" name="email"
-                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
+                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="space-y-2">
                 <label for="password" class="block text-sm font-medium text-white">Mot de passe</label>
                 <input type="password" id="password" name="password"
-                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
+                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="space-y-2">
                 <label for="vpassword" class="block text-sm font-medium text-white">Entrez le même mot de passe</label>
                 <input type="password" id="vpassword" name="vpassword"
-                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
+                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div>
                 <button type="submit"
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         <div class="mt-2 text-center text-sm font-normal">
             <p class="text-white">Vous avez déja un compte ?<a href="./login.php"
-                                                               class="text-indigo-600 hover:text-indigo-500">
+                                                            class="text-indigo-600 hover:text-indigo-500">
                     Connectez-vous</a></p>
         </div>
     </div>
