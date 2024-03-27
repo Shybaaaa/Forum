@@ -20,6 +20,13 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
     $password = htmlspecialchars($password);
     $vPassword = htmlspecialchars($vPassword);
 
+    //    Fait une vérification pour le mots de passe avec minimum 6 caractères et 1 chiffres
+    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{ 6,}$/", $password)) {
+        newLogs("CREATE USER ERROR", "Mots de passe incorrect");
+        header("Location: /public/views/register.php?error=4&message=Le mot de passe doit contenir au moins 6 caractères et 1 chiffre");
+        exit();
+    }
+
 //    Vérification de l'entré email
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 //        Vérification des mots de passe
@@ -245,4 +252,11 @@ function getPosts($post)
     }
 
     return $stmt->fetchAll();
+}
+
+function safeDelete($type, $id){
+    $pdo = dbConnect();
+    $sql = "UPDATE $type SET isDeleted = 1 WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
 }

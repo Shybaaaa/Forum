@@ -1333,6 +1333,10 @@ input:checked + .toggle-bg {
   top: auto;
 }
 
+.left-10 {
+  left: 2.5rem;
+}
+
 .isolate {
   isolation: isolate;
 }
@@ -2487,6 +2491,10 @@ input:checked + .toggle-bg {
   cursor: pointer;
 }
 
+.cursor-auto {
+  cursor: auto;
+}
+
 .touch-auto {
   touch-action: auto;
 }
@@ -3251,6 +3259,11 @@ input:checked + .toggle-bg {
 .divide-gray-500 > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(107 114 128 / var(--tw-divide-opacity));
+}
+
+.divide-gray-600 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-divide-opacity));
 }
 
 .place-self-auto {
@@ -5826,6 +5839,16 @@ input:checked + .toggle-bg {
 .text-yellow-800 {
   --tw-text-opacity: 1;
   color: rgb(114 59 19 / var(--tw-text-opacity));
+}
+
+.text-green-200 {
+  --tw-text-opacity: 1;
+  color: rgb(188 240 218 / var(--tw-text-opacity));
+}
+
+.text-red-200 {
+  --tw-text-opacity: 1;
+  color: rgb(251 213 213 / var(--tw-text-opacity));
 }
 
 .underline {
