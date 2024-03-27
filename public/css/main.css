@@ -1337,16 +1337,6 @@ input:checked + .toggle-bg {
   top: auto;
 }
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-.left-10 {
-  left: 2.5rem;
-}
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> 01c2102a53b02e9df75484c7264ca7a7d53746fb
 .isolate {
   isolation: isolate;
 }
@@ -5916,22 +5906,6 @@ input:checked + .toggle-bg {
   color: rgb(114 59 19 / var(--tw-text-opacity));
 }
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-.text-green-200 {
-  --tw-text-opacity: 1;
-  color: rgb(188 240 218 / var(--tw-text-opacity));
-}
-
-.text-red-200 {
-  --tw-text-opacity: 1;
-  color: rgb(251 213 213 / var(--tw-text-opacity));
-}
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> 01c2102a53b02e9df75484c7264ca7a7d53746fb
 .underline {
   text-decoration-line: underline;
 }
@@ -6950,7 +6924,6 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(63 131 248 / var(--tw-ring-opacity));
 }
 
-<<<<<<< Updated upstream
 :is(.dark .dark\:focus\:ring-gray-700:focus) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(55 65 81 / var(--tw-ring-opacity));
@@ -6959,21 +6932,17 @@ input:checked + .toggle-bg {
 :is(.dark .dark\:focus\:ring-green-800:focus) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(3 84 63 / var(--tw-ring-opacity));
-=======
-:is(.dark .dark\:focus\:ring-green-800:focus) {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(3 84 63 / var(--tw-ring-opacity));
-}
-
-:is(.dark .dark\:focus\:ring-gray-700:focus) {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(55 65 81 / var(--tw-ring-opacity));
->>>>>>> Stashed changes
 }
 
 @media (min-width: 640px) {
   .sm\:underline {
     text-decoration-line: underline;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:w-2\/3 {
+    width: 66.666667%;
   }
 }
 
