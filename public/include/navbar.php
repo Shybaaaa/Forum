@@ -6,7 +6,7 @@ if (isset($_SESSION["user"])) {
     $stmt->execute([$_SESSION["user"]["roleId"]]);
     $role = $stmt->fetch();
 }
-
+require_once'dark_mode.php'
 ?>
 
 <nav class="z-20 bg-blue-500 sticky top-0 w-screen">
@@ -72,6 +72,13 @@ if (isset($_SESSION["user"])) {
                         <i class="fa-solid fa-envelope text-gray-500 group-hover:text-gray-900 duration-75 transition"></i>
                         <span class="flex-1 ms-3">a changer</span>
                     </a>
+                </li>
+                <li>
+                    <div>
+                        <button>
+                            <?php darkMode(); ?>
+                        </button>
+                    </div>
                 </li>
             </ul>
         </div>

@@ -1,3 +1,3 @@
-import "https://kit.fontawesome.com/abcb30c057.js";
+import 'https://kit.fontawesome.com/abcb30c057.js';
 import 'flowbite';
-import "spaghetti.js"
+import './dark_mode.js';
