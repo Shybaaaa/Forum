@@ -11,7 +11,7 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
 ?>
 
 <!doctype html>
-<html lang="fr" class="">
+<html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -21,8 +21,9 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
 </head>
 <body>
 
+<?php require_once("public/include/dark_mode.php") ?>
 <?php require_once("public/include/navbar.php") ?>
-
+<?php require_once("public/views/home.php") ?>
 
 <div class="app">
     <?php
