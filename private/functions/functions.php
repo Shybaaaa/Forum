@@ -59,19 +59,19 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                     $hPassword = md5($password);
                     $pdo = dbConnect();
                     if ($description == "") {
-                        if ($image == "") {
+                        if ($image["error"] === 4) {
                             $sql = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, ?)";
                             $stmt = $pdo->prepare($sql);
                             $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s")]);
                         } else {
                             $urlFile = uploadImage($image);
-                            print_r($urlFile);
                             $sql = "INSERT INTO users (username, email, password, createdAt, image) VALUES (?, ?, ?, ?, ?)";
                             $stmt = $pdo->prepare($sql);
                             $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile]);
                         }
                     } else {
-                        if ($image == "") {
+
+                        if ($image["error"] === 4) {
                             $sql = "INSERT INTO users (username, biography, email, password, createdAt) VALUES (?, ?, ?, ?, ?)";
                             $stmt = $pdo->prepare($sql);
                             $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s")]);

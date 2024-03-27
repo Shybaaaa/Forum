@@ -36,7 +36,7 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
 
         <div class="flex flex-col items-center justify-center mt-5">
             <div class="h-32 w-32 rounded-full bg-gray-500 text-white flex justify-center items-center">
-                <i class="fa-solid fa-user text-white text-xl"></i>
+                <i class="fa-solid fa-user"></i>
             </div>
             <div class="flex flex-col text-center mt-2 mb-2">
                 <span class="mt-4 text-xl font-semibold text-gray-600 lg:blockd"><?= $_SESSION["user"]["username"] ?></span>
