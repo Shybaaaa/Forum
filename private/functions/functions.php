@@ -254,6 +254,23 @@ function getPosts($post)
     return $stmt->fetchAll();
 }
 
+function getUser($id)
+{
+    $pdo = dbConnect();
+
+    if ($id == -1){
+        $sql = "SELECT id, username, roleId, surname FROM users";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+    } else {
+        $sql = "SELECT id, username, roleId, surname FROM users WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+    }
+
+    return $stmt->fetch();
+}
+
 function safeDelete($type, $id){
     $pdo = dbConnect();
     $sql = "UPDATE $type SET isDeleted = 1 WHERE id = ?";
