@@ -1,8 +1,9 @@
 <?php
 session_start();
 require_once "../../../private/functions/functions.php";
+
 if (!isset($_SESSION["user"])) {
-    header("Location: /index.php?error=1");
+    header("Location: /index.php");
 }
 
 $config = parse_ini_file("../../../config.ini");
@@ -24,6 +25,8 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
     <link rel="stylesheet" href="../../css/main.css">
 </head>
 <body>
+
+
 
 
 </body>

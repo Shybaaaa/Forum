@@ -7,10 +7,10 @@
 <!-- Posts Section -->
 <section class="w-full min-h-screen w-fit grid grid-cols-3 gap-x-7 gap-y-9 overflow-x-hidden">
     <?php foreach (getPosts("all") as $post): ?>
-        <article class="flex flex-col shadow w-auto h-auto">
+        <article class="flex flex-col justify-between shadow w-11/12 h-5/6">
             <!-- Article Image -->
             <a href="#" class="hover:opacity-75">
-                <img class="w-full h-2/3" src="<?= $post["photo"] ?>">
+                <img class="w-full h-10/12" src="<?= $post["photo"] ?>">
             </a>
             <div class="bg-white flex flex-col justify-start p-6">
                 <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technologie</a>

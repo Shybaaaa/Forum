@@ -2050,6 +2050,10 @@ input:checked + .toggle-bg {
   height: 100vh;
 }
 
+.h-5\/6 {
+  height: 83.333333%;
+}
+
 .max-h-72 {
   max-height: 18rem;
 }
@@ -2233,6 +2237,14 @@ input:checked + .toggle-bg {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-10\/12 {
+  width: 83.333333%;
+}
+
+.w-11\/12 {
+  width: 91.666667%;
 }
 
 .min-w-0 {
@@ -6239,6 +6251,11 @@ input:checked + .toggle-bg {
 
 .shadow-teal-800 {
   --tw-shadow-color: #05505C;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.shadow-fuchsia-950 {
+  --tw-shadow-color: #4a044e;
   --tw-shadow: var(--tw-shadow-colored);
 }
 
