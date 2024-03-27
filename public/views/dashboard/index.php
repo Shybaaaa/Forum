@@ -43,22 +43,38 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
                 <span class="font-bold uppercase text-sm text-gray-400 tracking-tight subpixel-antialiased"><?= getRole($_SESSION["user"]["roleId"])["name"] ?></span>
             </div>
         </div>
-        <ul class="space-y-2 tracking-wide mt-8 flex flex-col justify-center text-gray-600 items-center">
+        <ul class="space-y-2 tracking-wide mt-8 flex flex-col gap-y-2 justify-center text-gray-600 items-center">
             <li>
-                <a href="index.php?page=myaccount" class="hover:bg-gradient-to-bl hover:text-white from-blue-400 to-indigo-500 px-4 py-2 rounded-lg transition-all duration-150">
-                    <i class="fa-solid fa-user mr-2 text-lg"></i>
-                    Mon compte
+                <a href="index.php?page=myaccount" class="py-2.5 px-3.5 duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "myaccount"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
+                    <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
+                    <span class="group-hover:text-gray-600">Mon compte</span>
                 </a>
             </li>
             <li>
-                TEST
+                <a href="index.php?page=myaccount" class=" transition-all text-gray-500 font-semibold duration-75 group">
+                    <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
+                    <span class="group-hover:text-gray-600">Temp</span>
+                </a>
             </li>
             <li>
-                TEST
+                <a href="index.php?page=myaccount" class=" transition-all text-gray-500 font-semibold duration-75 group">
+                    <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
+                    <span class="group-hover:text-gray-600">temp</span>
+                </a>
             </li>
             <li>
-                TEST
+                <a href="index.php?page=myaccount" class=" transition-all text-gray-500 font-semibold duration-75 group">
+                    <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
+                    <span class="group-hover:text-gray-600">temp</span>
+                </a>
             </li>
+            <li>
+                <a href="index.php?page=myaccount" class=" transition-all text-gray-500 font-semibold duration-75 group">
+                    <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
+                    <span class="group-hover:text-gray-600">temp</span>
+                </a>
+            </li>
+
         </ul>
     </div>
     <div class="px-6 -mx-6 pt-4 flex justify-between items-center">
@@ -72,7 +88,7 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
         </a>
     </div>
 </aside>
-<div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+<div class="ml-auto mb-6 overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
     <div class="sticky z-40 top-0 h-16 bg-white lg:py-2.5">
         <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
             <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">
@@ -80,7 +96,7 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
             </h5>
         </div>
     </div>
-    <div class="px-6 pt-6 h-screen rounded-tl-lg 2xl:container bg-slate-50">
+    <div class="px-6 pt-6 h-screen w-full rounded-tl-lg 2xl:container bg-slate-50">
 
     </div>
 </div>
