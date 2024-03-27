@@ -26,6 +26,10 @@ if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
 </head>
 <body>
 
+<div class="w-screen h-screen">
+
+</div>
+
 
 
 

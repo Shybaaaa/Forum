@@ -75,16 +75,13 @@ require_once'dark_mode.php'
                 </li>
                 <li>
                     <div>
+                        <button>
+                            <?php darkMode(); ?>
                         </button>
-                        <?php darkMode(); ?>
-                    </button>
-                </div>
-            </li>
-        </ul>
-    </div>
+                    </div>
+                </li>
             </ul>
         </div>
-
         <div class="w-full mb-4 select-none">
             <?php if (isset($_SESSION["user"]) && $_SESSION["user"]): ?>
                 <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded p-1 w-full hover:bg-gray-100">
