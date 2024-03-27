@@ -264,15 +264,20 @@ function safeDelete($id){
     header("Location: /public/views/dashboard/setting.php");
 }
 
-function getUsers($id){
-
+function getUser($id){
     $pdo = DBConnect();
 
-    $sql = "SELECT * FROM users WHERE id = ?";
-    
-    $stmt = $pdo->prepare($sql);
-    
-    $stmt->execute([$id]);
+    if ($id === -1){
+        $sql = "SELECT * FROM users";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $tempUser = $stmt->fetchAll();
+    } else {
+        $sql = "SELECT * FROM users WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $tempUser = $stmt->fetch();
+    }
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $tempUser;
 }
