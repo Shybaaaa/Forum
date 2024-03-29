@@ -1,8 +1,20 @@
 <?php
-
+session_start();
 require_once "../../../private/functions/functions.php";
 
-safeDelete($_GET["id"]);
+print_r($_GET);
+
+$users = getUser($_SESSION["user"]["id"]);
+
+if ($users["isActive"] == 1) {
+
+    safeDelete($users["id"]);
+
+} else  {
+
+    safeRestore($_GET["id"]);
+
+}
 
 // $id = $_GET["id"];
 

@@ -112,7 +112,7 @@ function loginUser($email, $password)
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
-        $sql = "SELECT users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
+        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
 
@@ -121,6 +121,7 @@ function loginUser($email, $password)
         // Si l'utilisateur existe et que le mots de passe est bon, on le connecte.
         if ($isUser) {
             $_SESSION["user"] = [
+                "id" => $isUser["id"],
                 "username" => $isUser["username"],
                 "email" => $isUser["email"],
                 "image" => $isUser["image"],
@@ -257,7 +258,6 @@ function getPosts($post)
 
 function safeDelete($id){
     $pdo = dbConnect();
-    $sql = "UPDATE users SET isDeleted = 1 WHERE id = ?";
     $sql = "UPDATE users SET isActive = 0 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
@@ -296,7 +296,6 @@ function getRole($id)
 
 function safeRestore($id){
     $pdo = dbConnect();
-    $sql = "UPDATE users SET isDeleted = 0 WHERE id = ?";
     $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);

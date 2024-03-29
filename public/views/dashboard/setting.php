@@ -7,7 +7,7 @@ if (!isset($_SESSION["user"])) {
 
 $config = parse_ini_file("../../../config.ini");
 
-$users = getUsers(2);
+$users = getUser($_SESSION["user"]["id"]);
 
 ?>
 
@@ -23,11 +23,6 @@ $users = getUsers(2);
 <body>
     <?php require_once "../../../public/include/navbar.php" ?>
 
-    <?php
-
-    // print_r ($users);
-
-    ?>
 
     <div class="w-full mb-4 select-none">
             <?php if (isset($_SESSION["user"]) && $_SESSION["user"]): ?>
@@ -38,7 +33,7 @@ $users = getUsers(2);
                         <i class="fa-solid fa-user text-xl rounded-full p-3 bg-gray-500 text-white"></i>
                     <?php endif; ?>
                     <div class="font-medium dark:text-white">
-                        <div><?= $_SESSION["user"]["username"] ?></div>
+                        <div><?= $users["username"] ?></div>
                         <div class="text-sm text-gray-500 dark:text-gray-400"><?= $role["name"] ?></div>
                     </div>
                         <a class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-yellow-300 dark:hover:bg-yellow-400 dark:focus:ring-yellow-500" href="../../../public/views/dashboard/delete.php">modifier le compte</a>
@@ -49,7 +44,7 @@ $users = getUsers(2);
                         <?php
                         } else {
                         ?>
-                        <a class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" href="../../../public/views/dashboard/restore.php?id=<?= $users["id"] ?>">restaurer le compte</a>
+                        <a class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" href="../../../public/views/dashboard/delete.php?id=<?= $users["id"] ?>">restaurer le compte</a>
                         <?php
                         }
                         ?>
