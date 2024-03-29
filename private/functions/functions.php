@@ -112,7 +112,7 @@ function loginUser($email, $password)
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
-        $sql = "SELECT users.username, users.email, users.image, users.roleId, users.surname from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
+        $sql = "SELECT users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
 
@@ -126,6 +126,7 @@ function loginUser($email, $password)
                 "image" => $isUser["image"],
                 "roleId" => $isUser["roleId"],
                 "surname" => $isUser["surname"],
+                "biography" => $isUser["biography"],
             ];
             header("Location: /index.php?success=1&message=Vous êtes connecté avec succès");
         } else {
@@ -264,14 +265,30 @@ function safeDelete($id){
     header("Location: /public/views/dashboard/setting.php");
 }
 
-function getUsers($id){
-
+function getUser($id)
+{
     $pdo = DBConnect();
 
-    $sql = "SELECT * FROM users WHERE id = ?";
-    
+    if ($id === -1) {
+        $sql = "SELECT * FROM users";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $tempUser = $stmt->fetchAll();
+    } else {
+        $sql = "SELECT * FROM users WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $tempUser = $stmt->fetch();
+    }
+
+    return $tempUser;
+}
+
+function getRole($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM roles WHERE id = ?";
     $stmt = $pdo->prepare($sql);
-    
     $stmt->execute([$id]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
