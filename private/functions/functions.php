@@ -276,3 +276,13 @@ function getUsers($id){
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+function safeRestore($id){
+    $pdo = dbConnect();
+    $sql = "UPDATE users SET isDeleted = 0 WHERE id = ?";
+    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    header("Location: /public/views/dashboard/setting.php");
+}
