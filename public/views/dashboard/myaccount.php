@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["update"])) {
                     </div>
                     <div class="flex flex-col">
                         <label for="bio" class="mb-1.5 text-gray-600 font-semibold">Biographie</label>
-                        <textarea name="bio" id="bio" class="border-2 border-gray-300 rounded-md p-1.5" cols="30" maxlength="255" rows="10"><?= $_SESSION["user"]["biography"] ?></textarea>
+                        <textarea name="bio" id="bio" class="border-2 border-gray-300 rounded-md p-1.5" cols="30" maxlength="255" rows="10"><?php if (trim($_SESSION["user"]["biography"]) == ""){echo "";} else {echo trim($_SESSION["user"]["biography"]);} ?></textarea>
                     </div>
                 </div>
 
@@ -57,5 +57,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["update"])) {
             </form>
         </div>
     </div>
-
 </div>
