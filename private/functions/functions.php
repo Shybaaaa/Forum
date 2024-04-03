@@ -302,3 +302,31 @@ function safeRestore($id){
 
     header("Location: /public/views/dashboard/setting.php");
 }
+
+function addCategory($id,$name){
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM postCategory ";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute();
+
+    $category = $stmt->fetch();
+
+    if ($category) {
+        header("Location: /public/views/insert_category.php?error=3&message=catégorie non valide");
+                exit();
+    } else {
+
+        $sql = "INSERT INTO postCategory (id,name) VALUES (?,?)";
+        
+        $stmt = $pdo->prepare($sql);
+        
+        $stmt->execute([$id,$name]);
+
+        
+        
+        header("Location: ./index.php");
+    
+    }
+}
