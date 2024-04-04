@@ -169,6 +169,47 @@ function updateUser($id, $username, $surname, $email, $password, $image)
     header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
 }
 
+function updateUserPassword($id, $password, $newPassword, $newPasswordConfirm)
+{
+    $password = htmlspecialchars($password);
+    $newPassword = htmlspecialchars($newPassword);
+    $newPasswordConfirm = htmlspecialchars($newPasswordConfirm);
+    $pdo = dbConnect();
+
+    $sql = "SELECT * FROM users WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    $user = $stmt->fetch();
+
+    if ($user["password"] == md5($password)) {
+        if ($newPassword == $newPasswordConfirm) {
+            $hPassword = md5($newPassword);
+            $sql = "UPDATE users SET password = ? WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$hPassword, $id]);
+
+            header("Location: ./index.php?success=1&message=Votre mot de passe a été modifié avec succès");
+        } else {
+            header("Location: ./index.php?error=1&message=Les mots de passe ne correspondent pas");
+        }
+    } else {
+        header("Location: ./index.php?error=2&message=Mot de passe incorrect");
+    }
+}
+
+function updateUserProfile($id, $image){
+    $pdo = dbConnect();
+    $sql = "SELECT users.image FROM users WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    $user = $stmt->fetch();
+
+    if ($user["image"] != ""){
+        unlink($_SERVER["DOCUMENT_ROOT"] . $user["image"]);
+    }
+}
+
+
 function addPost($title, $description, $postCategoryId, $photo){
     $pdo = dbConnect();
     $sql = "SELECT * FROM postCategory WHERE id = ?";
@@ -200,10 +241,13 @@ function uploadImage($image){
         $target_file = $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . basename($image["name"]);
         $url_file = $target_file . $folderName . "/" . basename($image["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $name = uniqid();
 
-        if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
+
+        if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg") {
             if (move_uploaded_file($image["tmp_name"], $target_file)) {
                 $url = $targetDir . $folderName . "/" . basename($image["name"]);
+                $url = rename($_SERVER["DOCUMENT_ROOT"] . $url, $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . $name . "." . $imageFileType);
                 newLogs("Image upload", "Image uploadé avec succès : " . $url_file);
                 return $url;
             } else {
