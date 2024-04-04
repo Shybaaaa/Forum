@@ -2,6 +2,20 @@
 
 require_once "../../private/functions/functions.php";
 
+$pdo = dbConnect();
+
+$sql = "SELECT * FROM postCategory";
+
+$stmt = $pdo->prepare($sql);
+
+$stmt->execute();
+
+$addCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST["name"]);
+    addCategory($_POST["id"],$_POST["name"]);
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,15 +34,10 @@ require_once "../../private/functions/functions.php";
         <form enctype="multipart/form-data" action="" method="post" class="mt-8 space-y-6">
             <div class="col-span-full">
             <div class="space-y-2">
-            <form class="w-25 " action="./update.php" method="POST">
-                <label for="artist" class="form-label">Nom de la catégoire</label>
-                <input type="hidden" name="id" value="<?= $category["postCategory"] ?>">
-                <input type="text" class="form-control" id="category" name="name" value="<?= $category["Name"] ?>">
-        </div>
-
-        <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">Envoyer</button>
+                <label for="" class="form-label">Nom de la catégoire</label>
+                    <input type="text" class="form-control" id="category" name="name" value="">
+            <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">Envoyer</button>
         </form>
-    </form>
     </div>
 </div>
 
