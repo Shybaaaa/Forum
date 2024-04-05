@@ -356,13 +356,15 @@ function addCategory($name){
     $name = htmlspecialchars(trim($name));
 
     $pdo = dbConnect();
+    
     $sql = "SELECT * FROM postCategory where name = :name";
 
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute([
-            ":name" => $name
-        ]);
+        ":name" => $name
+    ]);
+
 
     $category = $stmt->fetch();
 
@@ -370,8 +372,10 @@ function addCategory($name){
         header("Location: /public/views/insert_category.php?error=1&message=Catégorie déjà existante");
     } else {
         $stmt = $pdo->prepare("INSERT INTO postCategory (name) VALUES (?)");
-        $stmt->execute([$name]);
 
+        $stmt->execute([$name]);
+        
         header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
+    
     }
 }
