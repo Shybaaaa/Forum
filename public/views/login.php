@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body class="overflow-hidden">
-<!--Switch case Error notification-->
 <?php if (isset($_GET["error"])): ?>
     <?php
     $msgError = "";

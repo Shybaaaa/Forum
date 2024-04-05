@@ -89,7 +89,6 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
             }
 
 
-
         } else {
             newLogs("CREATE USER ERROR", "Mots de passe différents");
             header("Location: /public/views/register.php?error=1&message=Entrez le même mot de passe");
@@ -197,25 +196,76 @@ function updateUserPassword($id, $password, $newPassword, $newPasswordConfirm)
     }
 }
 
-function updateUserProfile($id, $image){
+function deleteUserProfile($id)
+{
     $pdo = dbConnect();
     $stmt = $pdo->prepare("SELECT users.image FROM users WHERE id = ?");
     $stmt->execute([$id]);
-    $user = $stmt->fetch();
+    $userPP = $stmt->fetch();
 
-    if ($user["image"] != ""){
-        $folder = explode("/", $user["image"]);
-        print_r($folder);
+    if ($userPP){
+        $folder = explode("/", $userPP["image"]);
+        $folder = array_slice($folder, 0, count($folder) - 1);
+        $folder = implode("/", $folder);
 
+        if (file_exists($_SERVER["DOCUMENT_ROOT"] . $userPP["image"])) {
+            unlink($_SERVER["DOCUMENT_ROOT"] . $userPP["image"]);
+            rmdir($_SERVER["DOCUMENT_ROOT"] . $folder);
+        }
+
+        $stmt = $pdo->prepare("UPDATE users SET image = '' WHERE id = ?");
+        $stmt->execute([$id]);
+
+        return ["type" => "success", "message" => "Image supprimée avec succès"];
     } else {
-        $urlFile = uploadImage($image);
-        $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = ?");
-        $stmt->execute([$urlFile, $id]);
+        return ["type" => "error", "message" => "Erreur lors de la suppression de l'image"];
+    }
+
+}
+
+function updateUserProfile($id, $image)
+{
+    if (!$image["error"]) {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT users.image FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+
+        if ($user["image"] != "") {
+            $folder = explode("/", $user["image"]);
+            $folder = array_slice($folder, 0, count($folder) - 1);
+            $folder = implode("/", $folder);
+
+            if (file_exists($_SERVER["DOCUMENT_ROOT"] . $user["image"])) {
+                unlink($_SERVER["DOCUMENT_ROOT"] . $user["image"]);
+                rmdir($_SERVER["DOCUMENT_ROOT"] . $folder);
+            }
+
+            $newUrl = uploadImage($image);
+            $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = ?");
+            $stmt->execute([$newUrl, $id]);
+
+            $_SESSION["user"]["image"] = $newUrl;
+            newLogs("Image update", "Image modifiée avec succès : " . $newUrl);
+        } else {
+            $urlFile = uploadImage($image);
+            $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = ?");
+            $stmt->execute([$urlFile, $id]);
+            $_SESSION["user"]["image"] = $urlFile;
+            newLogs("Image update", "Image modifiée avec succès : " . $newUrl);
+        }
+        return ["type" => "success", "message" => "Image modifiée avec succès"];
+        exit;
+    } else {
+        return ["type" => "error", "message" => "Erreur lors de l'upload de l'image"];
+        exit;
     }
 }
 
 
-function addPost($title, $description, $postCategoryId, $photo){
+function addPost($title, $description, $postCategoryId, $photo)
+{
+
     $pdo = dbConnect();
     $sql = "SELECT * FROM postCategory WHERE id = ?";
     $stmt = $pdo->prepare($sql);
@@ -225,7 +275,7 @@ function addPost($title, $description, $postCategoryId, $photo){
 
     if ($isCategory) {
         header("Location: /public/views/insert.php?error=3&message=catégorie non valide");
-                exit();
+        exit();
     } else {
 
         $sql = "INSERT INTO posts (title, description, postCategoryId, photo) VALUES (?, ?, ?, ?)";
@@ -238,22 +288,26 @@ function addPost($title, $description, $postCategoryId, $photo){
     }
 }
 
-function uploadImage($image){
+function uploadImage($image)
+{
     if (!$image["error"]) {
         $folderName = uniqid("img_", "true");
         $targetDir = "/public/uploads/";
-        mkdir( $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName);
+        mkdir($_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName);
         $target_file = $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . basename($image["name"]);
-        $url_file = $target_file . $folderName . "/" . basename($image["name"]);
+        $url = $target_file . $folderName . "/" . basename($image["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $name = uniqid();
 
-
-        if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg") {
+        if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "webp" || $imageFileType == "gif") {
             if (move_uploaded_file($image["tmp_name"], $target_file)) {
+                $name = uniqid();
                 $url = $targetDir . $folderName . "/" . basename($image["name"]);
-                $url = rename($_SERVER["DOCUMENT_ROOT"] . $url, $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . $name . "." . $imageFileType);
-                newLogs("Image upload", "Image uploadé avec succès : " . $url_file);
+
+                if (rename($_SERVER["DOCUMENT_ROOT"] . $url, $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . $name . "." . $imageFileType)) {
+                    $url = $targetDir . $folderName . "/" . $name . "." . $imageFileType;
+                }
+
+                newLogs("Image upload", "Image uploadé avec succès : " . $url);
                 return $url;
             } else {
                 newLogs("error", "Erreur upload image (move_uploaded_file)");
@@ -305,7 +359,8 @@ function getPosts($post)
     return $stmt->fetchAll();
 }
 
-function safeDelete($id){
+function safeDelete($id)
+{
     $pdo = dbConnect();
     $sql = "UPDATE users SET isActive = 0 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
@@ -343,7 +398,8 @@ function getRole($id)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function safeRestore($id){
+function safeRestore($id)
+{
     $pdo = dbConnect();
     $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
@@ -352,11 +408,12 @@ function safeRestore($id){
     header("Location: /public/views/dashboard/setting.php");
 }
 
-function addCategory($name){
+function addCategory($name)
+{
     $name = htmlspecialchars(trim($name));
 
     $pdo = dbConnect();
-    
+
     $sql = "SELECT * FROM postCategory where name = :name";
 
     $stmt = $pdo->prepare($sql);
@@ -374,9 +431,9 @@ function addCategory($name){
         $stmt = $pdo->prepare("INSERT INTO postCategory (name) VALUES (?)");
 
         $stmt->execute([$name]);
-        
+
         header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
-    
+
     }
 }
 function loginRestore($id){
