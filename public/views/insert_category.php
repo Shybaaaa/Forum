@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["newCategory"])) {
             <div class="col-span-full">
             <div class="space-y-2">
                 <label for="" class="form-label">Nom de la catégoire</label>
-                    <input type="text" class="form-control" id="category" name="nameCategory" placeholder="Entrez le nom de la nouvelle catégorie.">
+                <input type="text" class="form-control" id="category" name="nameCategory" placeholder="Entrez le nom de la nouvelle catégorie.">
             <button type="submit" name="newCategory" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">Envoyer</button>
         </form>
     </div>
