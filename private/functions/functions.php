@@ -199,13 +199,18 @@ function updateUserPassword($id, $password, $newPassword, $newPasswordConfirm)
 
 function updateUserProfile($id, $image){
     $pdo = dbConnect();
-    $sql = "SELECT users.image FROM users WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare("SELECT users.image FROM users WHERE id = ?");
     $stmt->execute([$id]);
     $user = $stmt->fetch();
 
     if ($user["image"] != ""){
-        unlink($_SERVER["DOCUMENT_ROOT"] . $user["image"]);
+        $folder = explode("/", $user["image"]);
+        print_r($folder);
+
+    } else {
+        $urlFile = uploadImage($image);
+        $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = ?");
+        $stmt->execute([$urlFile, $id]);
     }
 }
 
