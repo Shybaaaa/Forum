@@ -1,7 +1,17 @@
 <?php
 
-updateUserProfile($_SESSION["user"]["id"], $_FILES["image"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
+    if (isset($_FILES["image"]) && $_FILES["image"]["name"] != "" ) {
+        $status = updateUserProfile($_SESSION["user"]["id"], $_FILES["image"]);
 
+        if ($status["type"] == "success") {
+            echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Image modifié avec succès'</script>";
+        } else {
+            echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Erreur avec l '</script>";
+        }
+
+    }
+}
 
 ?>
 

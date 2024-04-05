@@ -1337,6 +1337,14 @@ input:checked + .toggle-bg {
   top: auto;
 }
 
+.top-10 {
+  top: 2.5rem;
+}
+
+.top-20 {
+  top: 5rem;
+}
+
 .isolate {
   isolation: isolate;
 }
