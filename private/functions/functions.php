@@ -347,30 +347,26 @@ function safeRestore($id){
     header("Location: /public/views/dashboard/setting.php");
 }
 
-function addCategory($id,$name){
+function addCategory($name){
+    $name = htmlspecialchars(trim($name));
+
     $pdo = dbConnect();
-    $sql = "SELECT * FROM postCategory ";
+    $sql = "SELECT * FROM postCategory where name = :name";
 
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute();
+    $stmt->execute([
+            ":name" => $name
+        ]);
 
     $category = $stmt->fetch();
 
     if ($category) {
-        header("Location: /public/views/insert_category.php?error=3&message=catégorie non valide");
-                exit();
+        header("Location: /public/views/insert_category.php?error=1&message=Catégorie déjà existante");
     } else {
+        $stmt = $pdo->prepare("INSERT INTO postCategory (name) VALUES (?)");
+        $stmt->execute([$name]);
 
-        $sql = "INSERT INTO postCategory (id,name) VALUES (?,?)";
-        
-        $stmt = $pdo->prepare($sql);
-        
-        $stmt->execute([$id,$name]);
-
-        
-        
-        header("Location: ./index.php");
-    
+        header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
     }
 }

@@ -12,9 +12,9 @@ $stmt->execute();
 
 $addCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars($_POST["name"]);
-    addCategory($_POST["id"],$_POST["name"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["newCategory"])) {
+    $name = htmlspecialchars($_POST["nameCategory"]);
+    addCategory($name);
 }
 ?>
 
@@ -35,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col-span-full">
             <div class="space-y-2">
                 <label for="" class="form-label">Nom de la catégoire</label>
-                    <input type="text" class="form-control" id="category" name="name" value="">
-            <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">Envoyer</button>
+                    <input type="text" class="form-control" id="category" name="nameCategory" placeholder="Entrez le nom de la nouvelle catégorie.">
+            <button type="submit" name="newCategory" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">Envoyer</button>
         </form>
     </div>
 </div>
