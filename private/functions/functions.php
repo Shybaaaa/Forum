@@ -379,3 +379,14 @@ function addCategory($name){
     
     }
 }
+function loginRestore($id){
+    $pdo = dbConnect();
+    
+    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([$id]);
+
+    header("Location: /public/views/login.php?success=1&message=Compte restorer avec succès");
+}
