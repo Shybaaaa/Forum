@@ -208,6 +208,7 @@ function deleteUserProfile($id)
 
         $stmt = $pdo->prepare("UPDATE users SET image = '' WHERE id = ?");
         $stmt->execute([$id]);
+        $_SESSION["user"]["image"] = "";
 
         return ["type" => "success", "message" => "Image supprimée avec succès"];
     } else {
@@ -352,6 +353,14 @@ function uploadImage($image)
         if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "webp" || $imageFileType == "gif") {
             if ($image["size"] < 5000000) {
                 if (move_uploaded_file($image["tmp_name"], $target_file)) {
+                    $name = uniqid();
+                    $url = $targetDir . $folderName . "/" . basename($image["name"]);
+
+                    if (rename($_SERVER["DOCUMENT_ROOT"] . $url, $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . $name . "." . $imageFileType)) {
+                        $url = $targetDir . $folderName . "/" . $name . "." . $imageFileType;
+                    }
+
+                    newLogs("Image upload", "Image uploadé avec succès : " . $url);
                     return $url;
                 } else {
                     newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
