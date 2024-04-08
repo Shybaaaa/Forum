@@ -524,3 +524,9 @@ function addCategory($name)
     }
 }
 
+function loginRestore($id){
+    $pdo = dbConnect();
+    
+    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+
+}
