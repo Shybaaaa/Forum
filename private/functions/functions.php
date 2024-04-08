@@ -168,6 +168,27 @@ function updateUser($id, $username, $surname, $email, $password, $image)
     header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
 }
 
+function updateUserBiography($id, $biography)
+{
+    $biography = trim(htmlspecialchars($biography));
+    if ($biography == "") {
+        newLogs("Biography update", "Biographie vide");
+        return ["type" => "error", "message" => "Biographie vide"];
+    } else {
+        if (strlen($biography) > 500) {
+            newLogs("Biography update", "Biographie trop longue");
+            return ["type" => "error", "message" => "Biographie trop longue"];
+        } else {
+            $pdo = dbConnect();
+            $stmt = $pdo->prepare("UPDATE users SET biography = ? WHERE id = ?");
+            $stmt->execute([$biography, $id]);
+            $_SESSION["user"]["biography"] = $biography;
+            newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
+            return ["type" => "success", "message" => "Biographie modifiée avec succès"];
+        }
+    }
+}
+
 function deleteUserProfile($id)
 {
     $pdo = dbConnect();
@@ -247,11 +268,17 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
 
     if ($user) {
         if ($newPass == $confirmNewPass) {
-            $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-            $stmt->execute([md5($newPass), $id]);
-            newLogs("Password update", "Mot de passe modifié avec succès pour l'utilisateur : " . $id);
-            return ["type" => "success", "message" => "Mot de passe modifié avec succès"];
-            exit;
+            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{ 6,}$/", $newPass)) {
+                newLogs("CREATE USER ERROR", "Mots de passe incorrect");
+                return ["type" => "error", "message" => "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre"];
+                exit();
+            } else {
+                $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+                $stmt->execute([md5($newPass), $id]);
+                newLogs("Password update", "Mot de passe modifié avec succès");
+                return ["type" => "success", "message" => "Mot de passe modifié avec succès"];
+                exit;
+            }
         } else {
             newLogs("Password update", "Les mots de passe ne correspondent pas");
             return ["type" => "error", "message" => "Les mots de passe ne correspondent pas"];

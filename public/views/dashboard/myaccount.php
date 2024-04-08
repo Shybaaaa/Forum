@@ -23,8 +23,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $oldPass = htmlspecialchars(trim($_POST["passwordOld"]));
         $newPass = htmlspecialchars(trim($_POST["passwordNew"]));
         $newPassConfirm = htmlspecialchars(trim($_POST["passwordNewConfirm"]));
-
-
+        $status = updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
+        if ($status["type"] == "success") {
+            echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Mots de passe modifié avec succès.'</script>";
+        } else {
+            echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Erreur lors de la modification du mots de passe.'</script>";
+        }
+    } elseif (isset($_POST["updateDescSubmit"])){
+        $status = updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
+        if ($status["type"] == "success") {
+            echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Description modifié avec succès.'</script>";
+        } else {
+            echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Erreur lors de la modification de la description.'</script>";
+        }
     }
 }
 
@@ -152,15 +163,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="flex items-center h-max flex-col justify-center w-full">
                     <div class="mb-6 w-full">
                         <label for="passwordOld" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ancien mots de passe</label>
-                        <input type="password" id="passwordOld" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
+                        <input type="password" name="passwordOld" id="passwordOld" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
                     </div>
                     <div class="mb-6 w-full">
                         <label for="passwordNew" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nouveau mots de passe</label>
-                        <input type="password" id="passwordNew" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
+                        <input type="password" name="passwordNew" id="passwordNew" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Minimum 6 caractères et 1 chiffre.</p>
                     </div>
                     <div class="mb-6 w-full">
                         <label for="passwordNewConfirm" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmer le nouveau mots de passe</label>
-                        <input type="password" id="passwordNewConfirm" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
+                        <input type="password" name="passwordNewConfirm" id="passwordNewConfirm" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
                     </div>
                     <div class="mt-3 w-full flex justify-end">
                         <input name="updatePasswordSubmit" type="submit" value="Mettre à jour" class="py-2 px-3 bg-gradient-to-tl to-indigo-600 from-blue-500 cursor-pointer text-medium text-white font-medium rounded-lg hover:bg-indigo-500 hover:opacity-95 transition duration-75">
