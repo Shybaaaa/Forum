@@ -6,11 +6,11 @@ $config = parse_ini_file("../../config.ini");
 
 $pdo = new PDO("mysql:host=$config[DB_HOST];port=$config[DB_PORT];dbname=$config[DB_NAME];charset=utf8", $config['DB_USER'], $config["DB_PASS"]);
 
-$sql = "SELECT * FROM posts";
+$sql = "SELECT * FROM posts WHERE id = ?";
 
 $stmt = $pdo->prepare($sql);
 
-$stmt->execute();
+$stmt->execute([$_GET["post"]["id"]]);
 
 $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
