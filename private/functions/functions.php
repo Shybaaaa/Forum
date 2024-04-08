@@ -485,6 +485,7 @@ function addCategory($name)
 
     }
 }
+
 function loginRestore($id){
     $pdo = dbConnect();
     
