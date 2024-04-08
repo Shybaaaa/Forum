@@ -53,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
 ?>
 
 <div class="w-11/12 h-fit rounded-lg bg-white px-2 py-2.5 select-none ">
@@ -108,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="px-4 py-6 mt-5 flex flex-col items-center sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm font-medium leading-6 text-gray-900">Voulez-vous supprimer votre compte?</dt>
                 <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    <button id="btnDeleteProfile" data-modal-target="deleteProfile" data-modal-toggle="deleteProfile" class="font-medium text-red-600 hover:text-red-500" type="button">Supprimer</button>
+                    <button id="btnDeleteProfile" data-modal-target="deleteProfile" data-modal-toggle="deleteProfile" class="font-medium text-red-600 hover:text-red-500 hover:font-semibold" type="button">Supprimer</button>
                 </dd>
             </div>
         </div>
