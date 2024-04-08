@@ -114,13 +114,13 @@ function loginUser($email, $password)
         $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
-    if ($users["isActive"] == 0){
-        
-        $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id]);
-        newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
-    }
+//    if ($users["isActive"] == 0){
+//
+//        $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+//        $stmt = $pdo->prepare($sql);
+//        $stmt->execute([$id]);
+//        newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
+//    }
 
         $isUser = $stmt->fetch();
 
