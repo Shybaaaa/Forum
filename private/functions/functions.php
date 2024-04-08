@@ -262,6 +262,26 @@ function updateUserProfile($id, $image)
     }
 }
 
+function updateUsername($id, $username)
+{
+    $username = trim(htmlspecialchars($username));
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $isUsername = $stmt->fetch();
+
+    if ($isUsername){
+        return ["type" => "error", "message" => "Nom d'utilisateur déjà utilisé"];
+        exit;
+    } else {
+        $stmt = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
+        $stmt->execute([$username, $id]);
+        $_SESSION["user"]["username"] = $username;
+        return ["type" => "success", "message" => "Nom d'utilisateur modifié avec succès"];
+        exit;
+    }
+}
+
 
 function addPost($title, $description, $postCategoryId, $photo)
 {
@@ -299,18 +319,15 @@ function uploadImage($image)
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
         if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "webp" || $imageFileType == "gif") {
-            if (move_uploaded_file($image["tmp_name"], $target_file)) {
-                $name = uniqid();
-                $url = $targetDir . $folderName . "/" . basename($image["name"]);
-
-                if (rename($_SERVER["DOCUMENT_ROOT"] . $url, $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . $name . "." . $imageFileType)) {
-                    $url = $targetDir . $folderName . "/" . $name . "." . $imageFileType;
+            if ($image["size"] < 5000000) {
+                if (move_uploaded_file($image["tmp_name"], $target_file)) {
+                    return $url;
+                } else {
+                    newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
+                    return "Erreur lors de l'upload de l'image";
                 }
-
-                newLogs("Image upload", "Image uploadé avec succès : " . $url);
-                return $url;
             } else {
-                newLogs("error", "Erreur upload image (move_uploaded_file)");
+                newLogs("error", "Erreur lors de l'upload de l'image (imageSize)");
                 return "Erreur lors de l'upload de l'image";
             }
         } else {
