@@ -20,8 +20,8 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
     $password = htmlspecialchars($password);
     $vPassword = htmlspecialchars($vPassword);
 
-    //    Fait une vérification pour le mots de passe avec minimum 6 caractères et 1 chiffres
-    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{ 6,}$/", $password)) {
+    //    Fait une vérification pour le mots de passe avec minimum 6 caractères et minimum 1 chiffres et des caractères spéciaux, et peut etre écrit dans n'importe quel ordr
+    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $password)) {
         newLogs("CREATE USER ERROR", "Mots de passe incorrect");
         header("Location: /public/views/register.php?error=4&message=Le mot de passe doit contenir au moins 6 caractères et 1 chiffre");
         exit();
@@ -167,6 +167,27 @@ function updateUser($id, $username, $surname, $email, $password, $image)
     header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
 }
 
+function updateUserBiography($id, $biography)
+{
+    $biography = trim(htmlspecialchars($biography));
+    if ($biography == "") {
+        newLogs("Biography update", "Biographie vide");
+        return ["type" => "error", "message" => "Biographie vide"];
+    } else {
+        if (strlen($biography) > 500) {
+            newLogs("Biography update", "Biographie trop longue");
+            return ["type" => "error", "message" => "Biographie trop longue"];
+        } else {
+            $pdo = dbConnect();
+            $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$biography, date("Y-m-d H:i:s"), $id, $id]);
+            $_SESSION["user"]["biography"] = $biography;
+            newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
+            return ["type" => "success", "message" => "Biographie modifiée avec succès"];
+        }
+    }
+}
+
 function deleteUserProfile($id)
 {
     $pdo = dbConnect();
@@ -184,8 +205,9 @@ function deleteUserProfile($id)
             rmdir($_SERVER["DOCUMENT_ROOT"] . $folder);
         }
 
-        $stmt = $pdo->prepare("UPDATE users SET image = '' WHERE id = ?");
-        $stmt->execute([$id]);
+        $stmt = $pdo->prepare("UPDATE users SET image = '', updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([date("Y-m-d H:i:s"), $id, $id]);
+        $_SESSION["user"]["image"] = "";
 
         return ["type" => "success", "message" => "Image supprimée avec succès"];
     } else {
@@ -213,15 +235,15 @@ function updateUserProfile($id, $image)
             }
 
             $newUrl = uploadImage($image);
-            $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = ?");
-            $stmt->execute([$newUrl, $id]);
+            $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$newUrl, date("Y-m-d H:i:s"), $id, $id]);
 
             $_SESSION["user"]["image"] = $newUrl;
             newLogs("Image update", "Image modifiée avec succès : " . $newUrl);
         } else {
             $urlFile = uploadImage($image);
-            $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = ?");
-            $stmt->execute([$urlFile, $id]);
+            $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$urlFile, date("Y-m-d H:i:s"), $id, $id]);
             $_SESSION["user"]["image"] = $urlFile;
             newLogs("Image update", "Image modifiée avec succès : " . $urlFile);
         }
@@ -246,11 +268,17 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
 
     if ($user) {
         if ($newPass == $confirmNewPass) {
-            $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-            $stmt->execute([md5($newPass), $id]);
-            newLogs("Password update", "Mot de passe modifié avec succès pour l'utilisateur : " . $id);
-            return ["type" => "success", "message" => "Mot de passe modifié avec succès"];
-            exit;
+            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $newPass)) {
+                newLogs("CREATE USER ERROR", "Mots de passe incorrect");
+                return ["type" => "error", "message" => "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre"];
+                exit();
+            } else {
+                $stmt = $pdo->prepare("UPDATE users SET password = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+                $stmt->execute([md5($newPass), date("Y-m-d H:i:s"), $id, $id]);
+                newLogs("Password update", "Mot de passe modifié avec succès");
+                return ["type" => "success", "message" => "Mot de passe modifié avec succès"];
+                exit;
+            }
         } else {
             newLogs("Password update", "Les mots de passe ne correspondent pas");
             return ["type" => "error", "message" => "Les mots de passe ne correspondent pas"];
@@ -277,8 +305,8 @@ function updateUsername($id, $username)
         exit;
     } else {
         newLogs("Username update", "Nom d'utilisateur modifié avec succès");
-        $stmt = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
-        $stmt->execute([$username, $id]);
+        $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
         $_SESSION["user"]["username"] = $username;
         return ["type" => "success", "message" => "Nom d'utilisateur modifié avec succès"];
         exit;
@@ -311,6 +339,27 @@ function addPost($title, $description, $postCategoryId, $photo)
     }
 }
 
+function deleteUser($id, $password)
+{
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ? AND password = ?");
+    $stmt->execute([$id, md5($password)]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        $stmt = $pdo->prepare("UPDATE users SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([date("Y-m-d H:i:s"), $id ,$id]);
+        newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
+        return ["type" => "success", "message" => "Utilisateur supprimé avec succès"];
+        exit;
+    } else {
+        newLogs("DELETE USER", "Mot de passe incorrect");
+        return ["type" => "error", "message" => "Mot de passe incorrect"];
+        exit;
+    }
+
+}
+
 function uploadImage($image)
 {
     if (!$image["error"]) {
@@ -324,6 +373,14 @@ function uploadImage($image)
         if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "webp" || $imageFileType == "gif") {
             if ($image["size"] < 5000000) {
                 if (move_uploaded_file($image["tmp_name"], $target_file)) {
+                    $name = uniqid();
+                    $url = $targetDir . $folderName . "/" . basename($image["name"]);
+
+                    if (rename($_SERVER["DOCUMENT_ROOT"] . $url, $_SERVER["DOCUMENT_ROOT"] . $targetDir . $folderName . "/" . $name . "." . $imageFileType)) {
+                        $url = $targetDir . $folderName . "/" . $name . "." . $imageFileType;
+                    }
+
+                    newLogs("Image upload", "Image uploadé avec succès : " . $url);
                     return $url;
                 } else {
                     newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
@@ -459,3 +516,9 @@ function addCategory($name)
     }
 }
 
+function loginRestore($id){
+    $pdo = dbConnect();
+    
+    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+
+}
