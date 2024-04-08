@@ -48,7 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="px-4 py-6 flex flex-col items-center border-separate border-b sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm font-medium leading-6 text-gray-900">Photo de profil</dt>
                 <div class="flex flex-row items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
+                    <?php if($_SESSION["user"]["image"] != ""): ?>
+                        <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
+                    <?php else: ?>
+                        <div class="w-24 h-24 bg-gray-500 text-white rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-user text-5xl"></i>
+                        </div>
+                    <?php endif; ?>
                     <button id="btnUpdateProfile" data-modal-target="updateProfilPicture" data-modal-toggle="updateProfilPicture" class="font-medium text-indigo-600 hover:text-indigo-500" type="button">Modifier</button>
                 </div>
             </div>
