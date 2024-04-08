@@ -32,7 +32,7 @@ $config = parse_ini_file("../../../config.ini");
             </svg>
             <span class="sr-only">icon erreur</span>
         </div>
-        <div class="ms-3 text-sm font-normal"><?= $msgError ?></div>
+        <div class="ms-3 text-sm font-normal"><?= $_GET["message"] ?></div>
         <button type="button"
                 class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 data-dismiss-target="#toast-danger" aria-label="Close">
@@ -93,10 +93,10 @@ $config = parse_ini_file("../../../config.ini");
                     <span class="group-hover:text-gray-600">Mon compte</span>
                 </a>
             </li>
-            <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "ttt"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
-                <a href="index.php?page=null">
-                    <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
-                    <span class="group-hover:text-gray-600">Mon compte</span>
+            <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "mypost"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
+                <a href="index.php?page=mypost">
+                    <i class="fa-solid fa-folder mr-2 text-lg group-hover:text-cyan-400"></i>
+                    <span class="group-hover:text-gray-600">Mes postes</span>
                 </a>
             </li>
             <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "ttt"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
@@ -144,6 +144,9 @@ $config = parse_ini_file("../../../config.ini");
                 switch ($_GET["page"]):
                     case "myaccount":
                         require_once "myaccount.php";
+                        break;
+                    case "mypost":
+                        require_once "mypost.php";
                         break;
                     default:
                         require_once "myaccount.php";
