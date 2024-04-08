@@ -168,34 +168,6 @@ function updateUser($id, $username, $surname, $email, $password, $image)
     header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
 }
 
-function updateUserPassword($id, $password, $newPassword, $newPasswordConfirm)
-{
-    $password = htmlspecialchars($password);
-    $newPassword = htmlspecialchars($newPassword);
-    $newPasswordConfirm = htmlspecialchars($newPasswordConfirm);
-    $pdo = dbConnect();
-
-    $sql = "SELECT * FROM users WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-    $user = $stmt->fetch();
-
-    if ($user["password"] == md5($password)) {
-        if ($newPassword == $newPasswordConfirm) {
-            $hPassword = md5($newPassword);
-            $sql = "UPDATE users SET password = ? WHERE id = ?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$hPassword, $id]);
-
-            header("Location: ./index.php?success=1&message=Votre mot de passe a été modifié avec succès");
-        } else {
-            header("Location: ./index.php?error=1&message=Les mots de passe ne correspondent pas");
-        }
-    } else {
-        header("Location: ./index.php?error=2&message=Mot de passe incorrect");
-    }
-}
-
 function deleteUserProfile($id)
 {
     $pdo = dbConnect();
@@ -252,12 +224,42 @@ function updateUserProfile($id, $image)
             $stmt = $pdo->prepare("UPDATE users SET image = ? WHERE id = ?");
             $stmt->execute([$urlFile, $id]);
             $_SESSION["user"]["image"] = $urlFile;
-            newLogs("Image update", "Image modifiée avec succès : " . $newUrl);
+            newLogs("Image update", "Image modifiée avec succès : " . $urlFile);
         }
         return ["type" => "success", "message" => "Image modifiée avec succès"];
         exit;
     } else {
         return ["type" => "error", "message" => "Erreur lors de l'upload de l'image"];
+        exit;
+    }
+}
+
+function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
+{
+    $oldPass = htmlspecialchars(trim($oldPass));
+    $newPass = htmlspecialchars(trim($newPass));
+    $confirmNewPass = htmlspecialchars(trim($confirmNewPass));
+    $pdo = dbConnect();
+
+    $stmt = $pdo->prepare("SELECT users.password FROM users WHERE id = ? and password = ? and isActive = 1 and isDeleted = 0");
+    $stmt->execute([$id, md5($oldPass)]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        if ($newPass == $confirmNewPass) {
+            $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+            $stmt->execute([md5($newPass), $id]);
+            newLogs("Password update", "Mot de passe modifié avec succès pour l'utilisateur : " . $id);
+            return ["type" => "success", "message" => "Mot de passe modifié avec succès"];
+            exit;
+        } else {
+            newLogs("Password update", "Les mots de passe ne correspondent pas");
+            return ["type" => "error", "message" => "Les mots de passe ne correspondent pas"];
+            exit;
+        }
+    } else {
+        newLogs("Password update", "Mot de passe incorrect");
+        return ["type" => "error", "message" => "Mot de passe incorrect"];
         exit;
     }
 }
@@ -271,9 +273,11 @@ function updateUsername($id, $username)
     $isUsername = $stmt->fetch();
 
     if ($isUsername){
+        newLogs("Username update", "Nom d'utilisateur déjà utilisé");
         return ["type" => "error", "message" => "Nom d'utilisateur déjà utilisé"];
         exit;
     } else {
+        newLogs("Username update", "Nom d'utilisateur modifié avec succès");
         $stmt = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
         $stmt->execute([$username, $id]);
         $_SESSION["user"]["username"] = $username;
@@ -289,7 +293,7 @@ function addPost($title, $description, $postCategoryId, $photo)
     $pdo = dbConnect();
     $sql = "SELECT * FROM postCategory WHERE id = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
+    $stmt->execute([$postCategoryId]);
     $isCategory = $stmt->fetch();
     $reference = uniqid("post_", "true");
 
@@ -343,6 +347,7 @@ function uploadImage($image)
 function disconnect()
 {
     session_destroy();
+    newLogs("DISCONNECT", "Utilisateur déconnecté : " . $_SESSION["user"]["username"] . " - " . $_SESSION["user"]["email"]);
     header("Location: /index.php?success=1&message=Vous êtes déconnecté avec succès");
 }
 
@@ -382,6 +387,7 @@ function safeDelete($id)
     $sql = "UPDATE users SET isActive = 0 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
+    newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
 
     header("Location: /public/views/dashboard/setting.php");
 }
@@ -421,6 +427,7 @@ function safeRestore($id)
     $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
+    newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
 
     header("Location: /public/views/dashboard/setting.php");
 }
@@ -430,11 +437,8 @@ function addCategory($name)
     $name = htmlspecialchars(trim($name));
 
     $pdo = dbConnect();
-
     $sql = "SELECT * FROM postCategory where name = :name";
-
     $stmt = $pdo->prepare($sql);
-
     $stmt->execute([
         ":name" => $name
     ]);
@@ -443,10 +447,11 @@ function addCategory($name)
     $category = $stmt->fetch();
 
     if ($category) {
+        newLogs("CREATE CATEGORY", "Catégorie déjà existante : " . $name);
         header("Location: /public/views/insert_category.php?error=1&message=Catégorie déjà existante");
     } else {
+        newLogs("CREATE CATEGORY", "Catégorie ajoutée : " . $name);
         $stmt = $pdo->prepare("INSERT INTO postCategory (name) VALUES (?)");
-
         $stmt->execute([$name]);
 
         header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");

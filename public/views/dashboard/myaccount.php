@@ -19,6 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Username déjà existant.'</script>";
             }
         }
+    } elseif (isset($_POST["updatePasswordSubmit"])){
+        $oldPass = htmlspecialchars(trim($_POST["passwordOld"]));
+        $newPass = htmlspecialchars(trim($_POST["passwordNew"]));
+        $newPassConfirm = htmlspecialchars(trim($_POST["passwordNewConfirm"]));
+
+
     }
 }
 
