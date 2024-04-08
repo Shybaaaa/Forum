@@ -137,12 +137,12 @@ Toggle modal
         <form action="" method="post" class="mt-8 space-y-6">
             <div class="space-y-2">
                 <label for="email" class="block text-sm font-medium text-white">Adresse e-mail</label>
-                <input type="email" id="email" name="email"
+                <input type="email" aria-required="true" id="email" name="email"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="space-y-2">
                 <label for="password" class="block text-sm font-medium text-white">Mot de passe</label>
-                <input type="password" id="password" name="password"
+                <input type="password" aria-required="true" id="password" name="password"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="flex items-center justify-between">
@@ -152,8 +152,7 @@ Toggle modal
                     <label for="remember" class="ml-2 block text-sm font-medium text-white">Se souvenir de moi</label>
                 </div>
                 <div>
-                    <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition">Mot de
-                        passe oublié ?</a>
+                    <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition">Mot de passe oublié ?</a>
                 </div>
             </div>
             <div>
