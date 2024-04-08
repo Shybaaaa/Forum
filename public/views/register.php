@@ -70,13 +70,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-span-full">
                 <label for="photo" class="block text-sm font-medium text-white">Photo</label>
                 <div class="mt-2 flex items-center gap-x-3">
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                        name="image" aria-describedby="user_avatar_help" id="image" type="file">
+                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="image" aria-describedby="user_avatar_help" id="image" type="file">
                 </div>
             </div>
             <div class="space-y-2">
                 <label for="username" class="block text-sm font-medium text-white">Username</label>
-                <input type="text" name="username" id="username" autocomplete="username"
+                <input type="text" name="username" aria-required="true" id="username" autocomplete="username"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="col-span-full">
@@ -86,17 +85,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="space-y-2">
                 <label for="email" class="block text-sm font-medium text-white">Adresse e-mail</label>
-                <input type="email" id="email" name="email"
+                <input type="email" id="email" aria-required="true" name="email"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="space-y-2">
                 <label for="password" class="block text-sm font-medium text-white">Mot de passe</label>
-                <input type="password" id="password" name="password"
+                <input type="password" aria-required="true" id="password" name="password"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="space-y-2">
                 <label for="vpassword" class="block text-sm font-medium text-white">Entrez le même mot de passe</label>
-                <input type="password" id="vpassword" name="vpassword"
+                <input type="password" aria-required="true" id="vpassword" name="vpassword"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div>
