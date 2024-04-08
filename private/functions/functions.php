@@ -445,6 +445,11 @@ function getPosts($post)
     return $stmt->fetchAll();
 }
 
+function getPostUser($idUser, $isDeleted)
+{
+
+}
+
 function safeDelete($id)
 {
     $pdo = dbConnect();

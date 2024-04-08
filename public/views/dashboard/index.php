@@ -96,7 +96,7 @@ $config = parse_ini_file("../../../config.ini");
             <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "mypost"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
                 <a href="index.php?page=mypost">
                     <i class="fa-solid fa-folder mr-2 text-lg group-hover:text-cyan-400"></i>
-                    <span class="group-hover:text-gray-600">Mes postes</span>
+                    <span class="group-hover:text-gray-600">Mes posts</span>
                 </a>
             </li>
             <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "ttt"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
@@ -130,7 +130,7 @@ $config = parse_ini_file("../../../config.ini");
         </a>
     </div>
 </aside>
-<div class="ml-auto mb-6 overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+<div class="ml-auto mb-6 fixed top-0 right-0 overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
     <div class="flex items-center sticky z-40 top-0 h-16 bg-white lg:py-2.5">
         <div class="px-6 flex items-center justify-between ">
             <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">
