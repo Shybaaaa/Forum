@@ -340,6 +340,27 @@ function addPost($title, $description, $postCategoryId, $photo)
     }
 }
 
+function deleteUser($id, $password)
+{
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ? AND password = ?");
+    $stmt->execute([$id, md5($password)]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        $stmt = $pdo->prepare("UPDATE users SET isDeleted = 1 WHERE id = ?");
+        $stmt->execute([$id]);
+        newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
+        return ["type" => "success", "message" => "Utilisateur supprimé avec succès"];
+        exit;
+    } else {
+        newLogs("DELETE USER", "Mot de passe incorrect");
+        return ["type" => "error", "message" => "Mot de passe incorrect"];
+        exit;
+    }
+
+}
+
 function uploadImage($image)
 {
     if (!$image["error"]) {
