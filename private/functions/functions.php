@@ -20,8 +20,8 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
     $password = htmlspecialchars($password);
     $vPassword = htmlspecialchars($vPassword);
 
-    //    Fait une vérification pour le mots de passe avec minimum 6 caractères et 1 chiffres
-    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{ 6,}$/", $password)) {
+    //    Fait une vérification pour le mots de passe avec minimum 6 caractères et minimum 1 chiffres et des caractères spéciaux, et peut etre écrit dans n'importe quel ordr
+    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $password)) {
         newLogs("CREATE USER ERROR", "Mots de passe incorrect");
         header("Location: /public/views/register.php?error=4&message=Le mot de passe doit contenir au moins 6 caractères et 1 chiffre");
         exit();
@@ -269,7 +269,7 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
 
     if ($user) {
         if ($newPass == $confirmNewPass) {
-            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{ 6,}$/", $newPass)) {
+            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $newPass)) {
                 newLogs("CREATE USER ERROR", "Mots de passe incorrect");
                 return ["type" => "error", "message" => "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre"];
                 exit();
