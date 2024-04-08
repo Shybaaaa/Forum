@@ -180,8 +180,8 @@ function updateUserBiography($id, $biography)
             return ["type" => "error", "message" => "Biographie trop longue"];
         } else {
             $pdo = dbConnect();
-            $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ? WHERE id = ?");
-            $stmt->execute([$biography, date("Y-m-d H:i:s"), $id]);
+            $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$biography, date("Y-m-d H:i:s"), $id, $id]);
             $_SESSION["user"]["biography"] = $biography;
             newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
             return ["type" => "success", "message" => "Biographie modifiée avec succès"];
@@ -206,8 +206,8 @@ function deleteUserProfile($id)
             rmdir($_SERVER["DOCUMENT_ROOT"] . $folder);
         }
 
-        $stmt = $pdo->prepare("UPDATE users SET image = '' and updatedAt = ? WHERE id = ?");
-        $stmt->execute([date("Y-m-d H:i:s"),$id]);
+        $stmt = $pdo->prepare("UPDATE users SET image = '', updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([date("Y-m-d H:i:s"), $id, $id]);
         $_SESSION["user"]["image"] = "";
 
         return ["type" => "success", "message" => "Image supprimée avec succès"];
@@ -236,15 +236,15 @@ function updateUserProfile($id, $image)
             }
 
             $newUrl = uploadImage($image);
-            $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ? WHERE id = ?");
-            $stmt->execute([$newUrl, date("Y-m-d H:i:s"), $id]);
+            $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$newUrl, date("Y-m-d H:i:s"), $id, $id]);
 
             $_SESSION["user"]["image"] = $newUrl;
             newLogs("Image update", "Image modifiée avec succès : " . $newUrl);
         } else {
             $urlFile = uploadImage($image);
-            $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ? WHERE id = ?");
-            $stmt->execute([$urlFile, date("Y-m-d H:i:s"), $id]);
+            $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$urlFile, date("Y-m-d H:i:s"), $id, $id]);
             $_SESSION["user"]["image"] = $urlFile;
             newLogs("Image update", "Image modifiée avec succès : " . $urlFile);
         }
@@ -274,8 +274,8 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
                 return ["type" => "error", "message" => "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre"];
                 exit();
             } else {
-                $stmt = $pdo->prepare("UPDATE users SET password = ?, updatedAt = ? WHERE id = ?");
-                $stmt->execute([md5($newPass), date("Y-m-d H:i:s"), $id]);
+                $stmt = $pdo->prepare("UPDATE users SET password = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+                $stmt->execute([md5($newPass), date("Y-m-d H:i:s"), $id, $id]);
                 newLogs("Password update", "Mot de passe modifié avec succès");
                 return ["type" => "success", "message" => "Mot de passe modifié avec succès"];
                 exit;
@@ -306,8 +306,8 @@ function updateUsername($id, $username)
         exit;
     } else {
         newLogs("Username update", "Nom d'utilisateur modifié avec succès");
-        $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ? WHERE id = ?");
-        $stmt->execute([$username, date("Y-m-d H:i:s"), $id]);
+        $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
         $_SESSION["user"]["username"] = $username;
         return ["type" => "success", "message" => "Nom d'utilisateur modifié avec succès"];
         exit;
@@ -348,8 +348,8 @@ function deleteUser($id, $password)
     $user = $stmt->fetch();
 
     if ($user) {
-        $stmt = $pdo->prepare("UPDATE users SET isDeleted = 1, isActive = 0, updatedAt = ? WHERE id = ?");
-        $stmt->execute([date("Y-m-d H:i:s") ,$id]);
+        $stmt = $pdo->prepare("UPDATE users SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([date("Y-m-d H:i:s"), $id ,$id]);
         newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
         return ["type" => "success", "message" => "Utilisateur supprimé avec succès"];
         exit;
