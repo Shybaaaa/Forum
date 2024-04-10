@@ -72,9 +72,9 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", false);
                         </td>
                         <td class="px-6 py-5"><?= getNbComments($post["id"])["nbComments"] ?></td>
                         <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
-                            <button><i title="test" class="fa-solid fa-eye text-green-500"></i></button>
-                            <button><i class="fa-solid fa-pen-to-square text-gray-600"></i></button>
-                            <button><i class="fa-solid fa-trash text-red-600"></i></button>
+                            <button><i title="Masqué" class="fa-solid fa-eye text-green-500"></i></button>
+                            <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
+                            <button><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
