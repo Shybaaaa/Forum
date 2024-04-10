@@ -130,7 +130,19 @@ function loginUser($email, $password)
             ];
             header("Location: /index.php?success=1&message=Vous êtes connecté avec succès");
         } else {
-            header("Location: login.php?error=2");
+            $sql = "SELECT users.id FROM users WHERE email = ? and isActive = 0 and isDeleted = 0 and isBanned = 0 and password = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$email, $hPassword]);
+            $isUser = $stmt->fetch();
+
+            if ($isUser){
+                return [
+                    "id" => $isUser["id"],
+                    "isActive" => 0,
+                ];
+            } else {
+                header("Location: login.php?error=2");
+            }
         }
     } else {
         header("Location: login.php?error=3");

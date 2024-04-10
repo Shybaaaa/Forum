@@ -10,15 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($email) || empty($password)) {
         header("Location: login.php?error=1");
     } else {
-        loginUser($email, $password);
+        $status = loginUser($email, $password);
     }
 }
 
-
-if ($users["isActive"] ==0 ) {
-
-    loginRestore($users["id"]);
+if (isset($status)) {
+    print_r($status);
 }
+
 ?>
 
 <!doctype html>
