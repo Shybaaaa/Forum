@@ -559,13 +559,41 @@ function addCategory($name)
     }
 }
 
-function loginRestore($id){
+function getCategory($id)
+{
     $pdo = dbConnect();
-        $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+
+    if ($id === -1) {
+        $sql = "SELECT * FROM postCategory";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $tempCategory = $stmt->fetchAll();
+    } else {
+        $sql = "SELECT * FROM postCategory WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
+        $tempCategory = $stmt->fetch();
+    }
 
-        newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
-        
-    
+    return $tempCategory;
+}
+
+function getNbComments($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE postId = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch();
+}
+
+
+function loginRestore($id){
+    $pdo = dbConnect();
+    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
 }

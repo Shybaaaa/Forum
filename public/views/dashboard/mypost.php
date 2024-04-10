@@ -57,12 +57,25 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", false);
                 <tbody>
 
                 <?php foreach ($posts as $post): ?>
-                <?php print_r($post); ?>
+<!--                --><?php //print_r($post); ?>
                     <tr class="border-b dark:border-neutral-600">
                         <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
-                        <td class="px-6 py-5">$129.99</td>
-                        <td class="px-6 py-5">30</td>
-                        <td class="px-6 py-5">In Stock</td>
+                        <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
+                        <td class="px-6 py-5">
+                            <?php if ($post["status"] == "a"): ?>
+                                <span class="text-green-500 font-bold text-sm">En ligne</span>
+                            <?php elseif ($post["status"] == "b"): ?>
+                                <span class="text-orange-300 font-bold text-sm">Masqué</span>
+                            <?php elseif ($post["status"]  == "c"): ?>
+                                <span class="text-red-600 font-bold text-sm">Supprimé</span>
+                            <?php endif; ?>
+                        </td>
+                        <td class="px-6 py-5"><?= getNbComments($post["id"])["nbComments"] ?></td>
+                        <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
+                            <button><i title="test" class="fa-solid fa-eye text-green-500"></i></button>
+                            <button><i class="fa-solid fa-pen-to-square text-gray-600"></i></button>
+                            <button><i class="fa-solid fa-trash text-red-600"></i></button>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
 
@@ -71,51 +84,6 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", false);
             </table>
         </div>
 
-        <nav class="mt-5 flex items-center justify-between text-sm" aria-label="Page navigation example">
-            <p>
-                Showing <strong>1-5</strong> of <strong>10</strong>
-            </p>
 
-            <ul class="list-style-none flex">
-                <li>
-                    <a
-                            class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                            href="#!"
-                    >
-                        Previous
-                    </a>
-                </li>
-                <li>
-                    <a
-                            class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                            href="#!"
-                    >
-                        1
-                    </a>
-                </li>
-                <li aria-current="page">
-                    <a
-                            class="relative block rounded bg-blue-100 px-3 py-1.5 text-sm font-medium text-blue-700 transition-all duration-300"
-                            href="#!"
-                    >
-                        2
-                        <span class="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]">(current)</span>
-                    </a>
-                </li>
-                <li>
-                    <a
-                            class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                            href="#!"
-                    >
-                        3
-                    </a>
-                </li>
-                <li>
-                    <a class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white" href="#!">
-                        Next
-                    </a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </div>
