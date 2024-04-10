@@ -441,27 +441,26 @@ function getPosts($post)
 function getPostUser($idUser, $idPost, $isDeleted)
 {
     $pdo = dbConnect();
-    if (isset($isDeleted)){
-        $isDeleted = false;
-    }
 
     if (isset($idUser) && $idUser >= 0){
-        if (isset($idPost)){
-            $sql = "SELECT * FROM posts WHERE userId = ? and id = ?";
-            $sql = ($isDeleted) ? $sql . " and isDeleted = ?" : $sql;
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$idUser, $idPost, $isDeleted]);
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isDeleted = ?";
+        $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
+        $stmt = $pdo->prepare($sql);
 
+        if ($idPost != "all"){
+            $var = [
+                $idUser,
+                ($isDeleted) ? 1 : 0,
+                $idPost
+            ];
         } else {
-            $sql = "SELECT * FROM posts WHERE userId = ?";
-            $sql = ($isDeleted) ? $sql . " and isDeleted = ?" : $sql;
-            $sql = $sql . " and id = ?";
-            $stmt = $pdo->prepare($sql);
-
-            $valeur = [$idUser];
-
-            $stmt->execute([$idUser, $isDeleted]);
+            $var = [
+                $idUser,
+                ($isDeleted) ? 1 : 0
+            ];
         }
+        $stmt->execute($var);
+        return $stmt->fetchAll();
     } else {
         return "Erreur";
     }

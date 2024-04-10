@@ -1,9 +1,8 @@
 <?php
 
-$test = "test";
-$test2 = 2;
-$test3 = 3;
-$posts = [$test];
+
+
+$posts = getPostUser($_SESSION["user"]["id"], "all", false);
 
 ?>
 
@@ -58,10 +57,9 @@ $posts = [$test];
                 <tbody>
 
                 <?php foreach ($posts as $post): ?>
+                <?php print_r($post); ?>
                     <tr class="border-b dark:border-neutral-600">
-                        <th scope="row" class="px-6 py-5">
-                            Handbag
-                        </th>
+                        <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
                         <td class="px-6 py-5">$129.99</td>
                         <td class="px-6 py-5">30</td>
                         <td class="px-6 py-5">In Stock</td>
