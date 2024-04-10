@@ -1,3 +1,12 @@
+<?php
+
+$test = "test";
+$test2 = 2;
+$test3 = 3;
+$posts = [$test];
+
+?>
+
 <div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5">
     <!-- Table responsive wrapper -->
     <div class="overflow-x-auto h-full flex flex-col justify-between">
@@ -47,14 +56,17 @@
 
                 <!-- Table body -->
                 <tbody>
-                <tr class="border-b dark:border-neutral-600">
-                    <th scope="row" class="px-6 py-5">
-                        Handbag
-                    </th>
-                    <td class="px-6 py-5">$129.99</td>
-                    <td class="px-6 py-5">30</td>
-                    <td class="px-6 py-5">In Stock</td>
-                </tr>
+
+                <?php foreach ($posts as $post): ?>
+                    <tr class="border-b dark:border-neutral-600">
+                        <th scope="row" class="px-6 py-5">
+                            Handbag
+                        </th>
+                        <td class="px-6 py-5">$129.99</td>
+                        <td class="px-6 py-5">30</td>
+                        <td class="px-6 py-5">In Stock</td>
+                    </tr>
+                <?php endforeach; ?>
 
                 </tbody>
 
