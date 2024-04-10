@@ -148,9 +148,6 @@ $config = parse_ini_file("../../../config.ini");
                     case "mypost":
                         require_once "mypost.php";
                         break;
-                    default:
-                        require_once "myaccount.php";
-                        break;
                 endswitch;
             } else {
                 require_once "myaccount.php";
