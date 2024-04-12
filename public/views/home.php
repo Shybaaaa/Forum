@@ -23,12 +23,12 @@
                 <img class="w-full h-2/3" src="<?= $post["photo"] ?>">
             </a>
             <div class="bg-white flex flex-col justify-start p-6">
-                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technologie</a>
+                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4"><?= getCategory($post["postCategoryId"])["name"] ?></a>
                 <a href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="text-3xl font-bold hover:text-gray-700 pb-4"><?= $post["title"] ?></a>
                 <p href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="text-sm pb-3">
                     Créé par <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($post["createdBy"])["username"]  ?></a>, Publié le <?= $post["createdAt"] ?>
                 </p>
-                <a href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
+                <a href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="pb-6"><?= $post["description"] ?></a>
                 <!-- <a href="#" class="uppercase text-gray-800 hover:text-black">Afficher plus <i class="fas fa-arrow-right"></i></a> -->
             </div>
         </article>

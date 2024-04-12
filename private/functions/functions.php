@@ -15,11 +15,11 @@ function dbConnect()
 function addUser($username, $description, $email, $password, $vPassword, $image)
 {
 //    Déclaration des variables.
-    $username = htmlspecialchars($username);
-    $description = htmlspecialchars($description);
-    $email = htmlspecialchars($email);
-    $password = htmlspecialchars($password);
-    $vPassword = htmlspecialchars($vPassword);
+    $username = trim(htmlspecialchars($username));
+    $description = trim(htmlspecialchars($description));
+    $email = trim(htmlspecialchars($email));
+    $password = trim(htmlspecialchars($password));
+    $vPassword = trim(htmlspecialchars($vPassword));
 
     //    Fait une vérification pour le mots de passe avec minimum 6 caractères et minimum 1 chiffres et des caractères spéciaux, et peut etre écrit dans n'importe quel ordr
     if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $password)) {
@@ -628,11 +628,11 @@ function getNbComments($id)
 }
 
 
-function loginRestore(){
+function loginRestore($id){
     $pdo = dbConnect();
     $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+    $stmt->execute($id);
     
     newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
