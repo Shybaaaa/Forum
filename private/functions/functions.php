@@ -39,6 +39,16 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
             $stmt->execute([$username]);
             $isUsername = $stmt->fetch();
 
+            $lastRef = $pdo->query("SELECT reference FROM posts ORDER BY reference desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            } else {
+                $reference = "USE" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+            }
+        
+            $reference = "USE" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
             if ($isUsername) {
                 newLogs("CREATE USER ERROR", "Nom d'utilisateur déjà utilisé : " . $username);
                 header("Location: /public/views/register.php?error=3&message=Nom d'utilisateur déjà utilisé");
@@ -60,26 +70,26 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                     $pdo = dbConnect();
                     if ($description == "") {
                         if ($image == "") {
-                            $sql = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, ?)";
+                            $sql = "INSERT INTO users (username, email, password, createdAt, reference) VALUES (?, ?, ?, ?,?)";
                             $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s")]);
+                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $reference]);
                         } else {
                             $urlFile = uploadImage($image);
                             print_r($urlFile);
-                            $sql = "INSERT INTO users (username, email, password, createdAt, image) VALUES (?, ?, ?, ?, ?)";
+                            $sql = "INSERT INTO users (username, email, password, createdAt, image, reference) VALUES (?, ?, ?, ?, ?,?)";
                             $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile]);
+                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile, $reference]);
                         }
                     } else {
                         if ($image == "") {
-                            $sql = "INSERT INTO users (username, biography, email, password, createdAt) VALUES (?, ?, ?, ?, ?)";
+                            $sql = "INSERT INTO users (username, biography, email, password, createdAt? reference) VALUES (?, ?, ?, ?, ?,?)";
                             $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s")]);
+                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $reference]);
                         } else {
                             $urlFile = uploadImage($image);
-                            $sql = "INSERT INTO users (username, biography, email, password, createdAt, image) VALUES (?, ?, ?, ?, ?, ?)";
+                            $sql = "INSERT INTO users (username, biography, email, password, createdAt, image, reference) VALUES (?, ?, ?, ?, ?, ?, ?)";
                             $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile]);
+                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile, $reference]);
                         }
                     }
                 }

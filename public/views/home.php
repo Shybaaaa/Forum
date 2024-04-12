@@ -18,22 +18,30 @@
             <?php foreach (getPosts("all") as $post): ?>
                 <article class="flex flex-col shadow w-auto h-auto">
             <!-- Article Image -->
-            <a href="../../public/views/viewpost.php" class="hover:opacity-75">
+            <a href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="hover:opacity-75">
                 <img class="w-full h-2/3" src="<?= $post["photo"] ?>">
             </a>
             <div class="bg-white flex flex-col justify-start p-6">
                 <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technologie</a>
-                <a href="../../public/views/viewpost.php" class="text-3xl font-bold hover:text-gray-700 pb-4"><?= $post["title"] ?></a>
-                <p href="../../public/views/viewpost.php" class="text-sm pb-3">
+                <a href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="text-3xl font-bold hover:text-gray-700 pb-4"><?= $post["title"] ?></a>
+                <p href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="text-sm pb-3">
                     Créé par <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($post["createdBy"])["username"]  ?></a>, Publié le <?= $post["createdAt"] ?>
                 </p>
-                <a href="../../public/views/viewpost.php?ref=" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
+                <a href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
                 <!-- <a href="#" class="uppercase text-gray-800 hover:text-black">Afficher plus <i class="fas fa-arrow-right"></i></a> -->
             </div>
         </article>
         <?php endforeach; ?>
     </section>
-    
-    <!-- str_pad(1, 4, STR_PAD_LEFT) -->
+
+    <!-- $lastId = $db->query("SELECT id FROM posts ORDER BY id desc limit 1")->fetchColumn(); 
+
+    if ($lastId === null) {
+        $lastId = 0;
+    } else {
+        $reference = "ALB" . str_pad($lastId + 1, 4, "0", STR_PAD_LEFT);
+    }
+
+    $reference = "ALB" . str_pad($lastId + 1, 4, "0", STR_PAD_LEFT);-->
 </body>
 </html>
