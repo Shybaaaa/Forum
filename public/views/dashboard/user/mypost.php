@@ -1,8 +1,6 @@
 <?php
 
-
-
-$posts = getPostUser($_SESSION["user"]["id"], "all", false);
+$posts = getPostUser($_SESSION["user"]["id"], "all", true);
 
 ?>
 
@@ -24,8 +22,8 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", false);
             </span>
             </div>
             <div class="relative m-[2px] mb-3 float-right hidden sm:block">
-                <button type="button"
-                        class="bg-indigo-600 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
+                <button type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
+                    <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
                     Créer un poste
                 </button>
             </div>
@@ -72,9 +70,23 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", false);
                         </td>
                         <td class="px-6 py-5"><?= getNbComments($post["id"])["nbComments"] ?></td>
                         <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
-                            <button><i title="Masqué" class="fa-solid fa-eye text-green-500"></i></button>
+                            <?php if ($post["isDeleted"]): ?>
+                                <button disabled title="Désactivé"><i class="fa-solid fa-eye-slash text-gray-200"></i></button>
+                            <?php else: ?>
+                                <?php if($post["isActive"]): ?>
+                                    <button><i  class="fa-solid fa-eye text-green-500"></i></button>
+                                <?php else: ?>
+                                    <button><i  class="fa-solid fa-eye-slash text-orange-400"></i></button>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
                             <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
-                            <button><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
+
+                            <?php if(!$post["isDeleted"]): ?>
+                                <button><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
+                            <?php else: ?>
+                                <button><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

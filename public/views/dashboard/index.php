@@ -99,12 +99,31 @@ $config = parse_ini_file("../../../config.ini");
                     <span class="group-hover:text-gray-600">Mes posts</span>
                 </a>
             </li>
+            <?php if ($_SESSION["user"]["roleId"] > 1): ?>
             <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "ttt"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
-                <a href="index.php?page=null">
-                    <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
-                    <span class="group-hover:text-gray-600">Mon compte</span>
-                </a>
+                <button type="button" aria-controls="dropdown" data-collapse-toggle="dropdown">
+                    <i class="fa-solid fa-user-tie mr-2 text-lg group-hover:text-cyan-400"></i>
+                    <span class="group-hover:text-gray-600">Administration</span>
+                </button>
+                <ul id="dropdown" class="hidden py-2 space-y-2">
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateur</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tickets</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Signamelement</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Postes</a>
+                    </li>
+                </ul>
             </li>
+            <?php endif; ?>
             <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "ttt"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
                 <a href="index.php?page=null">
                     <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
@@ -143,14 +162,14 @@ $config = parse_ini_file("../../../config.ini");
             if (isset($_GET["page"])){
                 switch ($_GET["page"]):
                     case "myaccount":
-                        require_once "myaccount.php";
+                        require_once "user/myaccount.php";
                         break;
                     case "mypost":
-                        require_once "mypost.php";
+                        require_once "user/mypost.php";
                         break;
                 endswitch;
             } else {
-                require_once "myaccount.php";
+                require_once "user/myaccount.php";
             }
         ?>
     </div>
