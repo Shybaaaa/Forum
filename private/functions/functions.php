@@ -5,6 +5,7 @@ function dbConnect()
     $config = parse_ini_file(__DIR__ . "/../../config.ini");
     try {
         $pdo = new PDO("mysql:host=$config[DB_HOST];port=$config[DB_PORT];dbname=$config[DB_NAME];charset=utf8", $config['DB_USER'], $config["DB_PASS"]);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         header("Location: ./index.php?error=1&message=Erreur de connexion à la base de données");
     }
@@ -117,7 +118,7 @@ function loginUser($email, $password)
     $password = htmlspecialchars($password);
     $hPassword = md5($password);    // "Cryptage" du mots de passe entré par l'utilisateur
 
-    if (filter_var($email, FILTER_VALIDATE_EMAIL) and filter_var($password, FILTER_SANITIZE_STRING)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
@@ -347,8 +348,8 @@ function addPost($title, $description, $postCategoryId, $photo)
     $isCategory = $stmt->fetch();
     $reference = uniqid("post_", "true");
 
-    if ($isCategory) {
-        header("Location: /public/views/insert.php?error=3&message=catégorie non valide");
+    if (!$isCategory) {
+        header("Location: /index.php?error=3&message=catégorie non valide");
         exit();
     } else {
 
@@ -465,22 +466,40 @@ function getPostUser($idUser, $idPost, $isDeleted)
     $pdo = dbConnect();
 
     if (isset($idUser) && $idUser >= 0){
-        $sql = "SELECT * FROM posts WHERE createdBy = ? and isDeleted = ?";
-        $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
-        $stmt = $pdo->prepare($sql);
+        if ($isDeleted){
+            $sql = "SELECT * FROM posts WHERE createdBy = ?";
+            $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
+            $stmt = $pdo->prepare($sql);
 
-        if ($idPost != "all"){
-            $var = [
-                $idUser,
-                ($isDeleted) ? 1 : 0,
-                $idPost
-            ];
-        } else {
-            $var = [
-                $idUser,
-                ($isDeleted) ? 1 : 0
-            ];
+            if ($idPost != "all"){
+                $var = [
+                    $idUser,
+                    $idPost
+                ];
+            } else {
+                $var = [
+                    $idUser,
+                ];
+            }
+        } elseif(!$isDeleted) {
+            $sql = "SELECT * FROM posts WHERE createdBy = ? and isDeleted = ?";
+            $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
+            $stmt = $pdo->prepare($sql);
+
+            if ($idPost != "all"){
+                $var = [
+                    $idUser,
+                    ($isDeleted) ? 1 : 0,
+                    $idPost
+                ];
+            } else {
+                $var = [
+                    $idUser,
+                    ($isDeleted) ? 1 : 0,
+                ];
+            }
         }
+
         $stmt->execute($var);
         return $stmt->fetchAll();
     } else {

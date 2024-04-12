@@ -1899,6 +1899,10 @@ input:checked + .toggle-bg {
   margin-top: 2rem;
 }
 
+.mr-1\.5 {
+  margin-right: 0.375rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
