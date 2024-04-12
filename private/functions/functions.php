@@ -40,14 +40,12 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
             $stmt->execute([$username]);
             $isUsername = $stmt->fetch();
 
-            $lastRef = $pdo->query("SELECT reference FROM users ORDER BY reference desc limit 1")->fetchColumn(); 
+            $lastRef = $pdo->query("SELECT id FROM users ORDER BY id desc limit 1")->fetchColumn(); 
             if ($lastRef === null) {
                 $lastRef = 0;
-            } else {
-                $reference = "USE" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
             }
         
-            $reference = "USE" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+            $reference = "USE_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
             if ($isUsername) {
@@ -348,14 +346,12 @@ function addPost($title, $description, $postCategoryId, $photo)
     $isCategory = $stmt->fetch();
     $reference = uniqid("post_", "true");
 
-    $lastRef = $pdo->query("SELECT reference FROM posts ORDER BY reference desc limit 1")->fetchColumn(); 
-            if ($lastRef === null) {
-                $lastRef = 0;
-            } else {
-                $reference = "POS" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
-            }
-        
-            $reference = "POS" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+    $lastRef = $pdo->query("SELECT id FROM posts ORDER BY id desc limit 1")->fetchColumn(); 
+    if ($lastRef === null) {
+        $lastRef = 0;
+    } 
+
+    $reference = "POS_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
     if (!$isCategory) {
         header("Location: /index.php?error=3&message=catégorie non valide");
@@ -575,34 +571,30 @@ function addCategory($name)
     $name = htmlspecialchars(trim($name));
 
     $pdo = dbConnect();
-    $sql = "SELECT * FROM postCategory where name = :name";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare("SELECT * FROM postCategory where name = :name");
     $stmt->execute([
         ":name" => $name
     ]);
+
     $category = $stmt->fetch();
-
-    $lastRef = $pdo->query("SELECT reference FROM postCategory ORDER BY reference desc limit 1")->fetchColumn(); 
-            if ($lastRef === null) {
-                $lastRef = 0;
-            } else {
-                $reference = "CAT" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
-            }
-        
-            $reference = "CAT" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
-
-
 
     if ($category) {
         newLogs("CREATE CATEGORY", "Catégorie déjà existante : " . $name);
         header("Location: /public/views/insert_category.php?error=1&message=Catégorie déjà existante");
     } else {
         newLogs("CREATE CATEGORY", "Catégorie ajoutée : " . $name);
-        $stmt = $pdo->prepare("INSERT INTO postCategory (name) VALUES (?)");
-        $stmt->execute([$name]);
+
+        $lastRef = $pdo->query("SELECT id FROM postCategory ORDER BY id desc limit 1")->fetchColumn(); 
+        if ($lastRef === null) {
+            $lastRef = 0;
+        } 
+    
+        $reference = "CAT_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+    
+        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference) VALUES (?, ?)");
+        $stmt->execute([$name, $reference]);
 
         header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
-
     }
 }
 
