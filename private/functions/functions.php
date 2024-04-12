@@ -608,11 +608,11 @@ function getNbComments($id)
 }
 
 
-function loginRestore(){
+function loginRestore($id){
     $pdo = dbConnect();
     $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+    $stmt->execute($id);
     
     newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
