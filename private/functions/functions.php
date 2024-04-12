@@ -40,7 +40,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
             $stmt->execute([$username]);
             $isUsername = $stmt->fetch();
 
-            $lastRef = $pdo->query("SELECT reference FROM posts ORDER BY reference desc limit 1")->fetchColumn(); 
+            $lastRef = $pdo->query("SELECT reference FROM users ORDER BY reference desc limit 1")->fetchColumn(); 
             if ($lastRef === null) {
                 $lastRef = 0;
             } else {
@@ -348,16 +348,25 @@ function addPost($title, $description, $postCategoryId, $photo)
     $isCategory = $stmt->fetch();
     $reference = uniqid("post_", "true");
 
+    $lastRef = $pdo->query("SELECT reference FROM posts ORDER BY reference desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            } else {
+                $reference = "POS" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+            }
+        
+            $reference = "POS" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
     if (!$isCategory) {
         header("Location: /index.php?error=3&message=catégorie non valide");
         exit();
     } else {
 
-        $sql = "INSERT INTO posts (title, description, postCategoryId, photo) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference) VALUES (?, ?, ?, ?, ?)";
 
         $stmt = $pdo->prepare($sql);
 
-        $stmt->execute([$title, $description, $postCategoryId, $photo]);
+        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference]);
 
         header("Location: ./index.php");
     }
@@ -571,9 +580,18 @@ function addCategory($name)
     $stmt->execute([
         ":name" => $name
     ]);
-
-
     $category = $stmt->fetch();
+
+    $lastRef = $pdo->query("SELECT reference FROM postCategory ORDER BY reference desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            } else {
+                $reference = "CAT" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+            }
+        
+            $reference = "CAT" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
 
     if ($category) {
         newLogs("CREATE CATEGORY", "Catégorie déjà existante : " . $name);
