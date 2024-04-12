@@ -153,14 +153,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                 </svg>
                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Votres comptes a était désactiver, voulez vous le reactiver</h3>
-                <div class="flex flex-row items-center justify-center gap-x-1">
-                    <button data-modal-hide="restoreModal" data-modal-target="restoreModal" type="button" name="restore" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                        Oui
+                <form method="post" class="flex flex-row items-center justify-center gap-x-1">
+                    <button  data-modal-hide="restoreModal" data-modal-target="restoreModal" type="button" name="restore" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                    Oui
                     </button>
                     <button data-modal-hide="restoreModal" data-modal-target="restoreModal" type="button" class="py-2.5 px-5 ms-3 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                         Me connecter ou créer un autre compte
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
