@@ -5,6 +5,7 @@ function dbConnect()
     $config = parse_ini_file(__DIR__ . "/../../config.ini");
     try {
         $pdo = new PDO("mysql:host=$config[DB_HOST];port=$config[DB_PORT];dbname=$config[DB_NAME];charset=utf8", $config['DB_USER'], $config["DB_PASS"]);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         header("Location: ./index.php?error=1&message=Erreur de connexion à la base de données");
     }
@@ -107,7 +108,7 @@ function loginUser($email, $password)
     $password = htmlspecialchars($password);
     $hPassword = md5($password);    // "Cryptage" du mots de passe entré par l'utilisateur
 
-    if (filter_var($email, FILTER_VALIDATE_EMAIL) and filter_var($password, FILTER_SANITIZE_STRING)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
