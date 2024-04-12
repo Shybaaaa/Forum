@@ -38,7 +38,7 @@ $post = $stmt->fetch(PDO::FETCH_ASSOC);
                     <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4"><?= $post["postCategoryId"] ?></a>
                     <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4"><?= $post["title"] ?></a>
                     <p href="#" class="text-sm pb-3">
-                        Créé par <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($post["creatdedBy"])["username"]  ?></a>, Publié le <?= $post["createdAt"] ?>
+                        Créé par <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($post["createdBy"])["username"]  ?></a>, Publié le <?= $post["createdAt"] ?>
                     </p>
                     <a href="#" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
                 <!-- <a href="#" class="uppercase text-gray-800 hover:text-black">Afficher plus <i class="fas fa-arrow-right"></i></a> -->

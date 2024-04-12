@@ -25,7 +25,7 @@
                 <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">Technologie</a>
                 <a href="../../public/views/viewpost.php" class="text-3xl font-bold hover:text-gray-700 pb-4"><?= $post["title"] ?></a>
                 <p href="../../public/views/viewpost.php" class="text-sm pb-3">
-                    Créé par <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($post["creatdedBy"])["username"]  ?></a>, Publié le <?= $post["createdAt"] ?>
+                    Créé par <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($post["createdBy"])["username"]  ?></a>, Publié le <?= $post["createdAt"] ?>
                 </p>
                 <a href="../../public/views/viewpost.php?ref=" class="pb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..</a>
                 <!-- <a href="#" class="uppercase text-gray-800 hover:text-black">Afficher plus <i class="fas fa-arrow-right"></i></a> -->
