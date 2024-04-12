@@ -3,7 +3,7 @@ header("Location: /");
 require_once("../include/dark_mode.php") 
 ?>
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr" class="">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

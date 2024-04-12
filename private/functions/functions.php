@@ -114,13 +114,6 @@ function loginUser($email, $password)
         $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
-//    if ($users["isActive"] == 0){
-//
-//        $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
-//        $stmt = $pdo->prepare($sql);
-//        $stmt->execute([$id]);
-//        newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
-//    }
 
         $isUser = $stmt->fetch();
 
@@ -137,7 +130,19 @@ function loginUser($email, $password)
             ];
             header("Location: /index.php?success=1&message=Vous êtes connecté avec succès");
         } else {
-            header("Location: login.php?error=2");
+            $sql = "SELECT users.id FROM users WHERE email = ? and isActive = 0 and isDeleted = 0 and isBanned = 0 and password = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$email, $hPassword]);
+            $isUser = $stmt->fetch();
+
+            if ($isUser){
+                return [
+                    "id" => $isUser["id"],
+                    "isActive" => 0,
+                ];
+            } else {
+                header("Location: login.php?error=2");
+            }
         }
     } else {
         header("Location: login.php?error=3");
@@ -445,8 +450,33 @@ function getPosts($post)
     return $stmt->fetchAll();
 }
 
-function getPostUser($idUser, $isDeleted)
+function getPostUser($idUser, $idPost, $isDeleted)
 {
+    $pdo = dbConnect();
+
+    if (isset($idUser) && $idUser >= 0){
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isDeleted = ?";
+        $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
+        $stmt = $pdo->prepare($sql);
+
+        if ($idPost != "all"){
+            $var = [
+                $idUser,
+                ($isDeleted) ? 1 : 0,
+                $idPost
+            ];
+        } else {
+            $var = [
+                $idUser,
+                ($isDeleted) ? 1 : 0
+            ];
+        }
+        $stmt->execute($var);
+        return $stmt->fetchAll();
+    } else {
+        return "Erreur";
+    }
+
 
 }
 
@@ -529,9 +559,42 @@ function addCategory($name)
     }
 }
 
-function loginRestore($id){
+function getCategory($id)
+{
     $pdo = dbConnect();
-    
-    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
 
+    if ($id === -1) {
+        $sql = "SELECT * FROM postCategory";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $tempCategory = $stmt->fetchAll();
+    } else {
+        $sql = "SELECT * FROM postCategory WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $tempCategory = $stmt->fetch();
+    }
+
+    return $tempCategory;
+}
+
+function getNbComments($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE postId = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch();
+}
+
+
+function loginRestore(){
+    $pdo = dbConnect();
+    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    
+    newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
+    header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }

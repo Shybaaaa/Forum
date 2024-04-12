@@ -130,10 +130,10 @@ $config = parse_ini_file("../../../config.ini");
         </a>
     </div>
 </aside>
-<div class="ml-auto mb-6 fixed top-0 right-0 overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
-    <div class="flex items-center sticky z-40 top-0 h-16 bg-white lg:py-2.5">
+<div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+    <div class="flex items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5">
         <div class="px-6 flex items-center justify-between ">
-            <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">
+            <h5 hidden class="text-2xl text-gray-600 block font-medium">
                 Tableau de bord
             </h5>
         </div>
@@ -147,9 +147,6 @@ $config = parse_ini_file("../../../config.ini");
                         break;
                     case "mypost":
                         require_once "mypost.php";
-                        break;
-                    default:
-                        require_once "myaccount.php";
                         break;
                 endswitch;
             } else {
