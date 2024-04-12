@@ -5,18 +5,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_FILES["imageUpdate"]) && $_FILES["imageUpdate"]["error"] != 4) {
             $status = updateUserProfile($_SESSION["user"]["id"], $_FILES["imageUpdate"]);
             if ($status["type"] == "success") {
-                echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Image modifié avec succès.'</script>";
+                echo "<script>window.location.href = 'index.php?success=1&message=La photo de profil a bien été modifié.'</script>";
             } else {
-                echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Erreur avec l\'upload de l\'image.'</script>";
+                echo "<script>window.location.href = 'index.php'</script>";
             }
         }
     } elseif (isset($_POST["updateUsernameSubmit"])) {
         if (isset($_POST["updateUsernameField"])){
             $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
             if ($status["type"] == "success") {
-                echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Username modifié avec succès'</script>";
+                echo "<script>window.location.href = 'index.php?success=1&message=Le nom d\'utilisateur a bien été modifié.'</script>";
             } else {
-                echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Username déjà existant.'</script>";
+                echo "<script>window.location.href = 'index.php'</script>";
             }
         }
     } elseif (isset($_POST["updatePasswordSubmit"])){
@@ -25,31 +25,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $newPassConfirm = htmlspecialchars(trim($_POST["passwordNewConfirm"]));
         $status = updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Mots de passe modifié avec succès.'</script>";
+            echo "<script>window.location.href = 'index.php?success=1&message=La mots de passe a été modifié avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Erreur lors de la modification du mots de passe.'</script>";
+            echo "<script>window.location.href = 'index.php'</script>";
         }
     } elseif (isset($_POST["updateDescSubmit"])){
         $status = updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Description modifié avec succès.'</script>";
+            echo "<script>window.location.href = 'index.php?success=1&message=La biographie a été modifié avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Erreur lors de la modification de la description.'</script>";
+            echo "<script>window.location.href = 'index.php'</script>";
         }
     } elseif (isset($_POST["deleteProfilePicture"])){
         $status = deleteUserProfile($_SESSION["user"]["id"]);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = './index.php?page=myaccount&success=1&message=Image supprimé avec succès.'</script>";
+            echo "<script>window.location.href = 'index.php?success=1&message=La photo de profil a été supprimé avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Erreur lors de la suppression de l'image.'</script>";
+            echo "<script>window.location.href = 'index.php'</script>";
         }
     } elseif (isset($_POST["deleteProfile"])){
         $status = deleteUser($_SESSION["user"]["id"], $_POST["password"]);
         if ($status["type"] == "success") {
             session_destroy();
-            echo "<script>window.location.href = '/public/views/login.php?success=1&message=Compte a été supprimé avec succès !'</script>";
+            echo "<script>window.location.href = '../../login.php?success=1&message=Compte supprimer avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = './index.php?page=myaccount&error=1&message=Mots de passe incorrect.'</script>";
+            echo "<script>window.location.href = 'index.php'</script>";
         }
     }
 }
