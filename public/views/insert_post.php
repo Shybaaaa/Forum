@@ -4,7 +4,7 @@ require_once "../../private/functions/functions.php";
 
 $pdo = dbConnect();
 
-$sql = "SELECT * FROM postCategory";
+$sql = "SELECT * FROM `postCategory`";
 
 $stmt = $pdo->query($sql);
 
