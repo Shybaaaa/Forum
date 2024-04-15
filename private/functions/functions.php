@@ -637,3 +637,10 @@ function loginRestore($id){
     newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
+
+function comments($title, $postId, $message, $fromTo){
+    $pdo = dbConnect();
+    $sql = "INSERT INTO comments (title, postId, message, fromTo) values ( ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$title, $postId, $message, $fromTo]);
+}
