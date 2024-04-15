@@ -31,9 +31,10 @@
                 <a href="../../public/views/viewpost.php?id=<?= $post["id"] ?>" class="pb-6"><?= $post["description"] ?></a>
                 <!-- <a href="#" class="uppercase text-gray-800 hover:text-black">Afficher plus <i class="fas fa-arrow-right"></i></a> -->
             </div>
-        </article>
-        <?php endforeach; ?>
-    </section>
+                </article>
+            <?php endforeach; ?>
+        </section>
+    </div>
 
     <!-- $lastId = $db->query("SELECT id FROM posts ORDER BY id desc limit 1")->fetchColumn(); 
 
