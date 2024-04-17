@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once "../../private/functions/functions.php";
 
 $pdo = dbConnect();
@@ -13,7 +13,7 @@ $postCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = htmlspecialchars($_POST["title"]);
     $description = htmlspecialchars($_POST["description"]);
-    addPost($_POST["title"], $_POST["description"], $_POST["postCategoryId"], uploadImage($_FILES["image"]));
+    addPost($_POST["title"], $_POST["description"], $_POST["postCategoryId"], uploadImage($_FILES["image"]), $_SESSION["user"]["id"]);
 } 
 
 ?>
