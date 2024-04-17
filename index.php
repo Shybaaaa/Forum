@@ -48,7 +48,7 @@ if (isset($_SESSION["user"])) {
 
 <div>
     <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 rounded-r-2xl ring-1 ring-white/5">
+        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5">
             <div class="flex h-16 shrink-0 items-center">
                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white"><?= $config["APP_NAME"] ?></h4>
             </div>
