@@ -71,9 +71,9 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                             <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
 
                             <?php if(!$post["isDeleted"]): ?>
-                                <button><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
+                                <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $post["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
                             <?php else: ?>
-                                <button><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
+                                <button value="<?= $post["id"]?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -83,3 +83,38 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
         </div>
     </div>
 </div>
+
+
+<script>
+    // set the modal menu element
+    const $modalRestaure = document.getElementById('modalRestore');
+
+    // options with default values
+    const options = {
+        placement: 'center',
+        backdrop: 'dynamic',
+        backdropClasses:
+            'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+        closable: true,
+        onHide: () => {
+            console.log('modal is hidden');
+        },
+        onShow: () => {
+            console.log('modal is shown');
+        },
+        onToggle: () => {
+            console.log('modal has been toggled');
+        },
+    };
+
+    // instance options object
+    const instanceOptions = {
+        id: 'modalRestore',
+        override: true
+    };
+
+    const modal = new $modalRestaure($modalRestaure, options, instanceOptions);
+</script>
+
+
+
