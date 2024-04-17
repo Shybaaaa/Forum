@@ -46,7 +46,7 @@ $categorys = getCategory(-1);
                 <tbody>
                 <?php foreach ($categorys as $category): ?>
                     <tr class="border-b dark:border-neutral-600">
-                        <th scope="row" class="px-6 py-5"><?= $category["name"] ?></th>
+                        <th scope="row" class="px-6 py-5"><?= ucfirst($category["name"]) ?></th>
                         <td class="px-6 py-5"><?= getNbposts($category["id"])["nbPosts"] ?></td>
                         <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
                             <?php if ($category["isDeleted"]): ?>
