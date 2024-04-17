@@ -1906,9 +1906,6 @@ input:checked + .toggle-bg {
   margin-top: 2rem;
 }
 
-.mt-auto {
-  margin-top: auto;
-}
 
 .box-border {
   box-sizing: border-box;
@@ -3916,6 +3913,11 @@ input:checked + .toggle-bg {
 .rounded-t-xl {
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
+}
+
+.rounded-r-2xl {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 .rounded-bl {
@@ -7345,11 +7347,6 @@ input:checked + .toggle-bg {
 .group:hover .group-hover\:text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(224 36 36 / var(--tw-text-opacity));
-}
-
-.group:hover .group-hover\:text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 :is(.dark .dark\:divide-gray-600) > :not([hidden]) ~ :not([hidden]) {
