@@ -336,7 +336,7 @@ function updateUsername($id, $username)
 }
 
 
-function addPost($title, $description, $postCategoryId, $photo)
+function addPost($title, $description, $postCategoryId, $photo, $id)
 {
 
     $pdo = dbConnect();
@@ -358,11 +358,11 @@ function addPost($title, $description, $postCategoryId, $photo)
         exit();
     } else {
 
-        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference, createdAt, createdBy) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         $stmt = $pdo->prepare($sql);
 
-        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference]);
+        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference, date("Y-m-d H:i:s"), $id]);
 
         header("Location: ./index.php");
     }
@@ -566,7 +566,7 @@ function getRole($id)
 }
 
 
-function addCategory($name)
+function addCategory($name, $id)
 {
     $name = htmlspecialchars(trim($name));
 
@@ -591,8 +591,8 @@ function addCategory($name)
     
         $reference = "CAT_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
     
-        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference) VALUES (?, ?)");
-        $stmt->execute([$name, $reference]);
+        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference, createdAt, createdBy) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$name, $reference, date("Y-m-d H:i:s"), $id]);
 
         header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
     }
