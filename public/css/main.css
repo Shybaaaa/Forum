@@ -3936,6 +3936,11 @@ input:checked + .toggle-bg {
   border-top-right-radius: 0.75rem;
 }
 
+.rounded-r-2xl {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
 .rounded-bl {
   border-bottom-left-radius: 0.25rem;
 }
