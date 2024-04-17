@@ -628,7 +628,8 @@ function getNbComments($id)
 }
 
 
-function loginRestore($id){
+function loginRestore($id)
+{
     $pdo = dbConnect();
     $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
@@ -638,7 +639,8 @@ function loginRestore($id){
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function AddComment($title, $postId, $message, $fromTo){
+function addComment($title, $postId, $message, $fromTo)
+{
     $pdo = dbConnect();
     $sql = "INSERT INTO comments (title, postId, message, fromTo) values ( ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
