@@ -644,3 +644,13 @@ function AddComment($title, $postId, $message, $fromTo){
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$title, $postId, $message, $fromTo]);
 }
+
+function getNbPosts($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE postCategoryId = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch();
+}
