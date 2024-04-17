@@ -116,10 +116,10 @@ $config = parse_ini_file("../../../config.ini");
                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tickets</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Signamelement</a>
+                        <a href="index.php?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Postes</a>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
                     </li>
                 </ul>
             </li>
@@ -155,6 +155,8 @@ $config = parse_ini_file("../../../config.ini");
                     case "mypost":
                         require_once "user/mypost.php";
                         break;
+                    case "adminCategory":
+                        require_once "admin/category.php";
                 endswitch;
             } else {
                 require_once "user/myaccount.php";
