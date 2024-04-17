@@ -81,7 +81,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                         }
                     } else {
                         if ($image == "") {
-                            $sql = "INSERT INTO users (username, biography, email, password, createdAt? reference) VALUES (?, ?, ?, ?, ?,?)";
+                            $sql = "INSERT INTO users (username, biography, email, password, createdAt, reference) VALUES (?, ?, ?, ?, ?,?)";
                             $stmt = $pdo->prepare($sql);
                             $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $reference]);
                         } else {
