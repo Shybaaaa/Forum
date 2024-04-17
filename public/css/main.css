@@ -1363,6 +1363,10 @@ input:checked + .toggle-bg {
   left: 100%;
 }
 
+.top-2\.5 {
+  top: 0.625rem;
+}
+
 .isolate {
   isolation: isolate;
 }
