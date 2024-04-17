@@ -413,19 +413,19 @@ function uploadImage($image)
                     return $url;
                 } else {
                     newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
-                    return "Erreur lors de l'upload de l'image";
+                    return "";
                 }
             } else {
                 newLogs("error", "Erreur lors de l'upload de l'image (imageSize)");
-                return "Erreur lors de l'upload de l'image";
+                return "";
             }
         } else {
             newLogs("error", "Erreur lors de l'upload de l'image (imageFileType)");
-            return "Erreur lors de l'upload de l'image";
+            return "";
         }
     } else {
         newLogs("error", "Erreur lors de l'upload de l'image (error)");
-        return "Erreur lors de l'upload de l'image";
+        return "";
     }
 }
 
