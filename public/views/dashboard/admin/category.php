@@ -1,6 +1,7 @@
 <?php
+require_once "../../../private/functions/functions.php";
 
-$posts = getPostUser($_SESSION["user"]["id"], "all", true);
+$categorys = getCategory(-1);
 
 ?>
 
@@ -17,9 +18,9 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
             </span>
             </div>
             <div class="relative m-[2px] mb-3 float-right hidden sm:block">
-                <a href="../../../public/views/insert_post.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
+                <a href="../../../public/views/insert_category.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                     <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
-                    Créer un post
+                    Créer une catégorie
                 </a>
             </div>
             <table class="min-w-full text-left text-xs whitespace-nowrap">
@@ -28,14 +29,14 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                     <th scope="col" class="px-6 py-5">
                         Titre
                     </th>
-                    <th scope="col" class="px-6 py-5">
+                    <!-- <th scope="col" class="px-6 py-5">
                         Catégorie
-                    </th>
-                    <th scope="col" class="px-6 py-5">
+                    </th> -->
+                    <!-- <th scope="col" class="px-6 py-5">
                         Status
-                    </th>
+                    </th> -->
                     <th scope="col" class="px-6 py-5">
-                        Commentaires
+                        Posts
                     </th>
                     <th scope="col" class="px-6 py-5">
                         Actions
@@ -43,25 +44,15 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($posts as $post): ?>
+                <?php foreach ($categorys as $category): ?>
                     <tr class="border-b dark:border-neutral-600">
-                        <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
-                        <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
-                        <td class="px-6 py-5">
-                            <?php if ($post["status"] == "a"): ?>
-                                <span class="text-green-500 font-bold text-sm">En ligne</span>
-                            <?php elseif ($post["status"] == "b"): ?>
-                                <span class="text-orange-300 font-bold text-sm">Masqué</span>
-                            <?php elseif ($post["status"]  == "c"): ?>
-                                <span class="text-red-600 font-bold text-sm">Supprimé</span>
-                            <?php endif; ?>
-                        </td>
-                        <td class="px-6 py-5"><?= getNbComments($post["id"])["nbComments"] ?></td>
+                        <th scope="row" class="px-6 py-5"><?= ucfirst($category["name"]) ?></th>
+                        <td class="px-6 py-5"><?= getNbposts($category["id"])["nbPosts"] ?></td>
                         <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
-                            <?php if ($post["isDeleted"]): ?>
+                            <?php if ($category["isDeleted"]): ?>
                                 <button disabled title="Désactivé"><i class="fa-solid fa-eye-slash text-gray-200"></i></button>
                             <?php else: ?>
-                                <?php if($post["isActive"]): ?>
+                                <?php if($category["isActive"]): ?>
                                     <button><i  class="fa-solid fa-eye text-green-500"></i></button>
                                 <?php else: ?>
                                     <button><i  class="fa-solid fa-eye-slash text-orange-400"></i></button>
@@ -70,10 +61,10 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 
                             <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
 
-                            <?php if(!$post["isDeleted"]): ?>
-                                <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $post["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
+                            <?php if(!$category["isDeleted"]): ?>
+                                <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $category["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
                             <?php else: ?>
-                                <button value="<?= $post["id"]?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
+                                <button value="<?= $category["id"]?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -83,7 +74,6 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
         </div>
     </div>
 </div>
-
 
 <script>
     // set the modal menu element
@@ -115,6 +105,3 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 
     const modal = new $modalRestaure($modalRestaure, options, instanceOptions);
 </script>
-
-
-
