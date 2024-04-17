@@ -1,7 +1,10 @@
 <?php 
 
+
 require_once "../../private/functions/functions.php";
 
+require_once '../../private/functions/functions.php';
+// require_once '../../public/include/navbar.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,6 +12,9 @@ require_once "../../private/functions/functions.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="/public/css/main.css">
+
 </head>
 <body>
 
@@ -45,8 +51,6 @@ require_once "../../private/functions/functions.php";
         </div>
     </div>
 </form>
-
-<script src="https://kit.fontawesome.com/abcb30c057.js"></script>
-<script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
+<?php require_once "../../public/include/footer.php"; ?>
 </body>
 </html>
