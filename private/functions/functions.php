@@ -336,7 +336,7 @@ function updateUsername($id, $username)
 }
 
 
-function addPost($title, $description, $postCategoryId, $photo)
+function addPost($title, $description, $postCategoryId, $photo, $id)
 {
 
     $pdo = dbConnect();
@@ -358,11 +358,11 @@ function addPost($title, $description, $postCategoryId, $photo)
         exit();
     } else {
 
-        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference, createdAt, createdBy) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         $stmt = $pdo->prepare($sql);
 
-        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference]);
+        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference, date("Y-m-d H:i:s"), $id]);
 
         header("Location: ./index.php");
     }
@@ -413,19 +413,19 @@ function uploadImage($image)
                     return $url;
                 } else {
                     newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
-                    return "Erreur lors de l'upload de l'image";
+                    return "";
                 }
             } else {
                 newLogs("error", "Erreur lors de l'upload de l'image (imageSize)");
-                return "Erreur lors de l'upload de l'image";
+                return "";
             }
         } else {
             newLogs("error", "Erreur lors de l'upload de l'image (imageFileType)");
-            return "Erreur lors de l'upload de l'image";
+            return "";
         }
     } else {
         newLogs("error", "Erreur lors de l'upload de l'image (error)");
-        return "Erreur lors de l'upload de l'image";
+        return "";
     }
 }
 
@@ -566,7 +566,7 @@ function getRole($id)
 }
 
 
-function addCategory($name)
+function addCategory($name, $id)
 {
     $name = htmlspecialchars(trim($name));
 
@@ -591,8 +591,8 @@ function addCategory($name)
     
         $reference = "CAT_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
     
-        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference) VALUES (?, ?)");
-        $stmt->execute([$name, $reference]);
+        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference, createdAt, createdBy) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$name, $reference, date("Y-m-d H:i:s"), $id]);
 
         header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
     }
@@ -639,12 +639,21 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function addComment($title, $postId, $message, $fromTo)
+function addComment($title, $postId, $message, $fromTo, $reference)
 {
     $pdo = dbConnect();
-    $sql = "INSERT INTO comments (title, postId, message, fromTo) values ( ?, ?, ?, ?)";
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            }
+        
+            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
+    $sql = "INSERT INTO comments (title, postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$title, $postId, $message, $fromTo]);
+    $stmt->execute([$title, $postId, $message, $fromTo, $reference]);
 }
 
 function getNbPosts($id)

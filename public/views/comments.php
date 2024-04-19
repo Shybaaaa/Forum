@@ -1,9 +1,7 @@
 <?php 
 
-
+$config = parse_ini_file("/config.ini");
 require_once "../../private/functions/functions.php";
-
-require_once '../../private/functions/functions.php';
 // require_once '../../public/include/navbar.php';
 ?>
 <!DOCTYPE html>
