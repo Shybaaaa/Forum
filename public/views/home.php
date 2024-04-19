@@ -7,8 +7,8 @@ $post
 
 <div class="container max-w-screen gap-y-3 overflow-y-hidden min-h-screen flex flex-wrap py-6">
     <?php foreach($categorys as $category): ?>
-        <section class="w-[80%] h-fit rounded-lg shadow-md  max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden">
-            <div class="mb-2 flex flex-row items-center justify-between">
+        <section class="w-[80%] h-fit rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden">
+            <div class="mb-2 flex flex-row border-b-2 h-16 items-center justify-between">
                 <h1 class="text-lg text-black font-bold"><a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="inline-flex items-center"><i class="fa-solid fa-<?= $category["icons"]?> bg-indigo-500 text-white p-2 rounded-full shadow-md  mr-3"></i><?= ucfirst($category["name"]) ?></a></h1>
                 <a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="text-sm font-sans font-medium text-indigo-600 hover:text-indigo-500 transition-all">Voir plus</a>
             </div>
@@ -28,9 +28,9 @@ $post
                                     <span class="text-sm text-gray-400">Messages</span>
                                 </div>
                                 <div class="flex flex-col gap-y-2">
-                                    <div class="flex flex-row items-center gap-x-2">
-                                        <i class="fa-solid fa-user text-gray-500"></i>
-                                        <p class="text-sm text-gray-500"><?= getUser($postCategory["createdBy"])["username"] ?></p>
+                                    <div class="flex flex-row items-center gap-x-2 group">
+                                        <i class="fa-solid fa-user text-gray-500 transition-all duration-75"></i>
+                                        <a href="index.php?page=profil&ref=<?= getUser($postCategory["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150"><?= getUser($postCategory["createdBy"])["username"] ?></a>
                                     </div>
                                     <div class="flex flex-row items-center gap-x-2">
                                         <i class="fa-solid fa-calendar text-gray-500"></i>
