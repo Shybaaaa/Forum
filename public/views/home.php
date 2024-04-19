@@ -13,6 +13,7 @@ $post
                 <a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="text-sm font-sans font-medium text-indigo-600 hover:text-indigo-500 transition-all">Voir plus</a>
             </div>
             <div>
+
                 <?php print_r(getPostsWhereCat($category["id"], 3, "desc")); ?>
             </div>
         </section>

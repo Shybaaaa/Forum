@@ -43,6 +43,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                 </tr>
                 </thead>
                 <tbody>
+                <?php if ($posts): ?>
                 <?php foreach ($posts as $post): ?>
                     <tr class="border-b dark:border-neutral-600">
                         <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
@@ -78,6 +79,11 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                         </td>
                     </tr>
                 <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" class="text-center italic text-gray-500 py-5">Vous n'avez encore posté aucun poste.</td>
+                    </tr>
+                <?php endif; ?>
                 </tbody>
             </table>
         </div>
