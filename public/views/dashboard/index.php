@@ -121,6 +121,9 @@ $config = parse_ini_file("../../../config.ini");
                     <li>
                         <a href="index.php?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
                     </li>
+                    <li>
+                        <a href="index.php?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
+                    </li>
                 </ul>
             </li>
             <?php endif; ?>
@@ -163,6 +166,9 @@ $config = parse_ini_file("../../../config.ini");
                         break;
                     case "adminPost":
                         require_once "admin/post.php";
+                        break;
+                    case "adminRole":
+                        require_once "admin/role.php";
                         break;
 
                 endswitch;

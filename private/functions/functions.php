@@ -120,7 +120,7 @@ function loginUser($email, $password)
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
-        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
+        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
 
@@ -660,6 +660,16 @@ function getNbPosts($id)
 {
     $pdo = dbConnect();
     $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE postCategoryId = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch();
+}
+
+function getNbUsers($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbUsers FROM users WHERE roleId = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 
