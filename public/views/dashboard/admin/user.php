@@ -61,7 +61,7 @@ $users = getUser(-1);
                             <?php endif; ?>
                         </td>
                         <td class="px-6 py-5"><?= ucfirst(getNbPosts($user["id"])["nbPosts"]) ?></td>
-                        <td class="px-6 py-5"><?= getNbComments($user["id"])["nbComments"] ?></td>
+                        <td class="px-6 py-5"><?= getNbCommentsForUser($user["id"])["nbComments"] ?></td>
                         <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
                             <?php if ($user["isDeleted"]): ?>
                                 <button disabled title="Désactivé"><i class="fa-solid fa-eye-slash text-gray-200"></i></button>
