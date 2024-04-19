@@ -113,6 +113,9 @@ if (isset($_SESSION["user"])) {
                         case "viewpost":
                             require_once "public/views/viewpost.php";
                             break;
+                        case "viewCategory":
+                            require_once "public/views/viewCategory.php";
+                            break;
                         default:
                             require_once "public/views/home.php";
                             break;
