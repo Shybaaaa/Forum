@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once "../../private/functions/functions.php";
 
 $pdo = dbConnect();
@@ -14,7 +14,7 @@ $addCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["newCategory"])) {
     $name = htmlspecialchars($_POST["nameCategory"]);
-    addCategory($name);
+    addCategory($name, $_SESSION["user"]["id"]);
 }
 ?>
 

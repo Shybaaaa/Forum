@@ -1,5 +1,7 @@
 <?php 
+
 require_once "../../private/functions/functions.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

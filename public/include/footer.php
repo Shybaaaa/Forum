@@ -1,6 +1,8 @@
+
 <?php $config = 
 parse_ini_file(__DIR__ . "/../../config.ini") 
 ?>
+
 
 <footer class="w-full bottom-0">
     <p class="text-center">&copy; 2024 - Tous droits sont réservés à <?= $config["APP_NAME"] ?></p>

@@ -22,7 +22,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
     $vPassword = trim(htmlspecialchars($vPassword));
 
     //    Fait une vérification pour le mots de passe avec minimum 6 caractères et minimum 1 chiffres et des caractères spéciaux, et peut etre écrit dans n'importe quel ordr
-    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $password)) {
+    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&.]{6,}$/", $password)) {
         newLogs("CREATE USER ERROR", "Mots de passe incorrect");
         header("Location: /public/views/register.php?error=4&message=Le mot de passe doit contenir au moins 6 caractères et 1 chiffre");
         exit();
@@ -290,7 +290,7 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
 
     if ($user) {
         if ($newPass == $confirmNewPass) {
-            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $newPass)) {
+            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&.]{6,}$/", $newPass)) {
                 newLogs("CREATE USER ERROR", "Mots de passe incorrect");
                 return ["type" => "error", "message" => "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre"];
                 exit();
@@ -336,7 +336,7 @@ function updateUsername($id, $username)
 }
 
 
-function addPost($title, $description, $postCategoryId, $photo)
+function addPost($title, $description, $postCategoryId, $photo, $id)
 {
 
     $pdo = dbConnect();
@@ -358,11 +358,11 @@ function addPost($title, $description, $postCategoryId, $photo)
         exit();
     } else {
 
-        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference, createdAt, createdBy) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         $stmt = $pdo->prepare($sql);
 
-        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference]);
+        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference, date("Y-m-d H:i:s"), $id]);
 
         header("Location: ./index.php");
     }
@@ -413,19 +413,19 @@ function uploadImage($image)
                     return $url;
                 } else {
                     newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
-                    return "Erreur lors de l'upload de l'image";
+                    return "";
                 }
             } else {
                 newLogs("error", "Erreur lors de l'upload de l'image (imageSize)");
-                return "Erreur lors de l'upload de l'image";
+                return "";
             }
         } else {
             newLogs("error", "Erreur lors de l'upload de l'image (imageFileType)");
-            return "Erreur lors de l'upload de l'image";
+            return "";
         }
     } else {
         newLogs("error", "Erreur lors de l'upload de l'image (error)");
-        return "Erreur lors de l'upload de l'image";
+        return "";
     }
 }
 
@@ -566,7 +566,7 @@ function getRole($id)
 }
 
 
-function addCategory($name)
+function addCategory($name, $id)
 {
     $name = htmlspecialchars(trim($name));
 
@@ -591,8 +591,8 @@ function addCategory($name)
     
         $reference = "CAT_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
     
-        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference) VALUES (?, ?)");
-        $stmt->execute([$name, $reference]);
+        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference, createdAt, createdBy) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$name, $reference, date("Y-m-d H:i:s"), $id]);
 
         header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
     }
@@ -639,12 +639,25 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
+
 function addComments($postId, $message, $fromTo)
+
 {
     $pdo = dbConnect();
-    $sql = "INSERT INTO comments (title, postId, message, fromTo) values ( ?, ?, ?, ?)";
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            }
+        
+            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
+    $sql = "INSERT INTO comments (title, postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
+
     $stmt->execute([$postId, $message, $fromTo]);
+
 }
 
 function getNbPosts($id)
@@ -655,4 +668,20 @@ function getNbPosts($id)
     $stmt->execute([$id]);
 
     return $stmt->fetch();
+}
+
+function getPostsWhereCat($catId, $nbPosts, $order)
+{
+    $pdo = dbConnect();
+
+    if ($nbPosts == -1){
+        $sql = "SELECT * FROM posts WHERE postCategoryId = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$catId]);
+    } else {
+        $sql = "SELECT * FROM posts WHERE postCategoryId = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order . " LIMIT " . $nbPosts;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$catId]);
+    }
+    return $stmt->fetchAll();
 }
