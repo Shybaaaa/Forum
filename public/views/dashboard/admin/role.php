@@ -1,7 +1,7 @@
 <?php
 require_once "../../../private/functions/functions.php";
 
-$users = getUser(-1);
+$roles = getRole(-1);
 
 ?>
 
@@ -17,29 +17,26 @@ $users = getUser(-1);
                 </svg>
             </span>
             </div>
-            <div class="relative m-[2px] mb-3 float-right hidden sm:block">
-                <a href="#" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
+            <!-- <div class="relative m-[2px] mb-3 float-right hidden sm:block">
+                <a href="../../../public/views/insert_category.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                     <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
-                    Créer un compte
+                    Créer une catégorie
                 </a>
-            </div>
+            </div> -->
             <table class="min-w-full text-left text-xs whitespace-nowrap">
                 <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-600">
                 <tr>
                     <th scope="col" class="px-6 py-5">
                         Nom
                     </th>
-                    <th scope="col" class="px-6 py-5">
-                        Role
-                    </th>
-                    <th scope="col" class="px-6 py-5">
+                    <!-- <th scope="col" class="px-6 py-5">
+                        Catégorie
+                    </th> -->
+                    <!-- <th scope="col" class="px-6 py-5">
                         Status
-                    </th>
+                    </th> -->
                     <th scope="col" class="px-6 py-5">
-                        Posts
-                    </th>
-                    <th scope="col" class="px-6 py-5">
-                        Commentaires
+                        Utilisateurs
                     </th>
                     <th scope="col" class="px-6 py-5">
                         Actions
@@ -47,26 +44,15 @@ $users = getUser(-1);
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($users as $user): ?>
+                <?php foreach ($roles as $role): ?>
                     <tr class="border-b dark:border-neutral-600">
-                        <th scope="row" class="px-6 py-5"><?= $user["username"] ?></th>
-                        <td class="px-6 py-5"><?= getRole($user["roleId"])["name"] ?></td>
-                        <td class="px-6 py-5">
-                            <?php if ($user["status"] == "a"): ?>
-                                <span class="text-green-500 font-bold text-sm">Actif</span>
-                                <?php elseif ($user["status"] == "b"): ?>
-                                    <span class="text-orange-300 font-bold text-sm">Désactivé</span>
-                                    <?php elseif ($user["status"]  == "c"): ?>
-                                        <span class="text-red-600 font-bold text-sm">Banni</span>
-                            <?php endif; ?>
-                        </td>
-                        <td class="px-6 py-5"><?= ucfirst(getNbPosts($user["id"])["nbPosts"]) ?></td>
-                        <td class="px-6 py-5"><?= getNbCommentsForUser($user["id"])["nbComments"] ?></td>
+                        <th scope="row" class="px-6 py-5"><?= ucfirst($role["name"]) ?></th>
+                        <td class="px-6 py-5"><?= getNbUsers($role["id"])["nbUsers"] ?></td>
                         <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
-                            <?php if ($user["isDeleted"]): ?>
+                            <?php if ($role["isDeleted"]): ?>
                                 <button disabled title="Désactivé"><i class="fa-solid fa-eye-slash text-gray-200"></i></button>
                             <?php else: ?>
-                                <?php if($user["isActive"]): ?>
+                                <?php if($role["isActive"]): ?>
                                     <button><i  class="fa-solid fa-eye text-green-500"></i></button>
                                 <?php else: ?>
                                     <button><i  class="fa-solid fa-eye-slash text-orange-400"></i></button>
@@ -75,10 +61,10 @@ $users = getUser(-1);
 
                             <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
 
-                            <?php if(!$user["isDeleted"]): ?>
-                                <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $user["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
+                            <?php if(!$role["isDeleted"]): ?>
+                                <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $role["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
                             <?php else: ?>
-                                <button value="<?= $user["id"]?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
+                                <button value="<?= $role["id"]?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
                             <?php endif; ?>
                         </td>
                     </tr>

@@ -1,5 +1,6 @@
 # Reglage de conflit d'interet - Github
-!/public/css/main.css
+/public/css/main.css
+public/css/main.css
 
 # Logs
 logs
@@ -132,3 +133,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+/public/css
