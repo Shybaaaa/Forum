@@ -1,8 +1,13 @@
 <?php 
 
-$config = parse_ini_file("/config.ini");
 require_once "../../private/functions/functions.php";
-// require_once '../../public/include/navbar.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $title = htmlspecialchars($_POST["title"]);
+    $message = htmlspecialchars($_POST["message"]);
+    addComment($_POST["description"], $_SESSION["user"]["id"]);
+} 
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -10,21 +15,22 @@ require_once "../../private/functions/functions.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
     <link rel="stylesheet" href="/public/css/main.css">
 
 </head>
 <body>
-
 <form>
+        <!-- <p href="#?id=<?= $comments["id"] ?>" class="text-sm pb-3">
+            <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($comments["createdBy"])["username"]  ?></a> <?= $comments["createdAt"] ?>
+        </p> -->
     <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
         <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-            <label for="comment" class="sr-only">Your comment</label>
-            <textarea id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
+            <label for="comment" class="sr-only">Commentaire</label>
+            <textarea id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Message" required ></textarea>
         </div>
         <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
             <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                Post comment
+                Envoyer
             </button>
             <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
                 <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
@@ -33,11 +39,11 @@ require_once "../../private/functions/functions.php";
                     </svg>
                     <span class="sr-only">Attach file</span>
                 </button>
-                <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-                        <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
-                    </svg>
-                    <span class="sr-only">Set location</span>
+                <button type="button" class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z"/>
+                </svg>
+                    <span class="sr-only">Add emoji</span>
                 </button>
                 <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
