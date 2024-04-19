@@ -120,7 +120,7 @@ function loginUser($email, $password)
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
-        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
+        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
 
@@ -558,11 +558,20 @@ function getUser($id)
 function getRole($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT * FROM roles WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($id === -1) {
+        $sql = "SELECT * FROM roles";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $tempRole = $stmt->fetchAll();
+    } else {
+        $sql = "SELECT * FROM roles WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $tempRole = $stmt->fetch();
+    }
+
+    return $tempRole;
 }
 
 
@@ -639,7 +648,9 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function addComment($title, $postId, $message, $fromTo, $reference)
+
+function addComment($postId, $message, $fromTo)
+
 {
     $pdo = dbConnect();
 
@@ -651,15 +662,27 @@ function addComment($title, $postId, $message, $fromTo, $reference)
             $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
-    $sql = "INSERT INTO comments (title, postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO comments (postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$title, $postId, $message, $fromTo, $reference]);
+
+    $stmt->execute([$postId, $message, $fromTo, $reference]);
+
 }
 
 function getNbPosts($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE postCategoryId = ?";
+    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE createdBy = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch();
+}
+
+function getNbUsers($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbUsers FROM users WHERE roleId = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 

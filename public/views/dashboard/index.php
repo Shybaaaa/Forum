@@ -110,7 +110,7 @@ $config = parse_ini_file("../../../config.ini");
                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateur</a>
+                        <a href="index.php?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
                     </li>
                     <li>
                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tickets</a>
@@ -119,7 +119,10 @@ $config = parse_ini_file("../../../config.ini");
                         <a href="index.php?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
+                        <a href="index.php?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
+                    </li>
+                    <li>
+                        <a href="index.php?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
                     </li>
                 </ul>
             </li>
@@ -157,6 +160,17 @@ $config = parse_ini_file("../../../config.ini");
                         break;
                     case "adminCategory":
                         require_once "admin/category.php";
+                        break;
+                    case "adminUser":
+                        require_once "admin/user.php";
+                        break;
+                    case "adminPost":
+                        require_once "admin/post.php";
+                        break;
+                    case "adminRole":
+                        require_once "admin/role.php";
+                        break;
+
                 endswitch;
             } else {
                 require_once "user/myaccount.php";
