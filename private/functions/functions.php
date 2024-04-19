@@ -639,12 +639,21 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function addComment($title, $postId, $message, $fromTo)
+function addComment($title, $postId, $message, $fromTo, $reference)
 {
     $pdo = dbConnect();
-    $sql = "INSERT INTO comments (title, postId, message, fromTo) values ( ?, ?, ?, ?)";
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            }
+        
+            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
+    $sql = "INSERT INTO comments (title, postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$title, $postId, $message, $fromTo]);
+    $stmt->execute([$title, $postId, $message, $fromTo, $reference]);
 }
 
 function getNbPosts($id)
