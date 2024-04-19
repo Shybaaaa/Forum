@@ -639,7 +639,9 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function addComment($title, $postId, $message, $fromTo, $reference)
+
+function addComments($postId, $message, $fromTo)
+
 {
     $pdo = dbConnect();
 
@@ -653,7 +655,9 @@ function addComment($title, $postId, $message, $fromTo, $reference)
 
     $sql = "INSERT INTO comments (title, postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$title, $postId, $message, $fromTo, $reference]);
+
+    $stmt->execute([$postId, $message, $fromTo]);
+
 }
 
 function getNbPosts($id)
@@ -674,4 +678,20 @@ function getNbUsers($id)
     $stmt->execute([$id]);
 
     return $stmt->fetch();
+}
+ 
+function getPostsWhereCat($catId, $nbPosts, $order)
+{
+    $pdo = dbConnect();
+
+    if ($nbPosts == -1){
+        $sql = "SELECT * FROM posts WHERE postCategoryId = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$catId]);
+    } else {
+        $sql = "SELECT * FROM posts WHERE postCategoryId = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order . " LIMIT " . $nbPosts;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$catId]);
+    }
+    return $stmt->fetchAll();
 }
