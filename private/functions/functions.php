@@ -649,7 +649,7 @@ function loginRestore($id)
 }
 
 
-function addComments($postId, $message, $fromTo)
+function addComment($postId, $message, $fromTo)
 
 {
     $pdo = dbConnect();
@@ -662,17 +662,17 @@ function addComments($postId, $message, $fromTo)
             $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
-    $sql = "INSERT INTO comments (title, postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO comments (postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([$postId, $message, $fromTo]);
+    $stmt->execute([$postId, $message, $fromTo, $reference]);
 
 }
 
 function getNbPosts($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE postCategoryId = ?";
+    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE createdBy = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 
@@ -688,7 +688,7 @@ function getNbUsers($id)
 
     return $stmt->fetch();
 }
- 
+
 function getPostsWhereCat($catId, $nbPosts, $order)
 {
     $pdo = dbConnect();
