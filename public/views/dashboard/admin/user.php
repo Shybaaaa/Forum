@@ -17,12 +17,12 @@ $users = getUser(-1);
                 </svg>
             </span>
             </div>
-            <!-- <div class="relative m-[2px] mb-3 float-right hidden sm:block">
-                <a href="../../../public/views/insert_post.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
+            <div class="relative m-[2px] mb-3 float-right hidden sm:block">
+                <a href="#" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                     <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
-                    Créer un post
+                    Créer un compte
                 </a>
-            </div> -->
+            </div>
             <table class="min-w-full text-left text-xs whitespace-nowrap">
                 <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-600">
                 <tr>
