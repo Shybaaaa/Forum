@@ -558,11 +558,20 @@ function getUser($id)
 function getRole($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT * FROM roles WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($id === -1) {
+        $sql = "SELECT * FROM roles";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $tempRole = $stmt->fetchAll();
+    } else {
+        $sql = "SELECT * FROM roles WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $tempRole = $stmt->fetch();
+    }
+
+    return $tempRole;
 }
 
 
