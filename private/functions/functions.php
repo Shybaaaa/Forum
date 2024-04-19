@@ -649,25 +649,39 @@ function loginRestore($id)
 }
 
 
-function addComment($postId, $message, $fromTo)
-
+function addComment(int $postId, string $message)
 {
     $pdo = dbConnect();
 
-    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn(); 
-            if ($lastRef === null) {
-                $lastRef = 0;
-            }
-        
-            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    if ($lastRef === null) {
+        $lastRef = 0;
+    }
+    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-
-    $sql = "INSERT INTO comments (postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO comments (postId, message, reference) values ( ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([$postId, $message, $fromTo, $reference]);
+    $stmt->execute([$postId, $message, $reference]);
+}
+
+function addRespondComment(int $id, string $message, int $fromTo, string $reference)
+{
+    $pdo = dbConnect();
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    if ($lastRef === null) {
+        $lastRef = 0;
+    }
+    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+    $sql = "INSERT INTO comments (message, fromTo, reference) values (?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([$message, $fromTo, $reference]);
 
 }
+
 
 function getNbPosts($id)
 {
