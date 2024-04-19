@@ -639,7 +639,9 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function addComment($title, $postId, $message, $fromTo, $reference)
+
+function addComments($postId, $message, $fromTo)
+
 {
     $pdo = dbConnect();
 
@@ -653,7 +655,9 @@ function addComment($title, $postId, $message, $fromTo, $reference)
 
     $sql = "INSERT INTO comments (title, postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$title, $postId, $message, $fromTo, $reference]);
+
+    $stmt->execute([$postId, $message, $fromTo]);
+
 }
 
 function getNbPosts($id)
