@@ -1,6 +1,5 @@
 <?php 
 require_once "../../private/functions/functions.php";
-$post = addComments();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

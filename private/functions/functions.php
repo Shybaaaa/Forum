@@ -639,12 +639,12 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function addComments($title, $postId, $message, $fromTo)
+function addComments($postId, $message, $fromTo)
 {
     $pdo = dbConnect();
     $sql = "INSERT INTO comments (title, postId, message, fromTo) values ( ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$title, $postId, $message, $fromTo]);
+    $stmt->execute([$postId, $message, $fromTo]);
 }
 
 function getNbPosts($id)
