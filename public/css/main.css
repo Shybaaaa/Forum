@@ -7376,7 +7376,6 @@ input:checked + .toggle-bg {
   color: rgb(224 36 36 / var(--tw-text-opacity));
 }
 
-
 .group:hover .group-hover\:text-indigo-600 {
   --tw-text-opacity: 1;
   color: rgb(88 80 236 / var(--tw-text-opacity));

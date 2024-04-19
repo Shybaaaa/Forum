@@ -704,13 +704,3 @@ function getPostsWhereCat($catId, $nbPosts, $order)
     }
     return $stmt->fetchAll();
 }
-
-function getNbCommentsForUser($id)
-{
-    $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE createdBy = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-
-    return $stmt->fetch();
-}
