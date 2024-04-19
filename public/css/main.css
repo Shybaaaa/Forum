@@ -1624,6 +1624,11 @@ input:checked + .toggle-bg {
   margin-bottom: 2rem;
 }
 
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .-mb-5 {
   margin-bottom: -1.25rem;
 }
@@ -1914,6 +1919,14 @@ input:checked + .toggle-bg {
 
 .mt-auto {
   margin-top: auto;
+}
+
+.mt-\[10\%\] {
+  margin-top: 10%;
+}
+
+.mt-\[5\%\] {
+  margin-top: 5%;
 }
 
 .box-border {
@@ -5461,6 +5474,16 @@ input:checked + .toggle-bg {
 .px-1\.5 {
   padding-left: 0.375rem;
   padding-right: 0.375rem;
+}
+
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+
+.py-3\.5 {
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
 }
 
 .pb-0 {
