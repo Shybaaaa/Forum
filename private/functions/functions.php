@@ -649,6 +649,7 @@ function loginRestore($id)
 }
 
 
+<<<<<<< Updated upstream
 function addComment(int $postId, string $message, string $reference)
 {
     $pdo = dbConnect();
@@ -673,14 +674,27 @@ function addRespondComment( string $message, int $fromTo, string $reference)
     if ($lastRef === null) {
         $lastRef = 0;
     }    
+=======
+function addComment($postId, $message, $fromTo)
+
+{
+    $pdo = dbConnect();
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            }
+        
+>>>>>>> Stashed changes
             $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-    $sql = "INSERT INTO comments (message, fromTo, reference) values (?, ?, ?)";
+
+    $sql = "INSERT INTO comments (postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$message, $fromTo, $reference]);
+
+    $stmt->execute([$postId, $message, $fromTo, $reference]);
 
 }
-
 
 function getNbPosts($id)
 {
