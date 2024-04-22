@@ -65,7 +65,7 @@ $config = parse_ini_file("../../../config.ini");
         </button>
     </div>
 <?php endif; ?>
-<aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
+<aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
     <div>
         <div class="mx-6 px-6 py-4">
             <a href="/index.php" class="flex flex-row items-center justify-center">
@@ -74,7 +74,7 @@ $config = parse_ini_file("../../../config.ini");
         </div>
 
         <div class="flex flex-col items-center justify-center mt-5">
-            <div class="h-32 w-32 rounded-full bg-gray-500 text-white flex justify-center items-center">
+            <div class="h-32 w-32 rounded-full bg-gray-500 text-white shadow flex justify-center items-center">
                 <?php if ($_SESSION["user"]["image"] == ""): ?>
                     <i class="fa-solid fa-user text-6xl"></i>
                 <?php else: ?>
@@ -110,7 +110,7 @@ $config = parse_ini_file("../../../config.ini");
                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateur</a>
+                        <a href="index.php?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
                     </li>
                     <li>
                         <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tickets</a>
@@ -119,7 +119,10 @@ $config = parse_ini_file("../../../config.ini");
                         <a href="index.php?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
+                        <a href="index.php?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
+                    </li>
+                    <li>
+                        <a href="index.php?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
                     </li>
                 </ul>
             </li>
@@ -138,7 +141,7 @@ $config = parse_ini_file("../../../config.ini");
     </div>
 </aside>
 <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
-    <div class="flex items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5">
+    <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5">
         <div class="px-6 flex items-center justify-between ">
             <h5 hidden class="text-2xl text-gray-600 block font-medium">
                 Tableau de bord
@@ -157,6 +160,17 @@ $config = parse_ini_file("../../../config.ini");
                         break;
                     case "adminCategory":
                         require_once "admin/category.php";
+                        break;
+                    case "adminUser":
+                        require_once "admin/user.php";
+                        break;
+                    case "adminPost":
+                        require_once "admin/post.php";
+                        break;
+                    case "adminRole":
+                        require_once "admin/role.php";
+                        break;
+
                 endswitch;
             } else {
                 require_once "user/myaccount.php";

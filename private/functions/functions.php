@@ -22,7 +22,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
     $vPassword = trim(htmlspecialchars($vPassword));
 
     //    Fait une vérification pour le mots de passe avec minimum 6 caractères et minimum 1 chiffres et des caractères spéciaux, et peut etre écrit dans n'importe quel ordr
-    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $password)) {
+    if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&.]{6,}$/", $password)) {
         newLogs("CREATE USER ERROR", "Mots de passe incorrect");
         header("Location: /public/views/register.php?error=4&message=Le mot de passe doit contenir au moins 6 caractères et 1 chiffre");
         exit();
@@ -120,7 +120,7 @@ function loginUser($email, $password)
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
-        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.surname, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
+        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
 
@@ -290,7 +290,7 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
 
     if ($user) {
         if ($newPass == $confirmNewPass) {
-            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&]{6,}$/", $newPass)) {
+            if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&.]{6,}$/", $newPass)) {
                 newLogs("CREATE USER ERROR", "Mots de passe incorrect");
                 return ["type" => "error", "message" => "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre"];
                 exit();
@@ -558,11 +558,20 @@ function getUser($id)
 function getRole($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT * FROM roles WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($id === -1) {
+        $sql = "SELECT * FROM roles";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $tempRole = $stmt->fetchAll();
+    } else {
+        $sql = "SELECT * FROM roles WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $tempRole = $stmt->fetch();
+    }
+
+    return $tempRole;
 }
 
 
@@ -639,20 +648,142 @@ function loginRestore($id)
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
 
-function addComment($title, $postId, $message, $fromTo)
+
+<<<<<<< Updated upstream
+function addComment(int $postId, string $message, string $reference)
 {
     $pdo = dbConnect();
-    $sql = "INSERT INTO comments (title, postId, message, fromTo) values ( ?, ?, ?, ?)";
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    if ($lastRef === null) {
+        $lastRef = 0;
+    }
+    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+    $sql = "INSERT INTO comments (postId, message, reference) values ( ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$title, $postId, $message, $fromTo]);
+
+    $stmt->execute([$postId, $message, $reference]);
+}
+
+function addRespondComment( string $message, int $fromTo, string $reference)
+{
+    $pdo = dbConnect();
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    if ($lastRef === null) {
+        $lastRef = 0;
+    }    
+=======
+function addComment($postId, $message, $fromTo)
+
+{
+    $pdo = dbConnect();
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn(); 
+            if ($lastRef === null) {
+                $lastRef = 0;
+            }
+        
+>>>>>>> Stashed changes
+            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
+    $sql = "INSERT INTO comments (postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([$postId, $message, $fromTo, $reference]);
+
 }
 
 function getNbPosts($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE postCategoryId = ?";
+    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE createdBy = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 
     return $stmt->fetch();
+}
+
+function getNbUsers($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbUsers FROM users WHERE roleId = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch();
+}
+
+function getPostsWhereCat($catId, $nbPosts, $order)
+{
+    $pdo = dbConnect();
+
+    if ($nbPosts == -1){
+        $sql = "SELECT * FROM posts WHERE postCategoryId = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$catId]);
+    } else {
+        $sql = "SELECT * FROM posts WHERE postCategoryId = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order . " LIMIT " . $nbPosts;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$catId]);
+    }
+    return $stmt->fetchAll();
+}
+
+function getNbCommentsForUser($id)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE createdBy = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch();
+}
+
+function getCategoryByRef($ref)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM postCategory WHERE reference = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ref]);
+    $category = $stmt->fetch();
+
+    if ($category) {
+        return $category;
+    } else {
+        return false;
+    }
+}
+
+function getUserByRef($refUser)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT users.id, users.username, users.email, users.image, users.biography, users.status, users.createdAt, users.isActive, users.isDeleted, users.isBanned, users.roleId FROM users WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$refUser]);
+    $user = $stmt->fetch();
+    if ($user) {
+        return $user;
+    } else {
+        return false;
+    }
+}
+
+
+function getPostByRef($ref)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ref]);
+    $post = $stmt->fetch();
+
+    if ($post) {
+        return $post;
+    } else {
+        return false;
+    }
+
 }

@@ -47,16 +47,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="description" class="block text-sm font-medium text-white">Description</label>
                 <textarea id="description" name="description" rows="3" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"></textarea>
                 </div>
-<!-- Button dropdown  -->  
+<!-- Button dropdown  -->
+            <?php if(!isset($_GET["cat"])): ?>
             <label for="postCategoryId" class="block text-sm font-medium text-white">Catégories</label>
             <select id="postCategoryId" name="postCategoryId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option selected>Choisis une catégorie</option>
                 <?php foreach ($postCategory as $category) { ?>
-                    <option value="<?= $category["id"] ?>">
-                        <?= $category["name"] ?>
+                <option value="<?= $category["id"] ?>">
+                    <?= $category["name"] ?>
                     <?php } ?>
                 </option>
             </select>
+            <?php else: ?>
+            <input type="hidden" id="postCategoryId" name="postCategoryId" value="<?= $_GET["cat"] ?>">
+
+            <?php endif; ?>
 
             <div>
                 <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">Poster</button>

@@ -1,5 +1,6 @@
-#temp
-config.ini
+# Reglage de conflit d'interet - Github
+/public/css/main.css
+public/css/main.css
 
 # Logs
 logs
@@ -131,3 +132,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+/public/css
+public/css/main.css

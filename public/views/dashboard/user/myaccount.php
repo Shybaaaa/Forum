@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<div class="w-11/12 h-fit rounded-lg bg-white px-2 py-2.5 select-none ">
+<div class="w-11/12 h-fit shadow-sm rounded-lg bg-white px-2 py-2.5 select-none ">
     <div class="flex flex-col w-full h-full">
         <h2 class="mt-2 ml-1.5 text-2xl text-gray-700 font-bold border-b-2 border-opacity-50 bg-clip-border border-gray-10">Informations Personnelles </h2>
         <div class="h-full w-8/12 mx-auto align-middle">
@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<div id="updateUsername" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+<div id="updateUsername" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[90] justify-center items-center w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 z-50 w-full max-w-2xl h-full md:h-auto">
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
@@ -282,7 +282,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="flex items-center h-max flex-col justify-center w-full">
                     <div class="mb-6 w-full">
                         <label for="passwordOld" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea name="updateDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="10"><?= $_SESSION["user"]["biography"] ?></textarea>
+                        <textarea required="required" id="updateDescription" name="updateDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="10"><?= $_SESSION["user"]["biography"] ?></textarea>
+                        <div id="textareaBError" class="counter"><span>0</span> caractères (30 max)</div>
                     </div>
                     <div class="mt-3 w-full flex justify-end">
                         <input name="updateDescSubmit" type="submit" value="Mettre à jour" class="py-2 px-3 bg-gradient-to-tl to-indigo-600 from-blue-500 cursor-pointer text-medium text-white font-medium rounded-lg hover:bg-indigo-500 hover:opacity-95 transition duration-75">
@@ -302,4 +303,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.getElementById('deleteProfilePicture').click();
         document.getElementById('deleteProfile').click();
     });
+
 </script>
