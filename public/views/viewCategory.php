@@ -13,8 +13,10 @@ $category = getCategoryByRef($_GET["ref"]);
 <div class="h-screen">
     <section class="w-[80%] h-[80%] mt-[5%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden">
         <div class="mb-2 flex flex-row border-b-2 h-16 items-center justify-between">
-            <h1 class="text-lg text-black font-bold"><a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="inline-flex items-center"><i class="fa-solid fa-<?= $category["icons"]?> bg-indigo-500 text-white p-2 rounded-full shadow-md  mr-3"></i><?= ucfirst($category["name"]) ?></a></h1>
-            <a href="/index.php" type="button" class="text-sm font-sans font-medium text-indigo-500 rounded-md px-2.5 py-3 hover:text-indigo-500 transition-all">Créer un post</a>
+            <h2 class="text-lg text-black font-bold"><a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="inline-flex items-center"><i class="fa-solid fa-<?= $category["icons"]?> bg-indigo-500 text-white p-2 rounded-full shadow-md  mr-3"></i><?= ucfirst($category["name"]) ?></a></h2>
+            <?php if(isset($_SESSION["user"])): ?>
+                <a href="/public/views/insert_post.php?cat=<?= $category["id"] ?>" type="button" class="text-sm font-sans font-medium text-indigo-500 rounded-md px-2.5 py-3 hover:text-indigo-500 transition-all">Créer un post</a>
+            <?php endif; ?>
         </div>
         <div class="space-y-2">
             <?php $postsCategory = getPostsWhereCat($category["id"], -1, "desc"); foreach ($postsCategory as $postCategory): ?>

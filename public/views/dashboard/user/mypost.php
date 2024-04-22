@@ -4,7 +4,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 
 ?>
 
-<div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5">
+<div class="w-10/12 h-[80%] shadow bg-white px-3.5 rounded-lg py-2.5">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="relative m-[2px] mb-3 mr-5 float-left">

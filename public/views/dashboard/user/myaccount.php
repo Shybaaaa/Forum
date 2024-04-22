@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<div class="w-11/12 h-fit rounded-lg bg-white px-2 py-2.5 select-none ">
+<div class="w-11/12 h-fit shadow-sm rounded-lg bg-white px-2 py-2.5 select-none ">
     <div class="flex flex-col w-full h-full">
         <h2 class="mt-2 ml-1.5 text-2xl text-gray-700 font-bold border-b-2 border-opacity-50 bg-clip-border border-gray-10">Informations Personnelles </h2>
         <div class="h-full w-8/12 mx-auto align-middle">

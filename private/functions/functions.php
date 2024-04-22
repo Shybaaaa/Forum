@@ -714,3 +714,34 @@ function getNbCommentsForUser($id)
 
     return $stmt->fetch();
 }
+
+function getCategoryByRef($ref)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM postCategory WHERE reference = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ref]);
+    $category = $stmt->fetch();
+
+    if ($category) {
+        return $category;
+    } else {
+        return false;
+    }
+}
+
+function getPostByRef($ref)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ref]);
+    $post = $stmt->fetch();
+
+    if ($post) {
+        return $post;
+    } else {
+        return false;
+    }
+
+}
