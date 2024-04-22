@@ -1,12 +1,16 @@
 <?php
-
+session_start();
 require_once "../../private/functions/functions.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $message = htmlspecialchars($_POST["message"]);
-    addComment($_POST["message"], $_SESSION["user"]["id"]);
-}
-
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $message = htmlspecialchars($variable ?? "message");
+        addComment($_POST["message"],$_POST["postId"], $_SESSION["user"]["id"]);
+    }
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $message = htmlspecialchars($variable ?? "message");
+        addRespondComment($_POST["message"],$_POST["FromTo"], $_SESSION["user"]["id"]);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,13 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/main.css">
-
 </head>
 <body>
-<form>
-    <!-- <p href="#?id=<?= $comments["id"] ?>" class="text-sm pb-3">
-            <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($comments["createdBy"])["username"] ?></a> <?= $comments["createdAt"] ?>
-        </p> -->
+<form method="post">
     <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
         <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
             <label for="comment" class="sr-only">Commentaire</label>

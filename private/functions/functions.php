@@ -649,7 +649,7 @@ function loginRestore($id)
 }
 
 
-function addComment(int $postId, string $message)
+function addComment(int $postId, string $message, string $reference)
 {
     $pdo = dbConnect();
 
@@ -665,7 +665,7 @@ function addComment(int $postId, string $message)
     $stmt->execute([$postId, $message, $reference]);
 }
 
-function addRespondComment(int $id, string $message, int $fromTo, string $reference)
+function addRespondComment( string $message, int $fromTo, string $reference)
 {
     $pdo = dbConnect();
 
@@ -742,6 +742,21 @@ function getCategoryByRef($ref)
         return false;
     }
 }
+
+function getUserByRef($refUser)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT users.id, users.username, users.email, users.image, users.biography, users.status, users.createdAt, users.isActive, users.isDeleted, users.isBanned, users.roleId FROM users WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$refUser]);
+    $user = $stmt->fetch();
+    if ($user) {
+        return $user;
+    } else {
+        return false;
+    }
+}
+
 
 function getPostByRef($ref)
 {

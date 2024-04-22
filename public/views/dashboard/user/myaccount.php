@@ -282,7 +282,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="flex items-center h-max flex-col justify-center w-full">
                     <div class="mb-6 w-full">
                         <label for="passwordOld" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea name="updateDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="10"><?= $_SESSION["user"]["biography"] ?></textarea>
+                        <textarea required="required" id="updateDescription" name="updateDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="10"><?= $_SESSION["user"]["biography"] ?></textarea>
+                        <div id="textareaBError" class="counter"><span>0</span> caractères (30 max)</div>
                     </div>
                     <div class="mt-3 w-full flex justify-end">
                         <input name="updateDescSubmit" type="submit" value="Mettre à jour" class="py-2 px-3 bg-gradient-to-tl to-indigo-600 from-blue-500 cursor-pointer text-medium text-white font-medium rounded-lg hover:bg-indigo-500 hover:opacity-95 transition duration-75">
@@ -302,4 +303,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.getElementById('deleteProfilePicture').click();
         document.getElementById('deleteProfile').click();
     });
+
 </script>
