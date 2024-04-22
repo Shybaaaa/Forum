@@ -672,12 +672,11 @@ function addRespondComment(int $id, string $message, int $fromTo, string $refere
     $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
         $lastRef = 0;
-    }
-    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+    }    
+            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
     $sql = "INSERT INTO comments (message, fromTo, reference) values (?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-
     $stmt->execute([$message, $fromTo, $reference]);
 
 }
