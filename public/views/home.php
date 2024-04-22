@@ -13,7 +13,7 @@ $post
                 <a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="text-sm font-sans font-medium text-indigo-600 hover:text-indigo-500 transition-all">Voir plus</a>
             </div>
             <div class="space-y-2">
-                <?php $postsCategory = getPostsWhereCat($category["id"], 3, "desc"); foreach ($postsCategory as $postCategory): ?>
+                <?php $postsCategory = getPostsWhereCat($category["id"], 3, "desc"); if (!$postsCategory){ echo "<div class='w-full text-center'><span class='w-full italic text-sm text-center text-gray-500'>Il n'y a aucun post dans cette catégorie.</span></div>";} ; foreach ($postsCategory as $postCategory): ?>
                     <article class="border-b border-spacing-0 h-16 m-0 px-3">
                         <div class="flex flex-row items-center justify-between gap-x-3">
                             <a href="index.php?page=viewpost&ref=<?= $postCategory["reference"]?>">

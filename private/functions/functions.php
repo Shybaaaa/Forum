@@ -757,6 +757,21 @@ function getCategoryByRef($ref)
     }
 }
 
+function getUserByRef($refUser)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT users.id, users.username, users.email, users.image, users.biography, users.status, users.createdAt, users.isActive, users.isDeleted, users.isBanned, users.roleId FROM users WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$refUser]);
+    $user = $stmt->fetch();
+    if ($user) {
+        return $user;
+    } else {
+        return false;
+    }
+}
+
+
 function getPostByRef($ref)
 {
     $pdo = dbConnect();
