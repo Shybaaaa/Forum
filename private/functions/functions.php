@@ -649,7 +649,7 @@ function loginRestore($id)
 }
 
 
-function addComment(int $postId, string $message)
+function addComment(int $postId, string $message, string $reference)
 {
     $pdo = dbConnect();
 
@@ -665,7 +665,7 @@ function addComment(int $postId, string $message)
     $stmt->execute([$postId, $message, $reference]);
 }
 
-function addRespondComment(int $id, string $message, int $fromTo, string $reference)
+function addRespondComment( string $message, int $fromTo, string $reference)
 {
     $pdo = dbConnect();
 
