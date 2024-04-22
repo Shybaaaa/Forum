@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST["search"]) && !empty($_POST["search"])) {
-    $posts = searchPost($title);
+    $posts = searchPost($_POST["search"]);
 }else{
     $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 }

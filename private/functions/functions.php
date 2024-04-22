@@ -774,11 +774,8 @@ function getPostByRef($ref)
 
 }
 
-function searchPost($title) {
-    if (isset($_POST["search"]) && !empty($_POST["search"])) {
-
-        $search = $_POST["search"];
-    
+function searchPost($search) {
+    if (isset($search) && !empty($search)) {
         $sql = "SELECT * FROM posts
                 WHERE posts.title LIKE '%$search%'";
     
