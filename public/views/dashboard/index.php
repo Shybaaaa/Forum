@@ -65,7 +65,7 @@ $config = parse_ini_file("../../../config.ini");
         </button>
     </div>
 <?php endif; ?>
-<aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
+<aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
     <div>
         <div class="mx-6 px-6 py-4">
             <a href="/index.php" class="flex flex-row items-center justify-center">
@@ -74,7 +74,7 @@ $config = parse_ini_file("../../../config.ini");
         </div>
 
         <div class="flex flex-col items-center justify-center mt-5">
-            <div class="h-32 w-32 rounded-full bg-gray-500 text-white flex justify-center items-center">
+            <div class="h-32 w-32 rounded-full bg-gray-500 text-white shadow flex justify-center items-center">
                 <?php if ($_SESSION["user"]["image"] == ""): ?>
                     <i class="fa-solid fa-user text-6xl"></i>
                 <?php else: ?>
@@ -141,7 +141,7 @@ $config = parse_ini_file("../../../config.ini");
     </div>
 </aside>
 <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
-    <div class="flex items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5">
+    <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5">
         <div class="px-6 flex items-center justify-between ">
             <h5 hidden class="text-2xl text-gray-600 block font-medium">
                 Tableau de bord

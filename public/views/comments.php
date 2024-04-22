@@ -19,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <form>
-
+    <!-- <p href="#?id=<?= $comments["id"] ?>" class="text-sm pb-3">
+            <a href="#" class="font-semibold hover:text-gray-800"><?= getUser($comments["createdBy"])["username"] ?></a> <?= $comments["createdAt"] ?>
+        </p> -->
     <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
         <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
             <label for="comment" class="sr-only">Commentaire</label>

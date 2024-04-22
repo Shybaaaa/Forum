@@ -626,8 +626,6 @@ function getCategory($id)
     return $tempCategory;
 }
 
-
-
 function getNbComments($id)
 {
     $pdo = dbConnect();
@@ -669,9 +667,19 @@ function addComment(int $postId, string $message)
 
 function addRespondComment(int $id, string $message, int $fromTo, string $reference)
 {
+    $pdo = dbConnect();
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    if ($lastRef === null) {
+        $lastRef = 0;
+    }    
+            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+    $sql = "INSERT INTO comments (message, fromTo, reference) values (?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$message, $fromTo, $reference]);
 
 }
-
 
 
 function getNbPosts($id)
@@ -710,19 +718,43 @@ function getPostsWhereCat($catId, $nbPosts, $order)
     return $stmt->fetchAll();
 }
 
-function getCategoryByRef(string $ref)
+function getNbCommentsForUser($id)
 {
-    $ref = trim(htmlspecialchars($ref));
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE createdBy = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
 
+    return $stmt->fetch();
+}
+
+function getCategoryByRef($ref)
+{
     $pdo = dbConnect();
     $sql = "SELECT * FROM postCategory WHERE reference = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$ref]);
     $category = $stmt->fetch();
 
-    if($category) {
+    if ($category) {
         return $category;
     } else {
         return false;
     }
+}
+
+function getPostByRef($ref)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ref]);
+    $post = $stmt->fetch();
+
+    if ($post) {
+        return $post;
+    } else {
+        return false;
+    }
+
 }
