@@ -4,7 +4,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 
 ?>
 
-<div class="w-10/12 h-[80%] shadow bg-white px-3.5 rounded-lg py-2.5">
+<div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="relative m-[2px] mb-3 mr-5 float-left">
@@ -16,7 +16,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                     </svg>
                 </span>
             </div>
-            <div class="relative m-[2px] mb-3 float-right sm:block">
+            <div class="flex m-[2px] float-right">
                 <a href="../../../public/views/insert_post.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                     <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
                     Créer un post
@@ -46,7 +46,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                 <?php if ($posts): ?>
                 <?php foreach ($posts as $post): ?>
                     <tr class="border-b dark:border-neutral-600">
-                        <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
+                        <th scope="row" class="px-6 py-5"><a href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"><?= $post["title"] ?></a></th>
                         <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
                         <td class="px-6 py-5">
                             <?php if ($post["status"] == "a"): ?>
@@ -69,7 +69,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
+                            <button><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
 
                             <?php if(!$post["isDeleted"]): ?>
                                 <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $post["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
