@@ -851,7 +851,6 @@ function updatePostUserByRef(string $ref, string $title, string $description, $p
         newLogs("ERROR UPDATE POST", "Utilisateur non autorisé - " . $userRequest . " (requete par " . $userRequest . ")");
         return ["type" => "error", "message" => "Vous ne pouvez pas modifier ce post."];
     }
-
 }
 
 function searchPost($search) {
