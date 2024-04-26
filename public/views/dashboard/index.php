@@ -94,7 +94,7 @@ $config = parse_ini_file("../../../config.ini");
                     <span class="group-hover:text-gray-600">Mon compte</span>
                 </a>
             </li>
-            <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "mypost"){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
+            <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if(isset($_GET["page"]) and $_GET["page"] == "mypost" or $_GET["page"] == "editPost" ){echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";} else {echo "transition-all text-gray-500 group";}?>">
                 <a href="index.php?page=mypost">
                     <i class="fa-solid fa-folder mr-2 text-lg group-hover:text-cyan-400"></i>
                     <span class="group-hover:text-gray-600">Mes posts</span>
@@ -171,7 +171,9 @@ $config = parse_ini_file("../../../config.ini");
                     case "adminRole":
                         require_once "admin/role.php";
                         break;
-
+                    case "editPost":
+                        require_once "user/editPost.php";
+                        break;
                 endswitch;
             } else {
                 require_once "user/myaccount.php";

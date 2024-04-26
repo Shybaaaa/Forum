@@ -791,3 +791,4 @@ function getPostsByUser($idUser, $nbPosts, $order)
     }
     return $stmt->fetchAll();
 }
+
