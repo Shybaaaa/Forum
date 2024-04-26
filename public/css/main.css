@@ -5608,6 +5608,17 @@ input:checked + .toggle-bg {
   padding-bottom: 1px;
 }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 .pb-0 {
   padding-bottom: 0px;
 }
