@@ -1527,7 +1527,6 @@ input:checked + .toggle-bg {
   margin: 2px;
 }
 
-
 .-mx-1 {
   margin-left: -0.25rem;
   margin-right: -0.25rem;
@@ -1950,10 +1949,6 @@ input:checked + .toggle-bg {
   margin-top: 2rem;
 }
 
-.mt-\[2\%\] {
-  margin-top: 2%;
-}
-
 .mt-\[5\%\] {
   margin-top: 5%;
 }
@@ -2234,14 +2229,6 @@ input:checked + .toggle-bg {
   height: 100vh;
 }
 
-.h-\[50\%\] {
-  height: 50%;
-}
-
-.h-1\/2 {
-  height: 50%;
-}
-
 .max-h-20 {
   max-height: 5rem;
 }
@@ -2424,7 +2411,6 @@ input:checked + .toggle-bg {
 .w-\[15\%\] {
   width: 15%;
 }
-
 
 .w-\[80\%\] {
   width: 80%;
