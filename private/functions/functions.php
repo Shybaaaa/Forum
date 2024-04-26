@@ -653,8 +653,10 @@ function loginRestore($id)
 
 
 
-function addComment(int $postId, string $message, string $reference)
+function addComment($message, $postId, $reference, $id)
 {
+    $message = trim(htmlspecialchars($message));
+
     $pdo = dbConnect();
 
     $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
@@ -663,13 +665,14 @@ function addComment(int $postId, string $message, string $reference)
     }
     $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-    $sql = "INSERT INTO comments (postId, message, reference) values ( ?, ?, ?)";
+    $sql = "INSERT INTO comments (message, postId , reference, createdAt, createdBy) values (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
+    $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
-    $stmt->execute([$postId, $message, $reference]);
+    header("Location: /public/views/viewPost.php?success=1&message=Commentaire publiez.");
 }
 
-function addRespondComment( string $message, int $fromTo, string $reference)
+function addRespondComment($message, $reference)
 {
     $pdo = dbConnect();
 
@@ -681,10 +684,10 @@ function addRespondComment( string $message, int $fromTo, string $reference)
     $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
-    $sql = "INSERT INTO comments (message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO comments (message, reference) values (?, ?)";
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([ $message, $fromTo, $reference]);
+    $stmt->execute([ $message, $reference]);
 
 }
 
