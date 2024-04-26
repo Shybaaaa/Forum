@@ -15,6 +15,20 @@ if ($_SESSION["user"]["id"] != $post["createdBy"]) {
     echo "<script>window.location.href = 'index.php?page=mypost';</script>";
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
+    if (!isset($_POST["title"]) && !isset($_POST["description"]) && !isset($_POST["category"])) {
+        echo "<script>window.location.href = '?page=editPost&error=1&message=Veuillez completez tous les champs.&ref=" . $post["reference"] . "';</script>";
+    } else {
+        $status = updatePostUserByRef($post["reference"], $_POST["title"], $_POST["description"], $_FILES["image"], $_POST["category"], $_SESSION["user"]["id"], $post["createdBy"]);
+        if ($status["type"] == "success"){
+            echo "<script>window.location.href = 'index.php?page=editPost&ref=" . $post["reference"] . "&success=1&message=Post modifié avec succès.';</script>";
+        } else {
+            echo "<script>window.location.href = '?page=editPost&error=1&message=" . $status["message"] . "&ref=" . $post["reference"] . "';</script>";
+        }
+    }
+
+}
+
 ?>
 
 <div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
@@ -27,12 +41,12 @@ if ($_SESSION["user"]["id"] != $post["createdBy"]) {
                 <div class="col-span-full">
                     <div class="flex flex-row items-center justify-around">
                         <span class="font-semibold text-gray-800 text-md">Image : </span>
-                        <img src="<?= $post["photo"] ?>" class="rounded-lg w-1/2 h-auto" alt="img post">
+                        <img src="<?= $post["photo"] ?>" class="rounded-lg max-h-[256px] max-w-[256px]" alt="img post">
                     </div>
                     <div>
                         <label for="photo" class="block text-sm font-medium text-white">Photo</label>
                         <div class="mt-2 flex items-center gap-x-3">
-                            <input class="block w-[90%] mx-auto text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="image" aria-describedby="post_image" id="image" type="file">
+                            <input class="block w-[90%] mx-auto text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="image" accept="image/*" aria-describedby="post_image" id="image" type="file">
                         </div>
                     </div>
                 </div>
@@ -59,7 +73,7 @@ if ($_SESSION["user"]["id"] != $post["createdBy"]) {
                     <textarea name="description" id="description" rows="15" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"><?= $post["description"] ?></textarea>
                 </div>
                 <div>
-                    <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">Modifier</button>
+                    <input type="submit" value="Sauvegarder" name="updatePost" id="updatePost" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-all">
                 </div>
             </form>
         </div>

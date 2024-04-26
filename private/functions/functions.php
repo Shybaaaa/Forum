@@ -2,10 +2,13 @@
 
 function dbConnect()
 {
+    date_default_timezone_set('Europe/Paris');
     $config = parse_ini_file(__DIR__ . "/../../config.ini");
     try {
         $pdo = new PDO("mysql:host=$config[DB_HOST];port=$config[DB_PORT];dbname=$config[DB_NAME];charset=utf8", $config['DB_USER'], $config["DB_PASS"]);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
     } catch (PDOException $e) {
         header("Location: ./index.php?error=1&message=Erreur de connexion à la base de données");
     }
@@ -650,8 +653,10 @@ function loginRestore($id)
 
 
 
-function addComment(int $postId, string $message, string $reference)
+function addComment($message, $postId, $reference, $id)
 {
+    $message = trim(htmlspecialchars($message));
+
     $pdo = dbConnect();
 
     $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
@@ -660,13 +665,14 @@ function addComment(int $postId, string $message, string $reference)
     }
     $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-    $sql = "INSERT INTO comments (postId, message, reference) values ( ?, ?, ?)";
+    $sql = "INSERT INTO comments (message, postId , reference, createdAt, createdBy) values (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
+    $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
-    $stmt->execute([$postId, $message, $reference]);
+    header("Location: /public/views/viewPost.php?success=1&message=Commentaire publiez.");
 }
 
-function addRespondComment( string $message, int $fromTo, string $reference)
+function addRespondComment($message, $reference)
 {
     $pdo = dbConnect();
 
@@ -678,10 +684,10 @@ function addRespondComment( string $message, int $fromTo, string $reference)
     $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
-    $sql = "INSERT INTO comments (message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO comments (message, reference) values (?, ?)";
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([ $message, $fromTo, $reference]);
+    $stmt->execute([ $message, $reference]);
 
 }
 
@@ -792,8 +798,67 @@ function getPostsByUser($idUser, $nbPosts, $order)
     return $stmt->fetchAll();
 }
 
+function updatePostUserByRef(string $ref, string $title, string $description, $photo, int $postCategoryId, int $userRequest, int $idCreator)
+{
+    $title = htmlspecialchars(trim($title));
+    $description = htmlspecialchars(trim($description));
+
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE reference = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ref]);
+    $post = $stmt->fetch();
+
+    if ($userRequest === $idCreator) {
+        $stmt = $pdo->prepare("SELECT * FROM postCategory WHERE id = ?");
+        $stmt->execute([$postCategoryId]);
+        $isCategory = $stmt->fetch();
+
+        if ($isCategory){
+            if ($post){
+
+                $sql = "UPDATE posts SET posts.title = ?, posts.description = ?, posts.postCategoryId = ?, posts.updatedAt = ?, posts.updatedBy = ?";
+
+                // Update de l'image, avec suppression de l'ancienne image.
+                if ($photo["error"] == 0){
+                    if ($post["photo"] != ""){
+                        $folder = explode("/", $post["photo"]);
+                        $folder = array_slice($folder, 0, count($folder) - 1);
+                        $folder = implode("/", $folder);
+                        unlink($_SERVER["DOCUMENT_ROOT"] . $post["photo"]);
+                        rmdir($_SERVER["DOCUMENT_ROOT"] . $folder);
+                    }
+                    $urlPhoto = uploadImage($photo);
+                    $sql = $sql . ", posts.photo = ? ";
+                    newLogs("UPDATE POST", "Image modifiée avec succès : " . $urlPhoto);
+                }
+
+                $stmt = $pdo->prepare($sql . "WHERE posts.reference = ?");
+                if ($photo["error"] == 0) {
+                    $stmt->execute([$title, $description, $postCategoryId, date("Y-m-d H:i:s"), $userRequest, $urlPhoto, $ref]);
+                } else {
+                    $stmt->execute([$title, $description, $postCategoryId, date("Y-m-d H:i:s"), $userRequest, $ref]);
+                }
+
+                newLogs("UPDATE POST", "Post modifié avec succès : " . $ref . " (requete par " . $userRequest . ")");
+                return ["type" => "success", "message" => "Post modifié avec succès."];
+            } else {
+                newLogs("ERROR UPDATE POST", "Post innexistant - " . $ref . " (requete par " . $userRequest . ")");
+                return ["type" => "error", "message" => "Post innexistant"];
+            }
+        } else {
+            newLogs("ERROR UPDATE POST", "Catégorie non valide - " . $postCategoryId . " (requete par " . $userRequest . ")");
+            return ["type" => "error", "message" => "Catégorie non valide"];
+        }
+    } else {
+        newLogs("ERROR UPDATE POST", "Utilisateur non autorisé - " . $userRequest . " (requete par " . $userRequest . ")");
+        return ["type" => "error", "message" => "Vous ne pouvez pas modifier ce post."];
+    }
+}
 
 function searchPost($search) {
+
+    $pdo = dbConnect();
     if (isset($search) && !empty($search)) {
         $sql = "SELECT * FROM posts
                 WHERE posts.title LIKE '%$search%'";
@@ -801,5 +866,7 @@ function searchPost($search) {
         $stmt = $pdo->query($sql);
     
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        header("Location: ./mypost.php");
     }   
 }
