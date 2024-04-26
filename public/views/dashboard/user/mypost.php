@@ -1,4 +1,6 @@
 <?php
+session_start();
+require_once "../../../../private/functions/functions.php";
 
 if (isset($_POST["search"]) && !empty($_POST["search"])) {
     $posts = searchPost($_POST["search"]);
@@ -8,7 +10,14 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
 
 
 ?>
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width= , initial-scale=1.0">
+    <title>mes postes - forum</title>
+</head>
+<body>
 <div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
@@ -102,5 +111,5 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
         </div>
     </div>
 </div>
-
-
+</body>
+</html>

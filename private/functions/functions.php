@@ -794,6 +794,9 @@ function getPostsByUser($idUser, $nbPosts, $order)
 
 
 function searchPost($search) {
+
+    $pdo = dbConnect();
+
     if (isset($search) && !empty($search)) {
         $sql = "SELECT * FROM posts
                 WHERE posts.title LIKE '%$search%'";
