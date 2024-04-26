@@ -775,6 +775,8 @@ function getPostByRef($ref)
 }
 
 function searchPost($search) {
+
+    $pdo = dbConnect();
     if (isset($search) && !empty($search)) {
         $sql = "SELECT * FROM posts
                 WHERE posts.title LIKE '%$search%'";
@@ -782,5 +784,7 @@ function searchPost($search) {
         $stmt = $pdo->query($sql);
     
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        header("Location: ./mypost.php");
     }   
 }
