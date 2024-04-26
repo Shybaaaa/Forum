@@ -9,7 +9,7 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
 
 ?>
 
-<div class="w-10/12 h-[80%] shadow bg-white px-3.5 rounded-lg py-2.5">
+<div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <!-- <form action="./user/mypost.php" method="post"></form>
@@ -59,7 +59,7 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
                 <?php if ($posts): ?>
                 <?php foreach ($posts as $post): ?>
                     <tr class="border-b dark:border-neutral-600">
-                        <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
+                        <th scope="row" class="px-6 py-5"><a href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"><?= $post["title"] ?></a></th>
                         <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
                         <td class="px-6 py-5">
                             <?php if ($post["status"] == "a"): ?>
@@ -82,7 +82,7 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
+                            <a href="index.php?page=editPost&ref=<?= $post["reference"] ?>" ><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></a>
 
                             <?php if(!$post["isDeleted"]): ?>
                                 <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $post["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
@@ -102,38 +102,5 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
         </div>
     </div>
 </div>
-
-
-<script>
-    // set the modal menu element
-    const $modalRestaure = document.getElementById('modalRestore');
-
-    // options with default values
-    const options = {
-        placement: 'center',
-        backdrop: 'dynamic',
-        backdropClasses:
-            'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-        closable: true,
-        onHide: () => {
-            console.log('modal is hidden');
-        },
-        onShow: () => {
-            console.log('modal is shown');
-        },
-        onToggle: () => {
-            console.log('modal has been toggled');
-        },
-    };
-
-    // instance options object
-    const instanceOptions = {
-        id: 'modalRestore',
-        override: true
-    };
-
-    const modal = new $modalRestaure($modalRestaure, options, instanceOptions);
-</script>
-
 
 

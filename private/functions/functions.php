@@ -649,6 +649,7 @@ function loginRestore($id)
 }
 
 
+
 function addComment(int $postId, string $message, string $reference)
 {
     $pdo = dbConnect();
@@ -673,14 +674,16 @@ function addRespondComment( string $message, int $fromTo, string $reference)
     if ($lastRef === null) {
         $lastRef = 0;
     }    
-            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-    $sql = "INSERT INTO comments (message, fromTo, reference) values (?, ?, ?)";
+    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
+    $sql = "INSERT INTO comments (message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$message, $fromTo, $reference]);
+
+    $stmt->execute([ $message, $fromTo, $reference]);
 
 }
-
 
 function getNbPosts($id)
 {
@@ -771,8 +774,24 @@ function getPostByRef($ref)
     } else {
         return false;
     }
-
 }
+
+function getPostsByUser($idUser, $nbPosts, $order)
+{
+    $pdo = dbConnect();
+
+    if ($nbPosts == -1){
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idUser]);
+    } else {
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order . " LIMIT " . $nbPosts;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idUser]);
+    }
+    return $stmt->fetchAll();
+}
+
 
 function searchPost($search) {
     if (isset($search) && !empty($search)) {
