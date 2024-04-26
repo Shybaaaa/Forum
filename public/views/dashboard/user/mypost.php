@@ -69,7 +69,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <button id="editButton" ><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
+                            <a href="index.php?page=editPost&ref=<?= $post["reference"] ?>" ><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></a>
 
                             <?php if(!$post["isDeleted"]): ?>
                                 <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $post["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
@@ -89,7 +89,5 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
         </div>
     </div>
 </div>
-
-<script src="/public/js/editModal.js" crossorigin="anonymous"></script>
 
 
