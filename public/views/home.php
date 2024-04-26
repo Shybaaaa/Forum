@@ -12,9 +12,9 @@ $post
                 <h1 class="text-lg text-black font-bold"><a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="inline-flex items-center"><i class="fa-solid fa-<?= $category["icons"]?> bg-indigo-500 text-white p-2 rounded-full shadow-md  mr-3"></i><?= ucfirst($category["name"]) ?></a></h1>
                 <a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="text-sm font-sans font-medium text-indigo-600 hover:text-indigo-500 transition-all">Voir plus</a>
             </div>
-            <div class="space-y-2">
-                <?php $postsCategory = getPostsWhereCat($category["id"], 3, "desc"); foreach ($postsCategory as $postCategory): ?>
-                    <article class="border-b border-spacing-0 h-16 m-0 px-3">
+            <div class="space-y-1">
+                <?php $postsCategory = getPostsWhereCat($category["id"], 3, "desc"); if (!$postsCategory){ echo "<div class='w-full text-center'><span class='w-full italic text-sm text-center text-gray-500'>Il n'y a aucun post dans cette catégorie.</span></div>";} ; foreach ($postsCategory as $postCategory): ?>
+                    <article class="border-b w-full border-spacing-0 h-16 m-0 px-3">
                         <div class="flex flex-row items-center justify-between gap-x-3">
                             <a href="index.php?page=viewpost&ref=<?= $postCategory["reference"]?>">
                                 <div class="group">
@@ -24,7 +24,7 @@ $post
                             </a>
                             <div class="flex flex-row items-center gap-x-8">
                                 <div class="flex flex-col w-fit h-fit items-center gap-x-2">
-                                    <p class="text-sm text-gray-500"><?= getNbComments($postCategory["id"])["nbComments"] ?></p>
+                                    <p class="text-sm text-gray-600"><?= getNbComments($postCategory["id"])["nbComments"] ?></p>
                                     <span class="text-sm text-gray-400">Messages</span>
                                 </div>
                                 <div class="flex flex-col gap-y-2">

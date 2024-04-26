@@ -649,7 +649,7 @@ function loginRestore($id)
 }
 
 
-<<<<<<< Updated upstream
+
 function addComment(int $postId, string $message, string $reference)
 {
     $pdo = dbConnect();
@@ -674,25 +674,14 @@ function addRespondComment( string $message, int $fromTo, string $reference)
     if ($lastRef === null) {
         $lastRef = 0;
     }    
-=======
-function addComment($postId, $message, $fromTo)
 
-{
-    $pdo = dbConnect();
-
-    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn(); 
-            if ($lastRef === null) {
-                $lastRef = 0;
-            }
-        
->>>>>>> Stashed changes
-            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
-    $sql = "INSERT INTO comments (postId, message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO comments (message, fromTo, reference) values ( ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([$postId, $message, $fromTo, $reference]);
+    $stmt->execute([ $message, $fromTo, $reference]);
 
 }
 
@@ -757,6 +746,21 @@ function getCategoryByRef($ref)
     }
 }
 
+function getUserByRef($refUser)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT users.id, users.username, users.email, users.image, users.biography, users.status, users.createdAt, users.isActive, users.isDeleted, users.isBanned, users.roleId FROM users WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$refUser]);
+    $user = $stmt->fetch();
+    if ($user) {
+        return $user;
+    } else {
+        return false;
+    }
+}
+
+
 function getPostByRef($ref)
 {
     $pdo = dbConnect();
@@ -770,5 +774,32 @@ function getPostByRef($ref)
     } else {
         return false;
     }
+}
 
+function getPostsByUser($idUser, $nbPosts, $order)
+{
+    $pdo = dbConnect();
+
+    if ($nbPosts == -1){
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idUser]);
+    } else {
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order . " LIMIT " . $nbPosts;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idUser]);
+    }
+    return $stmt->fetchAll();
+}
+
+
+function searchPost($search) {
+    if (isset($search) && !empty($search)) {
+        $sql = "SELECT * FROM posts
+                WHERE posts.title LIKE '%$search%'";
+    
+        $stmt = $pdo->query($sql);
+    
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }   
 }
