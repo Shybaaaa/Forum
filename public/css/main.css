@@ -5624,17 +5624,6 @@ input:checked + .toggle-bg {
   padding-bottom: 1px;
 }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-.px-2\.5 {
-  padding-left: 0.625rem;
-  padding-right: 0.625rem;
-}
-
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 .pb-0 {
   padding-bottom: 0px;
 }
@@ -7418,6 +7407,11 @@ input:checked + .toggle-bg {
 .hover\:text-red-700:hover {
   --tw-text-opacity: 1;
   color: rgb(200 30 30 / var(--tw-text-opacity));
+}
+
+.hover\:text-gray-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
 .hover\:opacity-95:hover {
