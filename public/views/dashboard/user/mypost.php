@@ -69,7 +69,7 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <button><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
+                            <button id="editButton" ><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></button>
 
                             <?php if(!$post["isDeleted"]): ?>
                                 <button data-modal-target="modalRestaure" data-modal-hide="modalRestore"  value="<?= $post["id"]?>"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
@@ -90,37 +90,6 @@ $posts = getPostUser($_SESSION["user"]["id"], "all", true);
     </div>
 </div>
 
-
-<script>
-    // set the modal menu element
-    const $modalRestaure = document.getElementById('modalRestore');
-
-    // options with default values
-    const options = {
-        placement: 'center',
-        backdrop: 'dynamic',
-        backdropClasses:
-            'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-        closable: true,
-        onHide: () => {
-            console.log('modal is hidden');
-        },
-        onShow: () => {
-            console.log('modal is shown');
-        },
-        onToggle: () => {
-            console.log('modal has been toggled');
-        },
-    };
-
-    // instance options object
-    const instanceOptions = {
-        id: 'modalRestore',
-        override: true
-    };
-
-    const modal = new $modalRestaure($modalRestaure, options, instanceOptions);
-</script>
-
+<script src="/public/js/editModal.js" crossorigin="anonymous"></script>
 
 

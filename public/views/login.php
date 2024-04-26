@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum - Login</title>
     <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="icon" href="/public/image/logo.ico">
 </head>
 <body class="overflow-hidden">
 <?php if (isset($_GET["error"])): ?>
