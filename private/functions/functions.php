@@ -649,8 +649,11 @@ function loginRestore($id)
 }
 
 
-function addComment(int $postId, string $message)
+
+function addComment($message, $postId, $reference, $id)
 {
+    $message = trim(htmlspecialchars($message));
+
     $pdo = dbConnect();
 
     $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
@@ -659,13 +662,14 @@ function addComment(int $postId, string $message)
     }
     $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-    $sql = "INSERT INTO comments (postId, message, reference) values ( ?, ?, ?)";
+    $sql = "INSERT INTO comments (message, postId , reference, createdAt, createdBy) values (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
+    $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
-    $stmt->execute([$postId, $message, $reference]);
+    header("Location: /public/views/viewPost.php?success=1&message=Commentaire publiez.");
 }
 
-function addRespondComment(int $id, string $message, int $fromTo, string $reference)
+function addRespondComment($message, $reference)
 {
     $pdo = dbConnect();
 
@@ -673,14 +677,16 @@ function addRespondComment(int $id, string $message, int $fromTo, string $refere
     if ($lastRef === null) {
         $lastRef = 0;
     }    
-            $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-    $sql = "INSERT INTO comments (message, fromTo, reference) values (?, ?, ?)";
+    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+
+    $sql = "INSERT INTO comments (message, reference) values (?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$message, $fromTo, $reference]);
+
+    $stmt->execute([ $message, $reference]);
 
 }
-
 
 function getNbPosts($id)
 {
@@ -743,6 +749,21 @@ function getCategoryByRef($ref)
     }
 }
 
+function getUserByRef($refUser)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT users.id, users.username, users.email, users.image, users.biography, users.status, users.createdAt, users.isActive, users.isDeleted, users.isBanned, users.roleId FROM users WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$refUser]);
+    $user = $stmt->fetch();
+    if ($user) {
+        return $user;
+    } else {
+        return false;
+    }
+}
+
+
 function getPostByRef($ref)
 {
     $pdo = dbConnect();
@@ -756,5 +777,36 @@ function getPostByRef($ref)
     } else {
         return false;
     }
+}
 
+function getPostsByUser($idUser, $nbPosts, $order)
+{
+    $pdo = dbConnect();
+
+    if ($nbPosts == -1){
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idUser]);
+    } else {
+        $sql = "SELECT * FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order . " LIMIT " . $nbPosts;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idUser]);
+    }
+    return $stmt->fetchAll();
+}
+
+
+function searchPost($search) {
+
+    $pdo = dbConnect();
+    if (isset($search) && !empty($search)) {
+        $sql = "SELECT * FROM posts
+                WHERE posts.title LIKE '%$search%'";
+    
+        $stmt = $pdo->query($sql);
+    
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        header("Location: ./mypost.php");
+    }   
 }
