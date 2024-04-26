@@ -18,7 +18,8 @@ $config = parse_ini_file("../../../config.ini");
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum - Tableau de bord</title>
     <link rel="stylesheet" href="../../css/main.css">
-    <script src="https://kit.fontawesome.com/abcb30c057.js"></script>
+    <link rel="icon" href="/public/image/logo.ico">
+    <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <?php if (isset($_GET["error"])): ?>
