@@ -8,7 +8,7 @@ if(!isset($_GET["ref"])) {
 
 $post = getPostByRef($_GET["ref"]);
 $userCreator = getUser($post["createdBy"]);
-$comments = getCommentsWherePOS($id);
+$comments = getCommentsWherePOS($_GET["id"]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = trim(htmlspecialchars($_POST["comment"] ?? ""));
@@ -106,7 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
         <div>
-
         </div>
     </div>
 </div>
