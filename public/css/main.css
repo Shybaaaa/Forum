@@ -7188,6 +7188,14 @@ input:checked + .toggle-bg {
   forced-color-adjust: none;
 }
 
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
