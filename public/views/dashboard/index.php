@@ -182,6 +182,6 @@ $config = parse_ini_file("../../../config.ini");
     </div>
 </div>
 
-<script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
+<script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
 </body>
 </html>
