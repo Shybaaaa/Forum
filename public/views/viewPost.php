@@ -10,7 +10,7 @@ $post = getPostByRef($_GET["ref"]);
 $userCreator = getUser($post["createdBy"]);
 $comments = getCommentsWherePOS($post["id"]);
 
-print_r($comments);
+// print_r($comments);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = trim(htmlspecialchars($_POST["comment"] ?? ""));
@@ -117,9 +117,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </footer>
                     <p class="mb-2 text-gray-500 dark:text-gray-400"><?= $comment["message"] ?></p>
                     <aside>
-                        <div class="flex items-center mt-3">
+                        <!-- <div class="flex items-center mt-3">
                             <a href="#" class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a>
-                        </div>
+                        </div> -->
                     </aside>
                 <?php
                 }
