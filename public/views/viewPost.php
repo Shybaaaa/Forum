@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2 class="mt-2 text-3xl text-gray-800 font-bold"><?= ucfirst($post["title"])?></h2>
                     <span class="uppercase text-indigo-500 text-sm font-bold tracking-wide"><?= getCategory($post["postCategoryId"])["name"] ?></span>
                 </span>
-                <p class="text-gray-700 text-md font-normal text-justify tracking-wide text-wrap"><?= $post["description"] ?></p>
+                <p class="text-gray-700 text-md font-normal text-pretty text-justify tracking-wide"><?= $post["description"] ?></p>
                 <span class="text-gray-600 text-sm italic">Publié le <?= date("d/m/Y", strtotime($post["createdAt"])) ?> à <?= date("H:i", strtotime($post["createdAt"])) ?></span>
             </div>
             <div class="flex flex-col flex-nowrap text-justify ">

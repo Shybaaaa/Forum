@@ -2253,6 +2253,10 @@ input:checked + .toggle-bg {
   max-height: 2rem;
 }
 
+.max-h-\[256px\] {
+  max-height: 256px;
+}
+
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
@@ -2509,6 +2513,10 @@ input:checked + .toggle-bg {
 
 .max-w-8 {
   max-width: 2rem;
+}
+
+.max-w-\[256px\] {
+  max-width: 256px;
 }
 
 .max-w-full {
@@ -7178,6 +7186,14 @@ input:checked + .toggle-bg {
 
 .forced-color-adjust-none {
   forced-color-adjust: none;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
 }
 
 @media (min-width: 640px) {
