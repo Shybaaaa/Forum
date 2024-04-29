@@ -101,28 +101,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
                 </div>
             </div>
         </form>
-        <div>
-            <article>
-                <?php foreach ($comments as $comment) { ?>
+        <div class="w-full">
+            <?php foreach ($comments as $comment) { ?>
+                <article class="bg-gray-100 w-1/2 rounded-lg px-6 py-2 my-3 ml-3">
                     <div class="flex items-center mb-4">
-                        <img class="w-10 h-10 me-4 rounded-full" src="<?= getUser($comment["createdBy"])["image"] ?>" alt="">
-                        <div class="font-medium dark:text-white">
-                            <p><?= getUser($comment["createdBy"])["username"] ?></p>
-                        </div>
+                        <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
+                            <img class="w-10 h-10 me-4 rounded-full transition duration-75" src="<?= getUser($comment["createdBy"])["image"] ?>" alt="">
+                            <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
+                                <p><?= getUser($comment["createdBy"])["username"] ?></p>
+                            </div>
+                        </a>
+                        <p class="ml-3 text-gray-500 text-sm text-pretty"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i", strtotime($comment["createdAt"])) ?></p>
                     </div>
-                    <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
-                        <p><?= $comment["createdAt"] ?></p>
-                    </footer>
-                    <p class="mb-2 text-gray-500 dark:text-gray-400"><?= $comment["message"] ?></p>
+                    <p class="mb-2 text-gray-700 text-sm dark:text-gray-400"><?= $comment["message"] ?></p>
 <!--                    <aside>-->
 <!--                        <div class="flex items-center mt-3">-->
 <!--                            <a href="#" class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a>-->
 <!--                        </div> -->
 <!--                    </aside>-->
-                <?php
-                }
-                ?>
-            </article>
+                </article>
+            <?php } ?>
         </div>
     </div>
 </div>
