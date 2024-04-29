@@ -20,9 +20,9 @@ $user = getUserByRef($_GET["ref"]);
                 <div class="w-[30%] h-[15%] flex flex-col space-y-3 items-center">
                     <div class="w-full px-6 py-2">
                         <?php if(isset($user["image"]) && $user["image"] != ""): ?>
-                            <img src="<?= $user["image"] ?>" alt="avatar" class="relative w-40 h-40 shadow-md border-2 inline-block object-cover object-center min-w-full min-h-full rounded-full" />
+                            <img src="<?= $user["image"] ?>" alt="avatar" class="w-32 h-32 object-cover rounded-full shadow-md border-2" />
                         <?php else: ?>
-                            <span class="bg-gray-400 flex items-center text-8xl shadow-md rounded-full text-white min-w-full min-h-full justify-center">
+                            <span class="w-32 h-32 bg-gray-400 flex items-center justify-center text-8xl shadow-md rounded-full text-white">
                                 <i class="fa-solid p-8 fa-user"></i>
                             </span>
                         <?php endif; ?>
