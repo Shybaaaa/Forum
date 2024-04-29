@@ -2179,10 +2179,6 @@ input:checked + .toggle-bg {
   height: 15%;
 }
 
-.h-\[160px\] {
-  height: 160px;
-}
-
 .h-\[20\%\] {
   height: 20%;
 }
@@ -2424,12 +2420,8 @@ input:checked + .toggle-bg {
   width: 24rem;
 }
 
-.w-\[15\%\] {
-  width: 15%;
-}
-
-.w-\[160px\] {
-  width: 160px;
+.w-\[30\%\] {
+  width: 30%;
 }
 
 .w-\[80\%\] {
@@ -7401,6 +7393,10 @@ img {
   color: rgb(200 30 30 / var(--tw-text-opacity));
 }
 
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
 .hover\:opacity-95:hover {
   opacity: 0.95;
 }
@@ -7842,6 +7838,10 @@ img {
 @media (min-width: 768px) {
   .md\:inset-0 {
     inset: 0px;
+  }
+
+  .md\:mb-0 {
+    margin-bottom: 0px;
   }
 
   .md\:h-auto {

@@ -8,7 +8,7 @@ if(!isset($_GET["ref"])) {
 
 $post = getPostByRef($_GET["ref"]);
 $userCreator = getUser($post["createdBy"]);
-$comments = getCommentsWherePOS($_GET["id"]);
+$comments = getCommentsWherePOS($id);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = trim(htmlspecialchars($_POST["comment"] ?? ""));
@@ -106,6 +106,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
         <div>
+            <article>
+                <?php foreach ($comments as $comment) {
+                    ?>
+
+                    <div class="flex items-center mb-4">
+                    <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+                    <div class="font-medium dark:text-white">
+                    <p><?= $comment["createdBy"] ?></p>
+                    </div>
+                    </div>
+                    <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><p><?=$comment["createdAt"] ?></p></footer>
+                    <p class="mb-2 text-gray-500 dark:text-gray-400"><?= $comment["message"] ?></p>
+                    <aside>
+                    <div class="flex items-center mt-3">
+                    <a href="#" class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a>
+                    </div>
+                    </aside>
+                    <?php
+                }
+                ?>
+            </article>
         </div>
     </div>
 </div>
