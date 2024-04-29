@@ -64,7 +64,7 @@ $user = getUserByRef($_GET["ref"]);
                         <span class="text-sm text-gray-500">Publications</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
-                        <span class="text-2xl font-semibold text-indigo-600"><?= getNbComments($user["id"])["nbComments"] ?></span>
+                        <span class="text-2xl font-semibold text-indigo-600"><?= getNbCommentsForUser($user["id"])["nbComments"] ?></span>
                         <span class="text-sm text-gray-500">Commentaires</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
