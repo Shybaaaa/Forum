@@ -648,7 +648,7 @@ function loginRestore($id)
 
 function addComment($message, $postId, $reference, $id)
 {
-    $message = trim(htmlspecialchars($message));
+    $message = htmlspecialchars(trim($message));
 
     $pdo = dbConnect();
 

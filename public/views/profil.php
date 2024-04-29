@@ -49,6 +49,9 @@ $user = getUserByRef($_GET["ref"]);
                             }
                         ?>
                     </div>
+                    <div>
+                        <p class="text-gray-600 text-sm font-normal"><?= $user["biography"] ?></p>
+                    </div>
                 </div>
             </div>
         </div>
