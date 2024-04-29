@@ -870,18 +870,14 @@ function searchPost($search) {
 
         header("Location: ./mypost.php");
     }   
+}
 
 
-function getCommentsWherePOS($id) {
 
+function getComments($id)
+{
     $pdo = dbConnect();
 
-    $sql = "SELECT * FROM comments WHERE postId = ? and isActive = 1 and isDeleted = 0";
 
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([$id]);
-
-    return $stmt->fetchAll();
 
 }
