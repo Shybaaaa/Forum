@@ -27,8 +27,8 @@ if (isset($_SESSION["user"])) {
 <body class="bg-gray-100">
 <?php if (isset($_GET["success"]) and $_GET["success"] == 1): ?>
     <div id="toast-success"
-         class="fixed top-20 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
-         role="alert">
+        class="fixed top-20 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
+        role="alert">
         <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
             <i class="fa-solid fa-thumbs-up fill-current" aria-hidden="true"></i>
             <span class="sr-only">icon success</span>
@@ -40,7 +40,7 @@ if (isset($_SESSION["user"])) {
             <span class="sr-only">Fermer</span>
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7
                     7l-6 6"/>
             </svg>
         </button>
