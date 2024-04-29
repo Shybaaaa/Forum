@@ -1,13 +1,13 @@
 <?php
 
+require_once "../index.php";
 if (isset($_POST["search"]) && !empty($_POST["search"])) {
-    $posts = searchPost($_POST["search"]);
+    $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 }else{
     $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 }
 
-
-?>
+?>  
 <!DOCTYPE html>
 <html lang="fr">
 <head>
