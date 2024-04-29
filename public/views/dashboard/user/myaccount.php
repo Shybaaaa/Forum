@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_FILES["imageUpdate"]) && $_FILES["imageUpdate"]["error"] != 4) {
             $status = updateUserProfile($_SESSION["user"]["id"], $_FILES["imageUpdate"]);
             if ($status["type"] == "success") {
-                echo "<script>window.location.href = 'index.php?success=1&message=La photo de profil a bien été modifié.'</script>";
+                echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La photo de profil a bien été modifié.'</script>";
             } else {
                 echo "<script>window.location.href = 'index.php'</script>";
             }
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["updateUsernameField"])){
             $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
             if ($status["type"] == "success") {
-                echo "<script>window.location.href = 'index.php?success=1&message=Le nom d\'utilisateur a bien été modifié.'</script>";
+                echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=Le nom d\'utilisateur a bien été modifié.'</script>";
             } else {
                 echo "<script>window.location.href = 'index.php'</script>";
             }
@@ -25,21 +25,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $newPassConfirm = htmlspecialchars(trim($_POST["passwordNewConfirm"]));
         $status = updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = 'index.php?success=1&message=La mots de passe a été modifié avec succès.'</script>";
+            echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La mots de passe a été modifié avec succès.'</script>";
         } else {
             echo "<script>window.location.href = 'index.php'</script>";
         }
     } elseif (isset($_POST["updateDescSubmit"])){
         $status = updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = 'index.php?success=1&message=La biographie a été modifié avec succès.'</script>";
+            echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La biographie a été modifié avec succès.'</script>";
         } else {
             echo "<script>window.location.href = 'index.php'</script>";
         }
     } elseif (isset($_POST["deleteProfilePicture"])){
         $status = deleteUserProfile($_SESSION["user"]["id"]);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = 'index.php?success=1&message=La photo de profil a été supprimé avec succès.'</script>";
+            echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La photo de profil a été supprimé avec succès.'</script>";
         } else {
             echo "<script>window.location.href = 'index.php'</script>";
         }
