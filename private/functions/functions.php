@@ -123,7 +123,7 @@ function loginUser($email, $password)
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
-        $sql = "SELECT users.id, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
+        $sql = "SELECT users.id, users.reference, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
 
@@ -133,6 +133,7 @@ function loginUser($email, $password)
         if ($isUser) {
             $_SESSION["user"] = [
                 "id" => $isUser["id"],
+                "reference" => $isUser["reference"],
                 "username" => $isUser["username"],
                 "email" => $isUser["email"],
                 "image" => $isUser["image"],
@@ -869,4 +870,14 @@ function searchPost($search) {
 
         header("Location: ./mypost.php");
     }   
+}
+
+
+
+function getComments($id)
+{
+    $pdo = dbConnect();
+
+
+
 }

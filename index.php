@@ -83,6 +83,9 @@ if (isset($_SESSION["user"])) {
                                     <li>
                                         <a href="/public/views/dashboard/index.php?page=myaccount" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tableau de bord</a>
                                     </li>
+                                    <li>
+                                        <a href="index.php?page=profil&ref=<?= $_SESSION["user"]["reference"] ?>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mon profil</a>
+                                    </li>
                                 </ul>
                                 <div class="py-1">
                                     <a href="/index.php?disconnect=1" class="text-red-600 block px-4 py-2 text-sm hover:text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
