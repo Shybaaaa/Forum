@@ -875,3 +875,13 @@ function getCommentsWherePOS($id)
     $stmt->execute([$id]);
     return $stmt->fetchAll();
 }
+
+function getNbCommentForUser($idUser)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE createdBy = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$idUser]);
+
+    return $stmt->fetch();
+}
