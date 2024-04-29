@@ -8,7 +8,6 @@ function dbConnect()
         $pdo = new PDO("mysql:host=$config[DB_HOST];port=$config[DB_PORT];dbname=$config[DB_NAME];charset=utf8", $config['DB_USER'], $config["DB_PASS"]);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
     } catch (PDOException $e) {
         header("Location: ./index.php?error=1&message=Erreur de connexion à la base de données");
     }
@@ -17,7 +16,7 @@ function dbConnect()
 
 function addUser($username, $description, $email, $password, $vPassword, $image)
 {
-//    Déclaration des variables.
+    //    Déclaration des variables.
     $username = trim(htmlspecialchars($username));
     $description = trim(htmlspecialchars($description));
     $email = trim(htmlspecialchars($email));
@@ -31,23 +30,23 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
         exit();
     }
 
-//    Vérification de l'entré email
+    //    Vérification de l'entré email
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-//        Vérification des mots de passe
+        //        Vérification des mots de passe
         if ($password === $vPassword) {
 
-//            Vérification de l'unicité du username
+            //            Vérification de l'unicité du username
             $pdo = dbConnect();
             $sql = "SELECT * FROM users WHERE username = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$username]);
             $isUsername = $stmt->fetch();
 
-            $lastRef = $pdo->query("SELECT id FROM users ORDER BY id desc limit 1")->fetchColumn(); 
+            $lastRef = $pdo->query("SELECT id FROM users ORDER BY id desc limit 1")->fetchColumn();
             if ($lastRef === null) {
                 $lastRef = 0;
             }
-        
+
             $reference = "USE_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
@@ -99,8 +98,6 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                 header("Location: /public/views/login.php?success=1&message=Votre compte a été créé avec succès.");
                 exit();
             }
-
-
         } else {
             newLogs("CREATE USER ERROR", "Mots de passe différents");
             header("Location: /public/views/register.php?error=1&message=Entrez le même mot de passe");
@@ -148,7 +145,7 @@ function loginUser($email, $password)
             $stmt->execute([$email, $hPassword]);
             $isUser = $stmt->fetch();
 
-            if ($isUser){
+            if ($isUser) {
                 return [
                     "id" => $isUser["id"],
                     "isActive" => 0,
@@ -221,7 +218,7 @@ function deleteUserProfile($id)
     $stmt->execute([$id]);
     $userPP = $stmt->fetch();
 
-    if ($userPP){
+    if ($userPP) {
         $folder = explode("/", $userPP["image"]);
         $folder = array_slice($folder, 0, count($folder) - 1);
         $folder = implode("/", $folder);
@@ -239,7 +236,6 @@ function deleteUserProfile($id)
     } else {
         return ["type" => "error", "message" => "Erreur lors de la suppression de l'image"];
     }
-
 }
 
 function updateUserProfile($id, $image)
@@ -325,7 +321,7 @@ function updateUsername($id, $username)
     $stmt->execute([$username]);
     $isUsername = $stmt->fetch();
 
-    if ($isUsername){
+    if ($isUsername) {
         newLogs("Username update", "Nom d'utilisateur déjà utilisé");
         return ["type" => "error", "message" => "Nom d'utilisateur déjà utilisé"];
         exit;
@@ -350,10 +346,10 @@ function addPost($title, $description, $postCategoryId, $photo, $id)
     $isCategory = $stmt->fetch();
     $reference = uniqid("post_", "true");
 
-    $lastRef = $pdo->query("SELECT id FROM posts ORDER BY id desc limit 1")->fetchColumn(); 
+    $lastRef = $pdo->query("SELECT id FROM posts ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
         $lastRef = 0;
-    } 
+    }
 
     $reference = "POS_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
@@ -381,7 +377,7 @@ function deleteUser($id, $password)
 
     if ($user) {
         $stmt = $pdo->prepare("UPDATE users SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ? WHERE id = ?");
-        $stmt->execute([date("Y-m-d H:i:s"), $id ,$id]);
+        $stmt->execute([date("Y-m-d H:i:s"), $id, $id]);
         newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
         return ["type" => "success", "message" => "Utilisateur supprimé avec succès"];
         exit;
@@ -390,7 +386,6 @@ function deleteUser($id, $password)
         return ["type" => "error", "message" => "Mot de passe incorrect"];
         exit;
     }
-
 }
 
 function uploadImage($image)
@@ -474,13 +469,13 @@ function getPostUser($idUser, $idPost, $isDeleted)
 {
     $pdo = dbConnect();
 
-    if (isset($idUser) && $idUser >= 0){
-        if ($isDeleted){
+    if (isset($idUser) && $idUser >= 0) {
+        if ($isDeleted) {
             $sql = "SELECT * FROM posts WHERE createdBy = ?";
             $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
             $stmt = $pdo->prepare($sql);
 
-            if ($idPost != "all"){
+            if ($idPost != "all") {
                 $var = [
                     $idUser,
                     $idPost
@@ -490,12 +485,12 @@ function getPostUser($idUser, $idPost, $isDeleted)
                     $idUser,
                 ];
             }
-        } elseif(!$isDeleted) {
+        } elseif (!$isDeleted) {
             $sql = "SELECT * FROM posts WHERE createdBy = ? and isDeleted = ?";
             $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
             $stmt = $pdo->prepare($sql);
 
-            if ($idPost != "all"){
+            if ($idPost != "all") {
                 $var = [
                     $idUser,
                     ($isDeleted) ? 1 : 0,
@@ -514,8 +509,6 @@ function getPostUser($idUser, $idPost, $isDeleted)
     } else {
         return "Erreur";
     }
-
-
 }
 
 function safeDelete($id)
@@ -597,13 +590,13 @@ function addCategory($name, $id)
     } else {
         newLogs("CREATE CATEGORY", "Catégorie ajoutée : " . $name);
 
-        $lastRef = $pdo->query("SELECT id FROM postCategory ORDER BY id desc limit 1")->fetchColumn(); 
+        $lastRef = $pdo->query("SELECT id FROM postCategory ORDER BY id desc limit 1")->fetchColumn();
         if ($lastRef === null) {
             $lastRef = 0;
-        } 
-    
+        }
+
         $reference = "CAT_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
-    
+
         $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference, createdAt, createdBy) VALUES (?, ?, ?, ?)");
         $stmt->execute([$name, $reference, date("Y-m-d H:i:s"), $id]);
 
@@ -647,7 +640,7 @@ function loginRestore($id)
     $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute($id);
-    
+
     newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
     header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
 }
@@ -680,7 +673,7 @@ function addRespondComment($message, $reference)
     $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
         $lastRef = 0;
-    }    
+    }
 
     $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
@@ -688,8 +681,7 @@ function addRespondComment($message, $reference)
     $sql = "INSERT INTO comments (message, reference) values (?, ?)";
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute([ $message, $reference]);
-
+    $stmt->execute([$message, $reference]);
 }
 
 function getNbPosts($id)
@@ -716,7 +708,7 @@ function getPostsWhereCat($catId, $nbPosts, $order)
 {
     $pdo = dbConnect();
 
-    if ($nbPosts == -1){
+    if ($nbPosts == -1) {
         $sql = "SELECT * FROM posts WHERE postCategoryId = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$catId]);
@@ -787,7 +779,7 @@ function getPostsByUser($idUser, $nbPosts, $order)
 {
     $pdo = dbConnect();
 
-    if ($nbPosts == -1){
+    if ($nbPosts == -1) {
         $sql = "SELECT * FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0 ORDER BY createdAt " . $order;
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$idUser]);
@@ -815,14 +807,14 @@ function updatePostUserByRef(string $ref, string $title, string $description, $p
         $stmt->execute([$postCategoryId]);
         $isCategory = $stmt->fetch();
 
-        if ($isCategory){
-            if ($post){
+        if ($isCategory) {
+            if ($post) {
 
                 $sql = "UPDATE posts SET posts.title = ?, posts.description = ?, posts.postCategoryId = ?, posts.updatedAt = ?, posts.updatedBy = ?";
 
                 // Update de l'image, avec suppression de l'ancienne image.
-                if ($photo["error"] == 0){
-                    if ($post["photo"] != ""){
+                if ($photo["error"] == 0) {
+                    if ($post["photo"] != "") {
                         $folder = explode("/", $post["photo"]);
                         $folder = array_slice($folder, 0, count($folder) - 1);
                         $folder = implode("/", $folder);
@@ -857,32 +849,29 @@ function updatePostUserByRef(string $ref, string $title, string $description, $p
     }
 }
 
-function searchPost($search) {
+function searchPost($search)
+{
 
     $pdo = dbConnect();
 
     if (isset($search) && !empty($search)) {
         $sql = "SELECT * FROM posts
                 WHERE posts.title LIKE '%$search%'";
-    
+
         $stmt = $pdo->query($sql);
-    
+
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         header("Location: ./mypost.php");
     }   
 }
 
-function getCommentsWherePOS($id) {
-
+function getCommentsWherePOS($id)
+{
     $pdo = dbConnect();
 
     $sql = "SELECT * FROM comments WHERE postId = ? and isActive = 1 and isDeleted = 0";
-
     $stmt = $pdo->prepare($sql);
-
     $stmt->execute([$id]);
-
     return $stmt->fetchAll();
-
 }
