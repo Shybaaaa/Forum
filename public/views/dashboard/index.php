@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once "../../../private/functions/functions.php";
 
+require_once "../../../private/functions/functions.php";
 if (!isset($_SESSION["user"])) {
     header("Location: /index.php");
 }

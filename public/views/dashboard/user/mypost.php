@@ -1,14 +1,22 @@
 <?php
 
+require_once "../index.php";
 if (isset($_POST["search"]) && !empty($_POST["search"])) {
-    $posts = searchPost($_POST["search"]);
+    $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 }else{
     $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 }
 
-
-?>
-
+?>  
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width= , initial-scale=1.0">
+    <title>mes postes - forum</title>
+    <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
+</head>
+<body>
 <div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
@@ -22,10 +30,6 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
                         </button>
                     </div>
                 </form>
-<!--                            <form action="./user/mypost.php" method="post">-->
-<!--                                <input type="text" name="search" placeholder="Rechercher">-->
-<!--                                <button type="submit">Rechercher</button>-->
-<!--                            </form>-->
                 <div class="relative m-[2px] mb-3 float-right sm:block">
                     <a href="../../../public/views/insert_post.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                         <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
