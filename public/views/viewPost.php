@@ -14,7 +14,13 @@ print_r($comments);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = trim(htmlspecialchars($_POST["comment"] ?? ""));
-    addComment($message, $post["id"], $post["reference"], $_SESSION["user"]["id"]);
+    $status = addComment($message, $post["id"], $post["reference"], $_SESSION["user"]["id"]);
+
+    if ($status["type"] === "success") {
+        echo "<script>window.location.href = 'index.php?page=viewpost&ref=" . $_GET["ref"] . "&success=1&message=" . $status["message"] . "';</script>";
+    } else {
+        echo "<script>window.location.href = 'index.php?page=viewpost&ref=" . $_GET["ref"] . "&error=1&message=" . $status["message"] . "';</script>";
+    }
 }
 
 ?>
@@ -98,13 +104,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
         <div>
             <article>
-                <?php foreach ($comments as $comment) {
-                ?>
-
+                <?php foreach ($comments as $comment) { ?>
+                    <!-- getUserById(ID)["Variable DB"] -->
                     <div class="flex items-center mb-4">
-                        <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+                        <img class="w-10 h-10 me-4 rounded-full" src="<?= getUser($comment["createdBy"])["image"] ?>" alt="">
                         <div class="font-medium dark:text-white">
-                            <p><?= $comment["createdBy"] ?></p>
+                            <p><?= getUser($comment["createdBy"])["username"] ?></p>
                         </div>
                     </div>
                     <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">

@@ -663,7 +663,7 @@ function addComment($message, $postId, $reference, $id)
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
-    header("Location: /public/views/viewPost.php?success=1&message=Commentaire publiez.");
+    return ["type" => "success", "message" => "Le commentaire a bien été publié."];
 }
 
 function addRespondComment($message, $reference)
