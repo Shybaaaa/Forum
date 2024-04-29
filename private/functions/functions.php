@@ -869,8 +869,8 @@ function searchPost($search) {
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         header("Location: ./mypost.php");
-    }  
-} 
+    }
+}
 
 
 
