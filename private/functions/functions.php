@@ -871,7 +871,7 @@ function searchPost($search) {
 
         header("Location: ./mypost.php");
     }   
-
+}
 
 function getCommentsWherePOS($id) {
 

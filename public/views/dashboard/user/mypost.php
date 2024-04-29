@@ -1,6 +1,4 @@
 <?php
-session_start();
-require_once "../../../../private/functions/functions.php";
 
 if (isset($_POST["search"]) && !empty($_POST["search"])) {
     $posts = searchPost($_POST["search"]);
@@ -16,12 +14,13 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width= , initial-scale=1.0">
     <title>mes postes - forum</title>
+    <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
-            <form action="./user/mypost.php" method="post"></form>
+            <!-- <form action="./user/mypost.php" method="post"></form>
                 <div class="relative m-[2px] mb-3 mr-5 float-left">
                     <label for="inputSearch" class="sr-only">Rechercher</label>
                     <input id="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:bg-neutral-600 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"/>
@@ -33,11 +32,11 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
                         </span>
                     </button>
                 </div>
+            </form> -->
+            <form action="./user/mypost.php" method="post">
+                <input type="text" name="search" placeholder="Rechercher">
+                <button type="submit">Rechercher</button>
             </form>
-<!--            <form action="./user/mypost.php" method="post">-->
-<!--                <input type="text" name="search" placeholder="Rechercher">-->
-<!--                <button type="submit">Rechercher</button>-->
-<!--            </form>-->
             <div class="relative m-[2px] mb-3 float-right sm:block">
                 <a href="../../../public/views/insert_post.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                     <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
@@ -68,7 +67,7 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
                 <?php if ($posts): ?>
                 <?php foreach ($posts as $post): ?>
                     <tr class="border-b dark:border-neutral-600">
-                        <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"><i class="fa-solid fa-up-right-from-square"></i></a></th>
+                        <th scope="row" class="px-6 py-5"><a href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"><?= $post["title"] ?></a></th>
                         <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
                         <td class="px-6 py-5">
                             <?php if ($post["status"] == "a"): ?>
@@ -111,5 +110,7 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
         </div>
     </div>
 </div>
+<script src="https://kit.fontawesome.com/abcb30c057.js"></script>
+<script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
 </body>
 </html>
