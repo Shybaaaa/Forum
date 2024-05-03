@@ -193,7 +193,7 @@ function updateUserBiography($id, $biography)
 {
     $biography = htmlentities(htmlspecialchars(trim($biography)));
 
-    if (strlen($biography) > 500 && strlen($biography) <= 0) {
+    if (strlen($biography) > 500) {
         newLogs("Biography update", "Biographie trop longue");
         return ["type" => "error", "message" => "Biographie trop longue"];
     } else {
