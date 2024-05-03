@@ -27,21 +27,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($status["type"] == "success") {
             echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La mots de passe a été modifié avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = 'index.php'</script>";
+            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
         }
     } elseif (isset($_POST["updateDescSubmit"])) {
         $status = updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
         if ($status["type"] == "success") {
             echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La biographie a été modifié avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = 'index.php'</script>";
+            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
         }
     } elseif (isset($_POST["deleteProfilePicture"])) {
         $status = deleteUserProfile($_SESSION["user"]["id"]);
         if ($status["type"] == "success") {
             echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La photo de profil a été supprimé avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = 'index.php'</script>";
+            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
         }
     } elseif (isset($_POST["deleteProfile"])) {
         $status = deleteUser($_SESSION["user"]["id"], $_POST["password"]);
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_destroy();
             echo "<script>window.location.href = '../../login.php?success=1&message=Compte supprimer avec succès.'</script>";
         } else {
-            echo "<script>window.location.href = 'index.php'</script>";
+            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
         }
     }
 }
