@@ -15,7 +15,7 @@ if (isset($_SESSION["user"])) {
 ?>
 
 <!doctype html>
-<html lang="fr" class="">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -29,21 +29,17 @@ if (isset($_SESSION["user"])) {
     <link rel="stylesheet" href="/public/css/main.css">
 
     <script>
-  // It's best to inline this in `head` to avoid FOUC (flash of unstyled content) when changing pages or themes
-  if (
-    localStorage.getItem('color-theme') === 'dark' ||
-    (!('color-theme' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
-</script>
-
+        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.querySelector('html').classList.add('dark');
+        } else {
+            document.querySelector('html').classList.remove('dark');
+        }
+    </script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 dark:bg-slate-800">
+
+
     <?php if (isset($_GET["success"]) and $_GET["success"] == 1) : ?>
         <div id="toast-success" class="fixed top-20 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow" role="alert">
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
@@ -61,59 +57,44 @@ if (isset($_SESSION["user"])) {
         </div>
     <?php endif; ?>
 
-    <div>
+    <div class="">
         <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
-            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5">
+            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5 dark:bg-slate-700">
                 <div class="flex h-16 shrink-0 items-center">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white"><?= $config["APP_NAME"] ?></h4>
                 </div>
-                <nav class="flex flex-1 flex-col">
+                <nav class="flex flex-1 flex-col" class="">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
                         <li>
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li class="mx-auto w-full">
-                                    <a href="index.php?page=home" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-100 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                                    <a href="index.php?page=home" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-500 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold dark:text-slate-200">
                                         <i class="fa-solid fa-house"></i>
                                         Accueil
                                     </a>
                                 </li>
                             </ul>
                         </li>
-
-                        <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                        <li>
-                            <ul role="list" class="-mx-2 space-y-1">
-                                <li class="mx-auto w-full">
-                                <div class="flex items-center z-30">
-                                	<svg class="h-6 w-6 mr-2 text-yellow-300 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                	  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-                               </svg>
-                                <div class="relative inline-block w-10 select-none">
-		                    <input type="checkbox" name="toggleTheme" id="toggleTheme" class="transition-transform transform translate-x-0 duration-500 theme-switch absolute block w-5 h-5 rounded-full bg-white appearance-none cursor-pointer mx-1 my-1">
-	                       	<label for="toggleTheme" class="theme-switch-label block overflow-hidden w-14 h-7 rounded-full bg-yellow-300 cursor-pointer"></label>
-                              	</div>
-	                         <svg class="h-6 w-6 ml-6 text-gray-900 dark:text-yellow-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-	                         	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                            	</svg>
-                             </div>                             
-                            
-                                </li>
-                            </ul>
-                        </li>     
-
+                     
                         
+                        <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                        </button>
+
+
 
                         <li class="mx-auto mt-auto mb-4 w-full">
                             <?php if (isset($_SESSION["user"]) && $_SESSION["user"]) : ?>
-                                <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded px-6 mx-auto py-2 w-full mb-5 hover:bg-gray-100 transition-all">
+                                <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded px-6 mx-auto py-2 w-full mb-5 hover:bg-slate-500 transition-all">
                                     <?php if ($_SESSION["user"]["image"]) : ?>
                                         <img class="w-10 h-10 rounded-full" src="<?= $_SESSION["user"]["image"] ?>" alt="">
                                     <?php else : ?>
                                         <i class="fa-solid fa-user text-xl rounded-full p-3 bg-gray-500 text-white"></i>
                                     <?php endif; ?>
                                     <div class="font-medium">
-                                        <div><?= $_SESSION["user"]["username"] ?></div>
-                                        <div class="text-sm text-gray-500"><?= $role["name"] ?></div>
+                                        <div class="dark:text-slate-100"><?= $_SESSION["user"]["username"] ?></div>
+                                        <div class="text-sm text-gray-500 dark:text-slate-100"><?= $role["name"] ?></div>
                                     </div>
                                 </div>
                                 <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44 dark:bg-gray-700 dark:divide-gray-600">
@@ -174,6 +155,9 @@ if (isset($_SESSION["user"])) {
             </main>
         </div>
     </div>
+
+<script src="/public/js/dark_mode.js"></script>
+
 </body>
 
 </html>
