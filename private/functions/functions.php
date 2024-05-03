@@ -665,24 +665,6 @@ function addComment($message, $postId, $reference, $id)
     return ["type" => "success", "message" => "Le commentaire a bien été publié."];
 }
 
-function addRespondComment($message, $reference)
-{
-    $pdo = dbConnect();
-
-    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
-    if ($lastRef === null) {
-        $lastRef = 0;
-    }
-
-    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
-
-
-    $sql = "INSERT INTO comments (message, reference) values (?, ?)";
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([$message, $reference]);
-}
-
 function getNbPosts($id)
 {
     $pdo = dbConnect();
@@ -858,8 +840,10 @@ function searchPost($search)
         $sql = "SELECT * FROM posts WHERE posts.title LIKE '%$search%'";
         $stmt = $pdo->query($sql);
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         return $posts;
     }   
+
 }
 
 function getCommentsWherePOS($id)
@@ -880,4 +864,21 @@ function getNbCommentForUser($idUser)
     $stmt->execute([$idUser]);
 
     return $stmt->fetch();
+}
+
+function addRespondComment($message, $commentId, $reference, $id)
+{
+    $pdo = dbConnect();
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    if ($lastRef === null) {
+        $lastRef = 0;
+    }
+    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+    $sql = "INSERT INTO sous_comments (message, commentId, reference, createdAt, createdBy) values (?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$message, $commentId, $reference, date("Y-m-d H:i:s"), $id]);
+
+    return ["type" => "success", "message" => "Le commentaire a bien été publié."];
 }
