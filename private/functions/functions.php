@@ -832,18 +832,15 @@ function updatePostUserByRef(string $ref, string $title, string $description, $p
 
 function searchPost($search)
 {
+    $search = htmlspecialchars(trim($search));
 
     $pdo = dbConnect();
 
     if (isset($search) && !empty($search)) {
-        $sql = "SELECT * FROM posts
-                WHERE posts.title LIKE '%$search%'";
-
+        $sql = "SELECT * FROM posts WHERE posts.title LIKE '%$search%'";
         $stmt = $pdo->query($sql);
-
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        header("Location: ./mypost.php");
+        return $posts;
     }
 }
 
