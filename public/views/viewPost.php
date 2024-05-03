@@ -96,11 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
                         <p class="ml-3 text-gray-500 text-sm text-pretty"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i", strtotime($comment["createdAt"])) ?></p>
                     </div>
                     <p class="mb-2 text-gray-700 text-sm dark:text-gray-400"><?= $comment["message"] ?></p>
-<!--                    <aside>-->
-<!--                        <div class="flex items-center mt-3">-->
-<!--                            <a href="#" class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a>-->
-<!--                        </div> -->
-<!--                    </aside>-->
                 </article>
             <?php } ?>
         </div>
