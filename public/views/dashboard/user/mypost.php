@@ -1,27 +1,19 @@
 <?php
 
-require_once "../index.php";
-if (isset($_POST["search"]) && !empty($_POST["search"])) {
-    $posts = getPostUser($_SESSION["user"]["id"], "all", true);
-}else{
-    $posts = getPostUser($_SESSION["user"]["id"], "all", true);
+if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
+    $posts = searchPost($_POST["search"]);
+    print_r($posts);
+} else {
+    $posts = getPostUser($_SESSION["user"]["id"], "all" , "true");
 }
 
 ?>  
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width= , initial-scale=1.0">
-    <title>mes postes - forum</title>
-    <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
-</head>
-<body>
+
 <div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="flex flex-row m-2 my-3 justify-between">
-                <form action="./user/mypost.php" method="post">
+                <form action="" enctype="multipart/form-data" method="post">
                     <div class="relative mb-3 mr-5 float-left">
                         <label for="inputSearch" class="sr-only">Rechercher</label>
                         <input id="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:bg-neutral-600 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"/>
