@@ -191,7 +191,7 @@ function updateUser($id, $username, $surname, $email, $password, $image)
 
 function updateUserBiography($id, $biography)
 {
-    $biography = htmlentities(htmlspecialchars(trim($biography)));
+    $biography = htmlspecialchars(trim($biography));
 
     if (strlen($biography) > 500) {
         newLogs("Biography update", "Biographie trop longue");
