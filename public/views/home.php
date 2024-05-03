@@ -21,28 +21,28 @@ $post
                 <a href="/index.php?page=viewCategory&ref=<?=$category["reference"]?>" class="text-sm font-sans font-medium text-indigo-600 hover:text-indigo-500 transition-all">Voir plus</a>
             </div>
             <div class="space-y-1">
-                <?php $postsCategory = getPostsWhereCat($category["id"], 3, "desc"); if (!$postsCategory){ echo "<div class='w-full text-center'><span class='w-full italic text-sm text-center text-gray-500'>Il n'y a aucun post dans cette catégorie.</span></div>";} ; foreach ($postsCategory as $postCategory): ?>
+                <?php $postsCategory = getPostsWhereCat($category["id"], 3, "desc"); if (!$postsCategory){ echo "<div class='w-full text-center'><span class='w-full italic text-sm text-center text-gray-500 dark:text-slate-300'>Il n'y a aucun post dans cette catégorie.</span></div>";} ; foreach ($postsCategory as $postCategory): ?>
                     <article class="border-b w-full border-spacing-0 h-16 m-0 px-3">
                         <div class="flex flex-row items-center justify-between gap-x-3">
                             <a href="index.php?page=viewpost&ref=<?= $postCategory["reference"]?>">
                                 <div class="group">
                                     <h2 class="text-lg font-bold text-black dark:text-slate-200 group-hover:text-indigo-600 transition-all duration-75"><?= ucfirst($postCategory["title"]) ?></h2>
-                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75"><?= substr($postCategory["description"], 0, 60) ?>...</p>
+                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($postCategory["description"], 0, 60) ?>...</p>
                                 </div>
                             </a>
                             <div class="flex flex-row items-center gap-x-8">
                                 <div class="flex flex-col w-fit h-fit items-center gap-x-2">
                                     <p class="text-sm text-gray-600 dark:text-slate-300" ><?= getNbComments($postCategory["id"])["nbComments"] ?></p>
-                                    <span class="text-sm text-gray-400">Messages</span>
+                                    <span class="text-sm text-gray-300">Messages</span>
                                 </div>
                                 <div class="flex flex-col gap-y-2">
                                     <div class="flex flex-row items-center gap-x-2 group">
-                                        <i class="fa-solid fa-user text-gray-500 transition-all duration-75"></i>
-                                        <a href="index.php?page=profil&ref=<?= getUser($postCategory["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150"><?= getUser($postCategory["createdBy"])["username"] ?></a>
+                                        <i class="fa-solid fa-user text-gray-500 transition-all duration-75 dark:text-slate-300"></i>
+                                        <a href="index.php?page=profil&ref=<?= getUser($postCategory["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150 dark:text-slate-300"><?= getUser($postCategory["createdBy"])["username"] ?></a>
                                     </div>
                                     <div class="flex flex-row items-center gap-x-2">
-                                        <i class="fa-solid fa-calendar text-gray-500"></i>
-                                        <p class="text-sm text-gray-500"><?= date("d/m/Y", strtotime($postCategory["createdAt"])) ?></p>
+                                        <i class="fa-solid fa-calendar text-gray-500 text-slate-300"></i>
+                                        <p class="text-sm text-gray-500 dark:text-slate-300"><?= date("d/m/Y", strtotime($postCategory["createdAt"])) ?></p>
                                     </div>
                                 </div>
                             </div>
