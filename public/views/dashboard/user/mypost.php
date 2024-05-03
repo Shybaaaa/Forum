@@ -1,8 +1,9 @@
 <?php
 
-require_once "../index.php";
+// require_once "../index.php";
+
 if (isset($_POST["search"]) && !empty($_POST["search"])) {
-    $posts = getPostUser($_SESSION["user"]["id"], "all", true);
+    $posts = searchPost($_POST["search"]);
 }else{
     $posts = getPostUser($_SESSION["user"]["id"], "all", true);
 }
@@ -21,7 +22,7 @@ if (isset($_POST["search"]) && !empty($_POST["search"])) {
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="flex flex-row m-2 my-3 justify-between">
-                <form action="./user/mypost.php" method="post">
+                <form action="" method="post">
                     <div class="relative mb-3 mr-5 float-left">
                         <label for="inputSearch" class="sr-only">Rechercher</label>
                         <input id="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:bg-neutral-600 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"/>
