@@ -12,6 +12,7 @@ $user = getUserByRef($_GET["ref"]);
 
 ?>
 
+
 <div class="h-screen">
     <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden">
         <div class="w-full h-[20%] bg-gray-200 rounded-md"></div>

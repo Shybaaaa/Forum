@@ -24,6 +24,20 @@ if (isset($_SESSION["user"])) {
     <title><?= $config["APP_NAME"] ?></title>
     <link rel="icon" href="public/image/logo.ico">
     <link rel="stylesheet" href="/public/css/main.css">
+
+    <script>
+  // It's best to inline this in `head` to avoid FOUC (flash of unstyled content) when changing pages or themes
+  if (
+    localStorage.getItem('color-theme') === 'dark' ||
+    (!('color-theme' in localStorage) &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+</script>
+
 </head>
 
 <body class="bg-gray-100">
@@ -62,6 +76,30 @@ if (isset($_SESSION["user"])) {
                                 </li>
                             </ul>
                         </li>
+
+                        <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                        <li>
+                            <ul role="list" class="-mx-2 space-y-1">
+                                <li class="mx-auto w-full">
+                                <div class="flex items-center z-30">
+                                	<svg class="h-6 w-6 mr-2 text-yellow-300 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                	  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                               </svg>
+                                <div class="relative inline-block w-10 select-none">
+		                    <input type="checkbox" name="toggleTheme" id="toggleTheme" class="transition-transform transform translate-x-0 duration-500 theme-switch absolute block w-5 h-5 rounded-full bg-white appearance-none cursor-pointer mx-1 my-1">
+	                       	<label for="toggleTheme" class="theme-switch-label block overflow-hidden w-14 h-7 rounded-full bg-yellow-300 cursor-pointer"></label>
+                              	</div>
+	                         <svg class="h-6 w-6 ml-6 text-gray-900 dark:text-yellow-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+	                         	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            	</svg>
+                             </div>                             
+                            
+                                </li>
+                            </ul>
+                        </li>     
+
+                        
+
                         <li class="mx-auto mt-auto mb-4 w-full">
                             <?php if (isset($_SESSION["user"]) && $_SESSION["user"]) : ?>
                                 <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded px-6 mx-auto py-2 w-full mb-5 hover:bg-gray-100 transition-all">
