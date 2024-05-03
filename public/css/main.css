@@ -7018,10 +7018,6 @@ img {
   color: rgb(200 30 30 / var(--tw-text-opacity));
 }
 
-.hover\:underline:hover {
-  text-decoration-line: underline;
-}
-
 .hover\:opacity-95:hover {
   opacity: 0.95;
 }
@@ -7468,10 +7464,6 @@ img {
 @media (min-width: 768px) {
   .md\:inset-0 {
     inset: 0px;
-  }
-
-  .md\:mb-0 {
-    margin-bottom: 0px;
   }
 
   .md\:h-auto {

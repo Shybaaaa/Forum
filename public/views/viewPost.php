@@ -12,9 +12,8 @@ $comments = getCommentsWherePOS($post["id"]);
 
 // print_r($comments);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $message = trim(htmlspecialchars($_POST["comment"] ?? ""));
-    $status = addComment($message, $post["id"], $post["reference"], $_SESSION["user"]["id"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
+    $status = addComment($_POST["comment"], $post["id"], $post["reference"], $_SESSION["user"]["id"]);
 
     if ($status["type"] === "success") {
         echo "<script>window.location.href = 'index.php?page=viewpost&ref=" . $_GET["ref"] . "&success=1&message=" . $status["message"] . "';</script>";
@@ -26,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="h-screen">
-    <div class="w-[80%] min-h-lvh h-[80%] mt-[5%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden">
+    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden">
         <div class="space-y-5">
             <div class="*:min-w-full *:h-96 *:rounded-lg">
                 <?php if (!$post["photo"] == "") : ?>
@@ -73,58 +72,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                     <label for="comment" class="sr-only">Commentaire</label>
-                    <textarea id="comment" name="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Message" required></textarea>
+                    <textarea id="comment" name="comment" rows="3" minlength="1" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Message" required></textarea>
                 </div>
                 <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
-                    <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                    <button type="submit" name="submitMsg" value="1" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
                         Envoyer
                     </button>
-                    <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
-                        <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 20">
-                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6" />
-                            </svg>
-                            <span class="sr-only">Attach file</span>
-                        </button>
-                        <button type="button" class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
-                            </svg>
-                            <span class="sr-only">Add emoji</span>
-                        </button>
-                        <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
-                            </svg>
-                            <span class="sr-only">Upload image</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </form>
-        <div>
-            <article>
-                <?php foreach ($comments as $comment) { ?>
-                    <!-- getUserById(ID)["Variable DB"] -->
+        <div class="w-full">
+            <?php foreach ($comments as $comment): ?>
+                <article class="bg-gray-100 w-1/2 rounded-lg px-6 py-2 my-3 ml-3">
                     <div class="flex items-center mb-4">
-                        <img class="w-10 h-10 me-4 rounded-full" src="<?= getUser($comment["createdBy"])["image"] ?>" alt="">
-                        <div class="font-medium dark:text-white">
-                            <p><?= getUser($comment["createdBy"])["username"] ?></p>
-                        </div>
+                        <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
+                            <img class="w-10 h-10 me-4 rounded-full transition duration-75" src="<?= getUser($comment["createdBy"])["image"] ?>" alt="">
+                            <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
+                                <p><?= getUser($comment["createdBy"])["username"] ?></p>
+                            </div>
+                        </a>
+                        <p class="ml-3 text-gray-500 text-sm text-pretty"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i", strtotime($comment["createdAt"])) ?></p>
                     </div>
-                    <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
-                        <p><?= $comment["createdAt"] ?></p>
-                    </footer>
-                    <p class="mb-2 text-gray-500 dark:text-gray-400"><?= $comment["message"] ?></p>
-                    <aside>
-                        <!-- <div class="flex items-center mt-3">
-                            <a href="#" class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a>
-                        </div> -->
-                    </aside>
-                <?php
-                }
-                ?>
-            </article>
+                    <p class="mb-2 text-gray-700 text-sm dark:text-gray-400"><?= $comment["message"] ?></p>
+                </article>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>

@@ -648,7 +648,7 @@ function loginRestore($id)
 
 function addComment($message, $postId, $reference, $id)
 {
-    $message = trim(htmlspecialchars($message));
+    $message = htmlspecialchars(trim($message));
 
     $pdo = dbConnect();
 
@@ -852,6 +852,7 @@ function searchPost($search)
 {
 
     $pdo = dbConnect();
+
     if (isset($search) && !empty($search)) {
         $sql = "SELECT * FROM posts
                 WHERE posts.title LIKE '%$search%'";
@@ -861,10 +862,8 @@ function searchPost($search)
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         header("Location: ./mypost.php");
-    }
+    }   
 }
-
-
 
 function getCommentsWherePOS($id)
 {
@@ -874,4 +873,14 @@ function getCommentsWherePOS($id)
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
     return $stmt->fetchAll();
+}
+
+function getNbCommentForUser($idUser)
+{
+    $pdo = dbConnect();
+    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE createdBy = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$idUser]);
+
+    return $stmt->fetch();
 }
