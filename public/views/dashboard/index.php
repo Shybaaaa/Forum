@@ -67,7 +67,7 @@ $config = parse_ini_file("../../../config.ini");
         <div>
             <div class="mx-6 px-6 py-4">
                 <a href="/index.php" class="flex flex-row items-center justify-center">
-                    <span class="text-base font-bold ml-3 text-gray-600">Forum</span>
+                    <span class="text-base font-bold ml-3 text-gray-600 inline-flex items-center"><i class="fa-solid fa-house mr-2"></i> Accueil</span>
                 </a>
             </div>
 
@@ -189,9 +189,8 @@ $config = parse_ini_file("../../../config.ini");
         </div>
     </div>
 
-
     <script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
-    <script src="/public/js/dark_mode.js"></script>
+    <script type="application/javascript" src="/public/js/dark_mode.js"></script>
 
 </body>
 
