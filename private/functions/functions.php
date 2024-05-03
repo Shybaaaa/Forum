@@ -840,8 +840,10 @@ function searchPost($search)
         $sql = "SELECT * FROM posts WHERE posts.title LIKE '%$search%'";
         $stmt = $pdo->query($sql);
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         return $posts;
-    }
+    }   
+
 }
 
 function getCommentsWherePOS($id)
