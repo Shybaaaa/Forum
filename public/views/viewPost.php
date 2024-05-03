@@ -25,12 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
 ?>
 
 <script>
-        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.querySelector('html').classList.add('dark');
-        } else {
-            document.querySelector('html').classList.remove('dark');
-        }
-    </script>
+    if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.querySelector('html').classList.add('dark');
+    } else {
+        document.querySelector('html').classList.remove('dark');
+    }
+</script>
 
 <div class="h-screen">
     <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden dark:bg-slate-700">
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
                     <h2 class="mt-2 text-3xl text-gray-800 font-bold dark:text-slate-200"><?= ucfirst($post["title"]) ?></h2>
                     <span class="uppercase text-indigo-500 text-sm font-bold tracking-wide"><?= getCategory($post["postCategoryId"])["name"] ?></span>
                 </span>
-                <p class="text-gray-700 text-md font-normal text-pretty text-justify tracking-wide dark:text-slate-200 text-md font-normal text-pretty text-justify tracking-wide"><?= $post["description"] ?></p>
+                <p class="text-gray-700 dark:text-slate-200 text-md font-normal text-pretty text-justify tracking-wide"><?= $post["description"] ?></p>
                 <span class="text-gray-600 text-sm italic dark:text-slate-400 ">Publié le <?= date("d/m/Y", strtotime($post["createdAt"])) ?> à <?= date("H:i", strtotime($post["createdAt"])) ?></span>
             </div>
             <div class="flex flex-col flex-nowrap text-justify ">
