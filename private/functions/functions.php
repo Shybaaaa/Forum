@@ -191,22 +191,18 @@ function updateUser($id, $username, $surname, $email, $password, $image)
 
 function updateUserBiography($id, $biography)
 {
-    $biography = trim(htmlspecialchars($biography));
-    if ($biography == "") {
-        newLogs("Biography update", "Biographie vide");
-        return ["type" => "error", "message" => "Biographie vide"];
+    $biography = htmlentities(htmlspecialchars(trim($biography)));
+
+    if (strlen($biography) > 500 && strlen($biography) <= 0) {
+        newLogs("Biography update", "Biographie trop longue");
+        return ["type" => "error", "message" => "Biographie trop longue"];
     } else {
-        if (strlen($biography) > 500) {
-            newLogs("Biography update", "Biographie trop longue");
-            return ["type" => "error", "message" => "Biographie trop longue"];
-        } else {
-            $pdo = dbConnect();
-            $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
-            $stmt->execute([$biography, date("Y-m-d H:i:s"), $id, $id]);
-            $_SESSION["user"]["biography"] = $biography;
-            newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
-            return ["type" => "success", "message" => "Biographie modifiée avec succès"];
-        }
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([$biography, date("Y-m-d H:i:s"), $id, $id]);
+        $_SESSION["user"]["biography"] = $biography;
+        newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
+        return ["type" => "success", "message" => "Biographie modifiée avec succès"];
     }
 }
 
