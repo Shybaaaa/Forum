@@ -37,7 +37,10 @@ if (isset($_SESSION["user"])) {
 </head>
 
 <body class="bg-gray-100 dark:bg-slate-800">
-
+<div id="loader" class="fixed top-0 left-0 z-[99] w-screen h-screen bg-white flex flex-col space-y-2 items-center justify-center">
+    <i class="fa-solid fa-spinner motion-safe:animate-spin text-indigo-500 text-7xl"></i>
+    <h2 class="text-xl font-medium text-gray-800">Chargement de la page.</h2>
+</div>
 
     <?php if (isset($_GET["success"]) and $_GET["success"] == 1) : ?>
         <div id="toast-success" class="fixed top-20 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow" role="alert">
@@ -165,6 +168,7 @@ if (isset($_SESSION["user"])) {
         </div>
     </div>
 
+    <script src="/public/js/loader.js"></script>
     <script src="/public/js/dark_mode.js"></script>
 
 </body>
