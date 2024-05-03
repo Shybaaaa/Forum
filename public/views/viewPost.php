@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
 ?>
 
 <div class="h-screen">
-    <div class="w-[80%] min-h-lvh h-[80%] mt-[5%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden">
+    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden">
         <div class="space-y-5">
             <div class="*:min-w-full *:h-96 *:rounded-lg">
                 <?php if (!$post["photo"] == "") : ?>
@@ -78,13 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
                     <button type="submit" name="submitMsg" value="1" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
                         Envoyer
                     </button>
-                    <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
-                    </div>
                 </div>
             </div>
         </form>
         <div class="w-full">
-            <?php foreach ($comments as $comment) { ?>
+            <?php foreach ($comments as $comment): ?>
                 <article class="bg-gray-100 w-1/2 rounded-lg px-6 py-2 my-3 ml-3">
                     <div class="flex items-center mb-4">
                         <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
@@ -97,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
                     </div>
                     <p class="mb-2 text-gray-700 text-sm dark:text-gray-400"><?= $comment["message"] ?></p>
                 </article>
-            <?php } ?>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>

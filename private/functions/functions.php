@@ -852,6 +852,7 @@ function searchPost($search)
 {
 
     $pdo = dbConnect();
+
     if (isset($search) && !empty($search)) {
         $sql = "SELECT * FROM posts
                 WHERE posts.title LIKE '%$search%'";
@@ -861,10 +862,8 @@ function searchPost($search)
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         header("Location: ./mypost.php");
-    }
+    }   
 }
-
-
 
 function getCommentsWherePOS($id)
 {
