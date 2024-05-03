@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
             <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                     <label for="comment" class="sr-only">Commentaire</label>
-                    <textarea id="comment" name="comment" rows="3" minlength="1" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Message" required></textarea>
+                    <textarea id="comment" name="comment" rows="2" minlength="1" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Message" required></textarea>
                 </div>
                 <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
                     <button type="submit" name="submitMsg" value="1" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
             </div>
         </form>
         <div class="w-full">
-            <?php foreach ($comments as $comment): ?>
+            <?php foreach ($comments as $comment) : ?>
                 <article class="bg-gray-100 w-1/2 rounded-lg px-6 py-2 my-3 ml-3">
                     <div class="flex items-center mb-4">
                         <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">

@@ -27,7 +27,6 @@ if (isset($_SESSION["user"])) {
     <title><?= $config["APP_NAME"] ?></title>
     <link rel="icon" href="public/image/logo.ico">
     <link rel="stylesheet" href="/public/css/main.css">
-
     <script>
         if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.querySelector('html').classList.add('dark');

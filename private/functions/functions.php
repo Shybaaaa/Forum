@@ -191,22 +191,18 @@ function updateUser($id, $username, $surname, $email, $password, $image)
 
 function updateUserBiography($id, $biography)
 {
-    $biography = trim(htmlspecialchars($biography));
-    if ($biography == "") {
-        newLogs("Biography update", "Biographie vide");
-        return ["type" => "error", "message" => "Biographie vide"];
+    $biography = htmlentities(htmlspecialchars(trim($biography)));
+
+    if (strlen($biography) > 500 && strlen($biography) <= 0) {
+        newLogs("Biography update", "Biographie trop longue");
+        return ["type" => "error", "message" => "Biographie trop longue"];
     } else {
-        if (strlen($biography) > 500) {
-            newLogs("Biography update", "Biographie trop longue");
-            return ["type" => "error", "message" => "Biographie trop longue"];
-        } else {
-            $pdo = dbConnect();
-            $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
-            $stmt->execute([$biography, date("Y-m-d H:i:s"), $id, $id]);
-            $_SESSION["user"]["biography"] = $biography;
-            newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
-            return ["type" => "success", "message" => "Biographie modifiée avec succès"];
-        }
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+        $stmt->execute([$biography, date("Y-m-d H:i:s"), $id, $id]);
+        $_SESSION["user"]["biography"] = $biography;
+        newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
+        return ["type" => "success", "message" => "Biographie modifiée avec succès"];
     }
 }
 
@@ -665,24 +661,6 @@ function addComment($message, $postId, $reference, $id)
     return ["type" => "success", "message" => "Le commentaire a bien été publié."];
 }
 
-function addRespondComment($message, $reference)
-{
-    $pdo = dbConnect();
-
-    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
-    if ($lastRef === null) {
-        $lastRef = 0;
-    }
-
-    $reference = "COM_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
-
-
-    $sql = "INSERT INTO comments (message, reference) values (?, ?)";
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([$message, $reference]);
-}
-
 function getNbPosts($id)
 {
     $pdo = dbConnect();
@@ -850,19 +828,17 @@ function updatePostUserByRef(string $ref, string $title, string $description, $p
 
 function searchPost($search)
 {
+    $search = htmlspecialchars(trim($search));
 
     $pdo = dbConnect();
 
     if (isset($search) && !empty($search)) {
-        $sql = "SELECT * FROM posts
-                WHERE posts.title LIKE '%$search%'";
-
+        $sql = "SELECT * FROM posts WHERE posts.title LIKE '%$search%'";
         $stmt = $pdo->query($sql);
-
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        header("Location: ./mypost.php");
-    }   
+        return $posts;
+    }
 }
 
 function getCommentsWherePOS($id)
@@ -883,4 +859,23 @@ function getNbCommentForUser($idUser)
     $stmt->execute([$idUser]);
 
     return $stmt->fetch();
+}
+
+function addRespondComment($message, $commentId, $reference, $id)
+{
+    $pdo = dbConnect();
+
+    $message = htmlspecialchars(trim($message));
+
+    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    if ($lastRef === null) {
+        $lastRef = 0;
+    }
+    $reference = "RCO_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
+
+    $sql = "INSERT INTO sous_comments (message, commentId, reference, createdAt, createdBy) values (?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$message, $commentId, $reference, date("Y-m-d H:i:s"), $id]);
+
+    return ["type" => "success", "message" => "Le commentaire a bien été publié."];
 }
