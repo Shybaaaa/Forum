@@ -20,6 +20,13 @@ $config = parse_ini_file("../../../config.ini");
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="icon" href="/public/image/logo.ico">
     <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
+    <script>
+        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.querySelector('html').classList.add('dark');
+        } else {
+            document.querySelector('html').classList.remove('dark');
+        }
+    </script>
 </head>
 
 <body>
@@ -183,7 +190,8 @@ $config = parse_ini_file("../../../config.ini");
     </div>
 
 
-<script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script src="/public/js/dark_mode.js"></script>
 
 </body>
 
