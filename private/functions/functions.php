@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . "/Notification.php";
 
 function dbConnect()
 {
@@ -137,7 +138,8 @@ function loginUser($email, $password)
                 "surname" => $isUser["surname"],
                 "biography" => $isUser["biography"],
             ];
-            header("Location: /index.php?success=1&message=Vous êtes connecté avec succès");
+            newNotification("success", "Vous êtes connecté avec succès.", true, "fa-check-circle");
+            header("Location: /index.php?page=home");
         } else {
             $sql = "SELECT users.id FROM users WHERE email = ? and isActive = 0 and isDeleted = 0 and isBanned = 0 and password = ?";
             $stmt = $pdo->prepare($sql);
