@@ -1,8 +1,7 @@
 <?php
 session_start();
-require_once "private/functions/functions.php";
+require_once __DIR__ . "/private/functions/functions.php";
 dbConnect();
-$config = parse_ini_file("config.ini");
 
 if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
     disconnect();
@@ -23,7 +22,7 @@ if (isset($_SESSION["user"])) {
     <meta name="author" content="G1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= $config["APP_NAME"] ?></title>
+    <title>Forum</title>
     <link rel="icon" href="public/image/logo.ico">
     <link rel="stylesheet" href="/public/css/main.css">
     <script>
@@ -47,7 +46,7 @@ if (isset($_SESSION["user"])) {
         <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5 dark:bg-slate-700">
                 <div class="flex h-16 shrink-0 items-center">
-                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white"><?= $config["APP_NAME"] ?></h4>
+                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Forum</h4>
                 </div>
                 <nav class="flex flex-1 flex-col" class="">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">

@@ -1,5 +1,4 @@
 <?php
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["updatePicture"])) {
         if (isset($_FILES["imageUpdate"]) && $_FILES["imageUpdate"]["error"] != 4) {
@@ -16,11 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["updateUsernameField"])) {
             $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
             if ($status["type"] == "success") {
-                newNotification("success", "Le nom d'utilisateur a bien été modifié.", true, "fa-circle-check");
-                echo "<script>window.location.reload()</script>";
+                echo "<script>window.location.href = '?page=myaccount'</script>";
             } else {
-                newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-                echo "<script>window.location.reload()</script>";
+                echo "<script>window.location.href = '?page=myaccount'</script>";
             }
         }
     } elseif (isset($_POST["updatePasswordSubmit"])) {
