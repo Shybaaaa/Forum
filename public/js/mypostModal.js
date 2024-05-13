@@ -21,3 +21,23 @@ function renderModalRestorePost(id, ref)
     h3.textContent = `Restaurer le post - #${ref} ?`;
     inputId.value = id;
 }
+
+function renderModalHidePost(id, ref) {
+    const modal = document.getElementById('hideModal');
+    const form = modal.querySelector('form');
+    const h3 = form.querySelector('h3');
+    const inputId = document.getElementById('hideModalInput');
+
+    h3.textContent = `Masquer  - #${ref} ?`;
+    inputId.value = id;
+}
+
+function renderModalShowPost(id, ref) {
+    const modal = document.getElementById('showModal');
+    const form = modal.querySelector('form');
+    const h3 = form.querySelector('h3');
+    const inputId = document.getElementById('showModalInput');
+
+    h3.textContent = `Ré-afficher  - #${ref} ?`;
+    inputId.value = id;
+}
