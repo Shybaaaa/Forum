@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . "/Notification.php";
 
 function dbConnect()
 {
@@ -25,7 +26,8 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
     //    Fait une vérification pour le mots de passe avec minimum 6 caractères et minimum 1 chiffres et des caractères spéciaux, et peut etre écrit dans n'importe quel ordr
     if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&.]{6,}$/", $password)) {
         newLogs("CREATE USER ERROR", "Mots de passe incorrect");
-        header("Location: /public/views/register.php?error=4&message=Le mot de passe doit contenir au moins 6 caractères et 1 chiffre");
+        newNotification("error", "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre", true, "fa-circle-exclamation");
+        header("Location: /public/views/register.php");
         exit();
     }
 
@@ -45,13 +47,13 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
             if ($lastRef === null) {
                 $lastRef = 0;
             }
-
             $reference = "USE_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
 
             if ($isUsername) {
                 newLogs("CREATE USER ERROR", "Nom d'utilisateur déjà utilisé : " . $username);
-                header("Location: /public/views/register.php?error=3&message=Nom d'utilisateur déjà utilisé");
+                newNotification("error", "Nom d'utilisateur déjà utilisé", true, "fa-circle-exclamation");
+                header("Location: /public/views/register.php");
                 exit();
             } else {
                 // Vérification de l'unicité de l'email
@@ -63,7 +65,8 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
 
                 if ($isEmail) {
                     newLogs("CREATE USER ERROR", "Adresse email déjà utilisée : " . $email);
-                    header("Location: /public/views/register.php?error=3&message=Cette adresse email est déjà utilisée");
+                    newNotification("error", "Adresse email déjà utilisée", true, "fa-circle-exclamation");
+                    header("Location: /public/views/register.php");
                     exit();
                 } else {
                     $hPassword = md5($password);
@@ -93,23 +96,26 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                         }
                     }
                 }
-                newLogs("CREATE USER ERROR", "Utilisateur créé avec succès : " . $username . " - " . $email);
-                header("Location: /public/views/login.php?success=1&message=Votre compte a été créé avec succès.");
+                newLogs("CREATE USER", "Utilisateur créé avec succès : " . $username . " - " . $email);
+                newNotification("success", "Utilisateur créé avec succès", true, "fa-circle-check");
+                header("Location: /public/views/login.php");
                 exit();
             }
         } else {
             newLogs("CREATE USER ERROR", "Mots de passe différents");
-            header("Location: /public/views/register.php?error=1&message=Entrez le même mot de passe");
+            newNotification("error", "Les mots de passe ne correspondent pas", true, "fa-circle-exclamation");
+            header("Location: /public/views/register.php");
             exit();
         }
     } else {
         newLogs("CREATE USER ERROR", "Mauvaise adresse email");
-        header("Location: /public/views/register.php?error=2&message=Mauvaise adresse email");
+        newNotification("error", "Veuillez entrer une adresse email correct.", true, "fa-circle-exclamation");
+        header("Location: /public/views/register.php");
         exit();
     }
 }
 
-function loginUser($email, $password)
+function loginUser($email, $password, $remember)
 {
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
@@ -134,10 +140,10 @@ function loginUser($email, $password)
                 "email" => $isUser["email"],
                 "image" => $isUser["image"],
                 "roleId" => $isUser["roleId"],
-                "surname" => $isUser["surname"],
                 "biography" => $isUser["biography"],
             ];
-            header("Location: /index.php?success=1&message=Vous êtes connecté avec succès");
+            newNotification("success", "Vous êtes connecté avec succès.", true, "fa-circle-check");
+            header("Location: /index.php?page=home");
         } else {
             $sql = "SELECT users.id FROM users WHERE email = ? and isActive = 0 and isDeleted = 0 and isBanned = 0 and password = ?";
             $stmt = $pdo->prepare($sql);
@@ -150,11 +156,13 @@ function loginUser($email, $password)
                     "isActive" => 0,
                 ];
             } else {
-                header("Location: login.php?error=2");
+                newNotification("error", "Adresse email ou mots de passe incorrect", true, "fa-circle-exclamation");
+                header("Location: login.php");
             }
         }
     } else {
-        header("Location: login.php?error=3");
+        newNotification("error", "Adresse email incorrect", true, "fa-circle-exclamation");
+        header("Location: login.php");
     }
 }
 
@@ -186,7 +194,8 @@ function updateUser($id, $username, $surname, $email, $password, $image)
         "surname" => $surname,
     ];
 
-    header("Location: ./index.php?success=1&message=Votre compte a été modifié avec succès");
+    newNotification("success", "Utilisateur modifié avec succès", true, "fa-circle-check");
+    header("Location: ./index.php");
 }
 
 function updateUserBiography($id, $biography)
@@ -331,35 +340,35 @@ function updateUsername($id, $username)
 }
 
 
-function addPost($title, $description, $postCategoryId, $photo, $id)
+function addPost(string $title, string $description, int $postCategoryId, $photo, int $id)
 {
+    $title = htmlspecialchars(trim($title));
+    $description = htmlspecialchars(trim($description));
 
     $pdo = dbConnect();
-    $sql = "SELECT * FROM postCategory WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare("SELECT * FROM postCategory WHERE id = ?");
     $stmt->execute([$postCategoryId]);
     $isCategory = $stmt->fetch();
-    $reference = uniqid("post_", "true");
 
     $lastRef = $pdo->query("SELECT id FROM posts ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
         $lastRef = 0;
     }
-
     $reference = "POS_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
     if (!$isCategory) {
-        header("Location: /index.php?error=3&message=catégorie non valide");
+        newLogs("CREATE POST ERROR", "Catégorie de post inexistante");
+        newNotification("error", "Catégorie de post inexistante", true, "fa-circle-exclamation");
+        header("Location: /index.php");
         exit();
     } else {
 
         $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference, createdAt, createdBy) VALUES (?, ?, ?, ?, ?, ?,?)";
-
         $stmt = $pdo->prepare($sql);
-
         $stmt->execute([$title, $description, $postCategoryId, $photo, $reference, date("Y-m-d H:i:s"), $id]);
 
-        header("Location: ./index.php");
+        newLogs("CREATE POST", "Post créé avec succès : " . $title);
+        header("Location: /index.php?page=viewpost&ref=" . $reference);
     }
 }
 
@@ -407,19 +416,19 @@ function uploadImage($image)
                     return $url;
                 } else {
                     newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
-                    return "";
+                    return;
                 }
             } else {
                 newLogs("error", "Erreur lors de l'upload de l'image (imageSize)");
-                return "";
+                return;
             }
         } else {
             newLogs("error", "Erreur lors de l'upload de l'image (imageFileType)");
-            return "";
+            return;
         }
     } else {
         newLogs("error", "Erreur lors de l'upload de l'image (error)");
-        return "";
+        return;
     }
 }
 
@@ -427,7 +436,8 @@ function disconnect()
 {
     session_destroy();
     newLogs("DISCONNECT", "Utilisateur déconnecté : " . $_SESSION["user"]["username"] . " - " . $_SESSION["user"]["email"]);
-    header("Location: /index.php?success=1&message=Vous êtes déconnecté avec succès");
+    newNotification("warning", "Vous êtes déconnecté avec succès.", true, "fa-person-walking");
+    header("Location: /index.php?page=home");
 }
 
 function newLogs($type, $logs)
@@ -498,7 +508,6 @@ function getPostUser($idUser, $idPost, $isDeleted)
                 ];
             }
         }
-
         $stmt->execute($var);
         return $stmt->fetchAll();
     } else {

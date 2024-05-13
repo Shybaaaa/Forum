@@ -76,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
         <div class="mt-10 dark:text-slate-300">
             <h3 class="text-xl font-bold">Commentaires :</h3>
         </div>
+        <?php if (isset($_SESSION["user"])): ?>
         <form method="post">
             <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
@@ -89,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["submitMsg"])) {
                 </div>
             </div>
         </form>
+        <?php endif; ?>
         <div class="w-full">
             <?php foreach ($comments as $comment) : ?>
                 <article class="bg-gray-100 w-1/2 rounded-lg px-6 py-2 my-3 ml-3 dark:bg-slate-600">

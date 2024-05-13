@@ -94,13 +94,13 @@ $user = getUserByRef($_GET["ref"]);
                             <a href="index.php?page=viewpost&ref=<?= $post["reference"]?>">
                                 <div class="group">
                                     <h2 class="text-lg font-bold text-black group-hover:text-indigo-600 transition-all duration-75 dark:text-slate-200"><?= ucfirst($post["title"]) ?></h2>
-                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-400"><?= substr($post["description"], 0, 60) ?>...</p>
+                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($post["description"], 0, 60) ?>...</p>
                                 </div>
                             </a>
                             <div class="flex flex-row items-center gap-x-8">
                                 <div class="flex flex-col w-fit h-fit items-center gap-x-2">
-                                    <p class="text-sm text-gray-600"><?= getNbComments($post["id"])["nbComments"] ?></p>
-                                    <span class="text-sm text-gray-400 dark:text-slate-400">Messages</span>
+                                    <p class="text-sm text-gray-600 dark:text-slate-300"><?= getNbComments($post["id"])["nbComments"] ?></p>
+                                    <span class="text-sm text-gray-400 dark:text-slate-300">Messages</span>
                                 </div>
                                 <div class="flex flex-col gap-y-2">
                                     <div class="flex flex-row items-center gap-x-2 group">
@@ -109,7 +109,7 @@ $user = getUserByRef($_GET["ref"]);
                                     </div>
                                     <div class="flex flex-row items-center gap-x-2">
                                         <i class="fa-solid fa-calendar text-gray-500 dark: text-slate-200"></i>
-                                        <p class="text-sm text-gray-500"><?= date("d/m/Y", strtotime($post["createdAt"])) ?></p>
+                                        <p class="text-sm text-gray-500 dark:text-slate-300"><?= date("d/m/Y", strtotime($post["createdAt"])) ?></p>
                                     </div>
                                 </div>
                             </div>

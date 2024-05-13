@@ -1,6 +1,5 @@
 <?php
 header("Location: /");
-require_once("../include/dark_mode.php") 
 ?>
 <!DOCTYPE html>
 <html lang="fr" class="">

@@ -25,7 +25,7 @@ $category = getCategoryByRef($_GET["ref"]);
                         <a href="index.php?page=viewpost&ref=<?= $postCategory["reference"]?>">
                             <div class="group">
                                 <h2 class="text-lg font-bold text-black group-hover:text-indigo-600 transition-all duration-75 dark:text-slate-200"><?= ucfirst($postCategory["title"]) ?></h2>
-                                <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75"><?= substr($postCategory["description"], 0, 60) ?>...</p>
+                                <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($postCategory["description"], 0, 60) ?>...</p>
                             </div>
                         </a>
                         <div class="flex flex-row items-center gap-x-8">
@@ -36,11 +36,11 @@ $category = getCategoryByRef($_GET["ref"]);
                             <div class="flex flex-col gap-y-2">
                                 <div class="flex flex-row items-center gap-x-2 group">
                                     <i class="fa-solid fa-user text-gray-500 transition-all duration-75 dark:text-slate-300"></i>
-                                    <a href="index.php?page=profil&ref=<?= getUser($postCategory["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150"><?= getUser($postCategory["createdBy"])["username"] ?></a>
+                                    <a href="index.php?page=profil&ref=<?= getUser($postCategory["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150 dark:text-slate-300"><?= getUser($postCategory["createdBy"])["username"] ?></a>
                                 </div>
                                 <div class="flex flex-row items-center gap-x-2">
-                                    <i class="fa-solid fa-calendar text-gray-500"></i>
-                                    <p class="text-sm text-gray-500"><?= date("d/m/Y", strtotime($postCategory["createdAt"])) ?></p>
+                                    <i class="fa-solid fa-calendar text-gray-500 dark:text-slate-300"></i>
+                                    <p class="text-sm text-gray-500 dark:text-slate-300"><?= date("d/m/Y", strtotime($postCategory["createdAt"])) ?></p>
                                 </div>
                             </div>
                         </div>
