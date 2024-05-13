@@ -15,9 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["updateUsernameField"])) {
             $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
             if ($status["type"] == "success") {
-                echo "<script>window.location.href = '?page=myaccount'</script>";
+                echo "<script>window.location.reload()</script>";
             } else {
-                echo "<script>window.location.href = '?page=myaccount'</script>";
+                echo "<script>window.location.reload()</script>";
             }
         }
     } elseif (isset($_POST["updatePasswordSubmit"])) {
