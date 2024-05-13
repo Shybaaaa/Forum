@@ -32,30 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="overflow-hidden">
 
-<?php if (isset($_GET["error"])): ?>
-    <?php $msgError = $_GET["message"] ?>
-    <div id="toast-danger"
-        class="fixed top-5 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow"
-        role="alert">
-        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-            </svg>
-            <span class="sr-only">icon erreur</span>
-        </div>
-        <div class="ms-3 text-sm font-normal"><?= $msgError ?></div>
-        <button type="button"
-                class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 "
-                data-dismiss-target="#toast-danger" aria-label="Close">
-            <span class="sr-only">Fermer</span>
-            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-            </svg>
-        </button>
-    </div>
-<?php endif; ?>
+<?= renderNotification() ?>
 
 <div class="fixed top-5 left-10 cursor-pointer flex items-center w-fit max-w-sm text-white font-bold bg-black/10 rounded-xl text-medium backdrop-blur-2xl hover:text-gray-50 hover:bg-black/20 transition-all">
     <a href="/index.php" class="p-4">
@@ -75,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
             <div class="space-y-2">
-                <label for="username" class="block text-sm font-medium text-white">Username</label>
+                <label for="username" class="block text-sm font-medium text-white">Username <sup class="text-red-500">*</sup></label>
                 <input type="text" name="username" aria-required="true" id="username" autocomplete="username"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
@@ -85,17 +62,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50"></textarea>
             </div>
             <div class="space-y-2">
-                <label for="email" class="block text-sm font-medium text-white">Adresse e-mail</label>
+                <label for="email" class="block text-sm font-medium text-white">Adresse e-mail <sup class="text-red-500">*</sup></label>
                 <input type="email" id="email" aria-required="true" name="email"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="space-y-2">
-                <label for="password" class="block text-sm font-medium text-white">Mot de passe</label>
+                <label for="password" class="block text-sm font-medium text-white">Mot de passe <sup class="text-red-500">*</sup></label>
                 <input type="password" aria-required="true" id="password" name="password"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
             <div class="space-y-2">
-                <label for="vpassword" class="block text-sm font-medium text-white">Entrez le même mot de passe</label>
+                <label for="vpassword" class="block text-sm font-medium text-white">Entrez le même mot de passe <sup class="text-red-500">*</sup></label>
                 <input type="password" aria-required="true" id="vpassword" name="vpassword"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
@@ -108,13 +85,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         </form>
         <div class="mt-2 text-center text-sm font-normal">
-            <p class="text-white">Vous avez déja un compte ?<a href="./login.php"
-                                                            class="text-indigo-600 hover:text-indigo-500">
+            <p class="text-white">Vous avez déja un compte ?<a href="./login.php" class="text-indigo-600 hover:text-indigo-500">
                     Connectez-vous</a></p>
         </div>
     </div>
 </div>
 
+<script src="/public/js/notification.js"></script>
+<script src="https://kit.fontawesome.com/abcb30c057.js"></script>
+<script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
 
 <?php require_once "../../../include/footer.php" ?>
 </body>
