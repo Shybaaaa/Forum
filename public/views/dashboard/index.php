@@ -1,12 +1,13 @@
 <?php
+ob_start();
 session_start();
 
-require_once "../../../private/functions/functions.php";
+require_once __DIR__ . "/../../../private/functions/functions.php";
+
 if (!isset($_SESSION["user"])) {
     header("Location: /index.php");
 }
 
-$config = parse_ini_file("../../../config.ini");
 ?>
 
 <!doctype html>
@@ -20,18 +21,17 @@ $config = parse_ini_file("../../../config.ini");
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="icon" href="/public/image/logo.ico">
     <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
-    <script>
-        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.querySelector('html').classList.add('dark');
-        } else {
-            document.querySelector('html').classList.remove('dark');
-        }
-    </script>
+<!--    <script>-->
+<!--        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {-->
+<!--            document.querySelector('html').classList.add('dark');-->
+<!--        } else {-->
+<!--            document.querySelector('html').classList.remove('dark');-->
+<!--        }-->
+<!--    </script>-->
 </head>
 
 <body>
 <?= renderNotification() ?>
-
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
             <div class="mx-6 px-6 py-4">
@@ -75,11 +75,7 @@ $config = parse_ini_file("../../../config.ini");
                     </a>
                 </li>
                 <?php if ($_SESSION["user"]["roleId"] > 1) : ?>
-                    <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if (isset($_GET["page"]) and $_GET["page"] == "ttt") {
-                                                                                    echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";
-                                                                                } else {
-                                                                                    echo "transition-all text-gray-500 group";
-                                                                                } ?>">
+                    <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold group">
                         <button type="button" aria-controls="dropdown" data-collapse-toggle="dropdown">
                             <i class="fa-solid fa-user-tie mr-2 text-lg group-hover:text-cyan-400"></i>
                             <span class="group-hover:text-gray-600">Administration</span>
@@ -150,6 +146,9 @@ $config = parse_ini_file("../../../config.ini");
                     case "editPost":
                         require_once "user/editPost.php";
                         break;
+                    default:
+                        require_once "user/myaccount.php";
+                        break;
                 endswitch;
             } else {
                 require_once "user/myaccount.php";
@@ -162,5 +161,5 @@ $config = parse_ini_file("../../../config.ini");
     <script type="application/javascript" src="/public/js/dark_mode.js"></script>
 
 </body>
-
 </html>
+<?php ob_end_flush(); ?>

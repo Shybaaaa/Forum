@@ -17,12 +17,15 @@ if ($_SESSION["user"]["id"] != $post["createdBy"]) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
     if (!isset($_POST["title"]) && !isset($_POST["description"]) && !isset($_POST["category"])) {
+        newNotification("error", "Veuillez completez tous les champs.", true, "fa-exclamation-circle");
         echo "<script>window.location.href = '?page=editPost&error=1&message=Veuillez completez tous les champs.&ref=" . $post["reference"] . "';</script>";
     } else {
         $status = updatePostUserByRef($post["reference"], $_POST["title"], $_POST["description"], $_FILES["image"], $_POST["category"], $_SESSION["user"]["id"], $post["createdBy"]);
         if ($status["type"] == "success"){
-            echo "<script>window.location.href = 'index.php?page=editPost&ref=" . $post["reference"] . "&success=1&message=Post modifié avec succès.';</script>";
+            newNotification("success", $status["message"], true, "fa-check-circle");
+            echo "<script>window.location.href = 'index.php?page=editPost&ref=" . $post["reference"] . "';</script>";
         } else {
+            newNotification("error", $status["message"], true, "fa-exclamation-circle");
             echo "<script>window.location.href = '?page=editPost&error=1&message=" . $status["message"] . "&ref=" . $post["reference"] . "';</script>";
         }
     }
