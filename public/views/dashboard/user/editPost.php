@@ -2,9 +2,9 @@
 
 // Vérification de la référence
 if (!isset($_GET["ref"])) {
-    echo "<script>window.location.href = 'index.php?page=mypost';</script>";
+    header("Location: index.php?page=myaccount");
 } elseif (!getPostByRef($_GET["ref"])) {
-    echo "<script>window.location.href = 'index.php?page=mypost';</script>";
+    header("Location: index.php?page=myaccount");
 }
 
 $post = getPostByRef($_GET["ref"]);
@@ -12,24 +12,24 @@ $categories = getCategory(-1);
 
 // Vérification de l'utilisateur
 if ($_SESSION["user"]["id"] != $post["createdBy"]) {
-    echo "<script>window.location.href = 'index.php?page=mypost';</script>";
+    newNotification("error", "Vous n'avez pas le droit de modifier ce post.", true, "fa-exclamation-circle");
+    header("Location: index.php?page=myaccount");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
     if (!isset($_POST["title"]) && !isset($_POST["description"]) && !isset($_POST["category"])) {
         newNotification("error", "Veuillez completez tous les champs.", true, "fa-exclamation-circle");
-        echo "<script>window.location.href = '?page=editPost&error=1&message=Veuillez completez tous les champs.&ref=" . $post["reference"] . "';</script>";
+        header("Location: index.php?page=editPost&ref={$_GET["ref"]}");
     } else {
         $status = updatePostUserByRef($post["reference"], $_POST["title"], $_POST["description"], $_FILES["image"], $_POST["category"], $_SESSION["user"]["id"], $post["createdBy"]);
         if ($status["type"] == "success"){
             newNotification("success", $status["message"], true, "fa-check-circle");
-            echo "<script>window.location.href = 'index.php?page=editPost&ref=" . $post["reference"] . "';</script>";
+            header("Location: index.php?page=myaccount&ref={$_GET["ref"]}");
         } else {
             newNotification("error", $status["message"], true, "fa-exclamation-circle");
-            echo "<script>window.location.href = '?page=editPost&error=1&message=" . $status["message"] . "&ref=" . $post["reference"] . "';</script>";
+            header("Location: index.php?page=editPost&ref={$_GET["ref"]}");
         }
     }
-
 }
 
 ?>
