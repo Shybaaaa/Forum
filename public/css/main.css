@@ -6022,6 +6022,11 @@ input:checked + .toggle-bg {
   color: rgb(1 71 55 / var(--tw-text-opacity));
 }
 
+.text-indigo-300 {
+  --tw-text-opacity: 1;
+  color: rgb(180 198 252 / var(--tw-text-opacity));
+}
+
 .text-indigo-400 {
   --tw-text-opacity: 1;
   color: rgb(141 162 251 / var(--tw-text-opacity));
@@ -7268,6 +7273,11 @@ img {
 .group:hover .group-hover\:text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
+.group:hover .group-hover\:text-indigo-300 {
+  --tw-text-opacity: 1;
+  color: rgb(180 198 252 / var(--tw-text-opacity));
 }
 
 .group:hover .group-hover\:text-indigo-500 {
