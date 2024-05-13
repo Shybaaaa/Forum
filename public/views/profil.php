@@ -11,10 +11,17 @@ $user = getUserByRef($_GET["ref"]);
 //print_r($user);
 
 ?>
+    <script>
+        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.querySelector('html').classList.add('dark');
+        } else {
+            document.querySelector('html').classList.remove('dark');
+        }
+    </script>
 
 <div class="h-screen">
-    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden">
-        <div class="w-full h-[20%] bg-gray-200 rounded-md"></div>
+    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden dark:w-[80%] dark:bg-slate-700">
+        <div class="w-full h-[20%] bg-gray-200 rounded-md dark:bg-slate-600"></div>
         <div class="-translate-y-1/2">
             <div class="flex flex-col items-center justify-center gap-x-4">
                 <div class="w-[30%] h-[15%] flex flex-col space-y-3 items-center">
@@ -50,59 +57,59 @@ $user = getUserByRef($_GET["ref"]);
                         ?>
                     </div>
                     <div>
-                        <p class="text-gray-600 text-sm font-normal"><?= $user["biography"] ?></p>
+                        <p class="text-gray-600 text-sm font-normal dark:text-slate-300 text-center line-clamp-2 "><?= $user["biography"] ?></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="-translate-y-[60%]">
             <div class="flex w-full items-center space-y-3 justify-center flex-col">
-                <h3 class="text-lg font-semibold text-gray-600 w-[90%] py-2 text-left">Stats :</h3>
+                <h3 class="text-lg font-semibold text-gray-600 w-[90%] py-2 text-left dark:text-slate-200">Stats :</h3>
                 <div class="flex flex-row justify-evenly w-full items-center gap-x-4 *:bg-gray-50/30 *:shadow-md *:p-4 *:rounded-lg *:w-40">
                     <div class="flex flex-col items-center gap-y-2">
                         <span class="text-2xl font-semibold text-indigo-600"><?= getNbPosts($user["id"])["nbPosts"] ?></span>
-                        <span class="text-sm text-gray-500">Publications</span>
+                        <span class="text-sm text-gray-500 dark:text-sm dark:text-slate-300">Publications</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
                         <span class="text-2xl font-semibold text-indigo-600"><?= getNbCommentsForUser($user["id"])["nbComments"] ?></span>
-                        <span class="text-sm text-gray-500">Commentaires</span>
+                        <span class="text-sm text-gray-500 dark:text-slate-300">Commentaires</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
                         <span class="text-2xl font-semibold text-indigo-600">0</span>
-                        <span class="text-sm text-gray-500">Suivis</span>
+                        <span class="text-sm text-gray-500 dark:text-slate-300">Suivis</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
                         <span class="text-2xl font-semibold text-indigo-600">0</span>
-                        <span class="text-sm text-gray-500">Abonnés</span>
+                        <span class="text-sm text-gray-500 dark:text-slate-300">Abonnés</span>
                     </div>
                 </div>
             </div>
         </div>
         <div>
             <div class="flex w-full items-center space-y-3 justify-center flex-col">
-                <h3 class="text-lg font-semibold text-gray-600 w-[90%] py-2 text-left">Dernières publications :</h3>
+                <h3 class="text-lg font-semibold text-gray-600 w-[90%] py-2 text-left dark:text-slate-200">Dernières publications :</h3>
                 <div class="flex flex-col w-full items-center gap-y-4">
                     <?php $posts = getPostsByUser($user["id"], 2, "desc"); if (!$posts){ echo "<div class='w-full text-center'><span class='w-full italic text-sm text-center text-gray-500'>Il n'y a aucune publication.</span></div>";} ; foreach ($posts as $post): ?>
                         <div class="flex flex-row items-center justify-between gap-x-3 w-[90%] bg-gray-50/30 shadow-md p-4 rounded-lg">
                             <a href="index.php?page=viewpost&ref=<?= $post["reference"]?>">
                                 <div class="group">
-                                    <h2 class="text-lg font-bold text-black group-hover:text-indigo-600 transition-all duration-75"><?= ucfirst($post["title"]) ?></h2>
-                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75"><?= substr($post["description"], 0, 60) ?>...</p>
+                                    <h2 class="text-lg font-bold text-black group-hover:text-indigo-600 transition-all duration-75 dark:text-slate-200"><?= ucfirst($post["title"]) ?></h2>
+                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($post["description"], 0, 60) ?>...</p>
                                 </div>
                             </a>
                             <div class="flex flex-row items-center gap-x-8">
                                 <div class="flex flex-col w-fit h-fit items-center gap-x-2">
-                                    <p class="text-sm text-gray-600"><?= getNbComments($post["id"])["nbComments"] ?></p>
-                                    <span class="text-sm text-gray-400">Messages</span>
+                                    <p class="text-sm text-gray-600 dark:text-slate-300"><?= getNbComments($post["id"])["nbComments"] ?></p>
+                                    <span class="text-sm text-gray-400 dark:text-slate-300">Messages</span>
                                 </div>
                                 <div class="flex flex-col gap-y-2">
                                     <div class="flex flex-row items-center gap-x-2 group">
-                                        <i class="fa-solid fa-user text-gray-500 transition-all duration-75"></i>
-                                        <a href="index.php?page=profil&ref=<?= getUser($post["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150"><?= getUser($post["createdBy"])["username"] ?></a>
+                                        <i class="fa-solid fa-user text-gray-500 transition-all duration-75 dark:text-slate-200"></i>
+                                        <a href="index.php?page=profil&ref=<?= getUser($post["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150 dark:text-slate-200"><?= getUser($post["createdBy"])["username"] ?></a>
                                     </div>
                                     <div class="flex flex-row items-center gap-x-2">
-                                        <i class="fa-solid fa-calendar text-gray-500"></i>
-                                        <p class="text-sm text-gray-500"><?= date("d/m/Y", strtotime($post["createdAt"])) ?></p>
+                                        <i class="fa-solid fa-calendar text-gray-500 dark: text-slate-200"></i>
+                                        <p class="text-sm text-gray-500 dark:text-slate-300"><?= date("d/m/Y", strtotime($post["createdAt"])) ?></p>
                                     </div>
                                 </div>
                             </div>
