@@ -675,7 +675,9 @@ function addComment($message, $postId, $reference, $id)
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
-    return ["type" => "success", "message" => "Le commentaire a bien été publié."];
+    newNotification("success", "Commentaire publié !", true, "fa-circle-check");
+    $_POST = array();
+    header("Refresh: 0");
 }
 
 function getNbPosts($id)
@@ -882,7 +884,7 @@ function addRespondComment($message, $commentId, $reference, $id)
 {
     $pdo = dbConnect();
 
-    $message = htmlspecialchars(trim($message));
+    // $message = htmlspecialchars(trim($message));
 
     $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
