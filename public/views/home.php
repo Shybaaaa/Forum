@@ -1,17 +1,8 @@
 <?php
 
 $categorys = getCategory(-1);
-$post
 
 ?>
-
-<script>
-        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.querySelector('html').classList.add('dark');
-        } else {
-            document.querySelector('html').classList.remove('dark');
-        }
-    </script>
     
 <div class="container max-w-screen gap-y-3 overflow-y-hidden min-h-screen flex flex-wrap py-6">
     <?php foreach($categorys as $category): ?>

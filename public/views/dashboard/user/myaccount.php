@@ -5,18 +5,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_FILES["imageUpdate"]) && $_FILES["imageUpdate"]["error"] != 4) {
             $status = updateUserProfile($_SESSION["user"]["id"], $_FILES["imageUpdate"]);
             if ($status["type"] == "success") {
-                echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La photo de profil a bien été modifié.'</script>";
+                newNotification("success", "La photo de profil a bien été modifié.", true, "fa-circle-check");
+                echo "<script>window.location.reload()</script>";
             } else {
-                echo "<script>window.location.href = 'index.php'</script>";
+                newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
+                echo "<script>window.location.reload()</script>";
             }
         }
     } elseif (isset($_POST["updateUsernameSubmit"])) {
         if (isset($_POST["updateUsernameField"])) {
             $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
             if ($status["type"] == "success") {
-                echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=Le nom d\'utilisateur a bien été modifié.'</script>";
+                newNotification("success", "Le nom d'utilisateur a bien été modifié.", true, "fa-circle-check");
+                echo "<script>window.location.reload()</script>";
             } else {
-                echo "<script>window.location.href = 'index.php'</script>";
+                newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
+                echo "<script>window.location.reload()</script>";
             }
         }
     } elseif (isset($_POST["updatePasswordSubmit"])) {
@@ -25,31 +29,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $newPassConfirm = htmlspecialchars(trim($_POST["passwordNewConfirm"]));
         $status = updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La mots de passe a été modifié avec succès.'</script>";
+            newNotification("success", "Le mots de passe a bien été modifié.", true, "fa-circle-check");
+            echo "<script>window.location.reload()</script>";
         } else {
-            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
+            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
+            echo "<script>window.location.reload()</script>";
         }
     } elseif (isset($_POST["updateDescSubmit"])) {
         $status = updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La biographie a été modifié avec succès.'</script>";
+            newNotification("success", "La biographie a bien été modifié.", true, "fa-circle-check");
+            echo "<script>window.location.reload()</script>";
         } else {
-            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
+            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
+            echo "<script>window.location.reload()</script>";
         }
     } elseif (isset($_POST["deleteProfilePicture"])) {
         $status = deleteUserProfile($_SESSION["user"]["id"]);
         if ($status["type"] == "success") {
-            echo "<script>window.location.href = 'index.php?page=myaccount&success=1&message=La photo de profil a été supprimé avec succès.'</script>";
+            newNotification("success", "La photo de profil a bien été supprimé.", true, "fa-circle-check");
+            echo "<script>window.location.reload()</script>";
         } else {
-            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
+            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
+            echo "<script>window.location.reload()</script>";
         }
     } elseif (isset($_POST["deleteProfile"])) {
         $status = deleteUser($_SESSION["user"]["id"], $_POST["password"]);
         if ($status["type"] == "success") {
             session_destroy();
-            echo "<script>window.location.href = '../../login.php?success=1&message=Compte supprimer avec succès.'</script>";
+            newNotification("success", "Votre compte a bien été supprimé.", true, "fa-circle-check");
+            echo "<script>window.location.href = '../../login.php'</script>";
         } else {
-            echo "<script>window.location.href = '?page=myaccount&error=1&message=Une erreur c\'est produite.'</script>";
+            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
+            echo "<script>window.location.reload()</script>";
         }
     }
 }

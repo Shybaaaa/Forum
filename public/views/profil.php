@@ -20,7 +20,7 @@ $user = getUserByRef($_GET["ref"]);
     </script>
 
 <div class="h-screen">
-    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden dark:w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit dark:bg-slate-700 mx-auto gap-x-7 gap-y-9 overflow-x-hidden">
+    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden dark:w-[80%] dark:bg-slate-700">
         <div class="w-full h-[20%] bg-gray-200 rounded-md dark:bg-slate-600"></div>
         <div class="-translate-y-1/2">
             <div class="flex flex-col items-center justify-center gap-x-4">
@@ -57,7 +57,7 @@ $user = getUserByRef($_GET["ref"]);
                         ?>
                     </div>
                     <div>
-                        <p class="text-gray-600 text-sm font-normal dark:text-slate-300 "><?= $user["biography"] ?></p>
+                        <p class="text-gray-600 text-sm font-normal dark:text-slate-300 text-center line-clamp-2 "><?= $user["biography"] ?></p>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@ $user = getUserByRef($_GET["ref"]);
                 <div class="flex flex-row justify-evenly w-full items-center gap-x-4 *:bg-gray-50/30 *:shadow-md *:p-4 *:rounded-lg *:w-40">
                     <div class="flex flex-col items-center gap-y-2">
                         <span class="text-2xl font-semibold text-indigo-600"><?= getNbPosts($user["id"])["nbPosts"] ?></span>
-                        <span class="text-sm text-gray-500 dark:text-sm text-slate-300">Publications</span>
+                        <span class="text-sm text-gray-500 dark:text-sm dark:text-slate-300">Publications</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
                         <span class="text-2xl font-semibold text-indigo-600"><?= getNbCommentsForUser($user["id"])["nbComments"] ?></span>
