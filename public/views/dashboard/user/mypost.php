@@ -32,6 +32,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 }
 
+$pdo = dbConnect();
+
+$stmt = $pdo->prepare("SELECT * FROM posts");
+$stmt->execute();
+$rows = $stmt->fetchAll(PDO::FETCH_OBJ);
+if(isset($_GET['q']) and !empty($_GET['q'])){
+    
+    $value = $_GET['q'];
+
+    $stmt = $pdo->prepare("SELECT * FROM posts WHERE CONCAT(tilte, postCategoryId) LIKE '%".$value."%'");
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+    var_dump($results);
+}
 ?>  
 
 <div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
@@ -151,6 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             </form>
         </div>
     </div>
+
 </div>
 
 <div id="restoreModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -183,3 +198,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 </div>
 
 <script type="application/javascript" src="/public/js/mypostModal.js"></script>
+</div>
