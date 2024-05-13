@@ -325,17 +325,19 @@ function updateUsername($id, $username)
     $stmt->execute([$username]);
     $isUsername = $stmt->fetch();
 
-    if ($isUsername) {
-        newLogs("Username update", "Nom d'utilisateur déjà utilisé");
-        return ["type" => "error", "message" => "Nom d'utilisateur déjà utilisé"];
-        exit;
-    } else {
-        newLogs("Username update", "Nom d'utilisateur modifié avec succès");
-        $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
-        $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
-        $_SESSION["user"]["username"] = $username;
-        return ["type" => "success", "message" => "Nom d'utilisateur modifié avec succès"];
-        exit;
+    if (count($username) > 1) {
+        if ($isUsername) {
+            newLogs("Username update", "Nom d'utilisateur déjà utilisé");
+            newNotification("error", "Nom d'utilisateur déjà utilisé", true, "fa-circle-exclamation");
+            return ["type" => "error"];
+        } else {
+            newLogs("Username update", "Nom d'utilisateur modifié avec succès");
+            $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
+            $_SESSION["user"]["username"] = $username;
+            newNotification("success", "Nom d'utilisateur modifié avec succès", true, "fa-circle-check");
+            return ["type" => "success"];
+        }
     }
 }
 
@@ -887,4 +889,56 @@ function addRespondComment($message, $commentId, $reference, $id)
     $stmt->execute([$message, $commentId, $reference, date("Y-m-d H:i:s"), $id]);
 
     return ["type" => "success", "message" => "Le commentaire a bien été publié."];
+}
+
+function deletePost(int $idPost, int $idUser)
+{
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT posts.id, posts.createdBy FROM posts WHERE id = ?");
+    $stmt->execute([$idPost]);
+    $isPost = $stmt->fetch();
+
+    if ($isPost) {
+        if ($isPost["createdBy"] == $idUser) {
+            $stmt = $pdo->prepare("UPDATE posts SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ?, status = 'c' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
+            newLogs("DELETE POST", "Post supprimé : " . $idPost);
+            newNotification("success", "Post supprimé avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("DELETE POST", "Utilisateur non autorisé : " . $idUser);
+            newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("DELETE POST", "Post innexistant : " . $idPost);
+        newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+    }
+
+    $_POST = array();
+    header("Refresh: 0");
+}
+
+function restorePost(int $idPost, int $idUser)
+{
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT posts.id, posts.createdBy FROM posts WHERE id = ?");
+    $stmt->execute([$idPost]);
+    $isPost = $stmt->fetch();
+
+    if ($isPost) {
+        if ($isPost["createdBy"] == $idUser) {
+            $stmt = $pdo->prepare("UPDATE posts SET isDeleted = 0, isActive = 1, updatedAt = ?, updatedBy = ?, status = 'a' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
+            newLogs("RESTORE POST", "Post restauré : " . $idPost);
+            newNotification("success", "Post restauré avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("RESTORE POST", "Utilisateur non autorisé : " . $idUser);
+            newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("RESTORE POST", "Post innexistant : " . $idPost);
+        newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+    }
+
+    $_POST = array();
+    header("Refresh: 0");
 }

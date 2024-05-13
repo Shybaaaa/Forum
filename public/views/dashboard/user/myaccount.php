@@ -1,5 +1,4 @@
 <?php
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["updatePicture"])) {
         if (isset($_FILES["imageUpdate"]) && $_FILES["imageUpdate"]["error"] != 4) {
@@ -16,10 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["updateUsernameField"])) {
             $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
             if ($status["type"] == "success") {
-                newNotification("success", "Le nom d'utilisateur a bien été modifié.", true, "fa-circle-check");
                 echo "<script>window.location.reload()</script>";
             } else {
-                newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
                 echo "<script>window.location.reload()</script>";
             }
         }
@@ -69,10 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="w-11/12 h-fit shadow-sm rounded-lg bg-white px-2 py-2.5 select-none dark:bg-slate-700 ">
     <div class="flex flex-col w-full h-full">
-        <h2 class="mt-2 ml-1.5 text-2xl text-gray-700 font-bold border-b-2 border-opacity-50 bg-clip-border border-gray-10 dark:bg-slate-200">Informations Personnelles </h2>
+        <h2 class="mt-2 ml-1.5 text-2xl text-gray-700 font-bold border-b-2 border-opacity-50 bg-clip-border border-gray-10 dark:text-slate-200">Informations Personnelles </h2>
         <div class="h-full w-8/12 mx-auto align-middle">
             <div class="px-4 py-6 flex flex-col items-center border-separate border-b sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900 dark:bg-slate-300">Photo de profil</dt>
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Photo de profil</dt>
                 <div class="flex flex-row items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-slate-300">
                     <?php if($_SESSION["user"]["image"] != ""): ?>
                         <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
@@ -110,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </dd>
             </div>
             <div class="px-4 py-6 flex flex-col items-center sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900">Biographie</dt>
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Biographie</dt>
                 <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-slate-300">
                     <p class="line-clamp-1"><?= $_SESSION["user"]["biography"] ?></p>
                     <button id="btnUpdateProfile" data-modal-target="updateBiography" data-modal-toggle="updateBiography" class="font-medium text-indigo-600 hover:text-indigo-500" type="button">Modifier</button>
@@ -143,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="flex items-center h-max flex-col justify-center w-full">
                     <div class="w-full mb-2.5">
-                        <span class="text-lg font-medium text-gray-600 text-left">Image de profil :</span>
+                        <span class="text-lg font-medium text-gray-600 text-left dark:text-slate-400">Image de profil :</span>
                     </div>
                     <div class="w-full mb-1.5 flex flex-col">
                         <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="imageUpdate" name="imageUpdate" type="file">
@@ -174,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="mt-2 mb-1.5">
-                    <span class="text-gray-600 text-md font-medium">Nouveau username :</span>
+                    <span class="text-gray-600 text-md font-medium dark:text-slate-300">Nouveau username :</span>
                 </div>
                 <div class="flex w-full">
                     <label for="website-admin" class="sr-only">Username</label>
