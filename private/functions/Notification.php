@@ -44,7 +44,7 @@ function renderNotification()
 
 
         return '
-        <div id="toast-success" class="fixed top-20 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow" role="alert">
+        <div id="toast-success" class="z-30 fixed top-20 right-10 flex items-center w-full max-w-sm p-4 mb-4 text-gray-500 bg-white rounded-lg shadow" role="alert">
             <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 ' . $color . ' rounded-lg">
                 <i class="fa-solid ' . $icon . ' fill-current" aria-hidden="true"></i>
             </div>

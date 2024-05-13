@@ -890,3 +890,34 @@ function addRespondComment($message, $commentId, $reference, $id)
 
     return ["type" => "success", "message" => "Le commentaire a bien été publié."];
 }
+
+function deletePost(int $idPost, int $idUser)
+{
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT posts.id, posts.createdBy FROM posts WHERE id = ?");
+    $stmt->execute([$idPost]);
+    $isPost = $stmt->fetch();
+
+    if ($isPost) {
+        if ($isPost["createdBy"] == $idUser) {
+            $stmt = $pdo->prepare("UPDATE posts SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ?, status = 'c' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
+            newLogs("DELETE POST", "Post supprimé : " . $idPost);
+            newNotification("success", "Post supprimé avec succès !", true, "fa-circle-check");
+            header("Refresh: 0");
+        } else {
+            newLogs("DELETE POST", "Utilisateur non autorisé : " . $idUser);
+            newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");
+            header("Refresh: 0");
+        }
+    } else {
+        newLogs("DELETE POST", "Post innexistant : " . $idPost);
+        newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+        header("Refresh: 0");
+    }
+}
+
+function restorePost(int $idPost, int $idUser)
+{
+
+}
