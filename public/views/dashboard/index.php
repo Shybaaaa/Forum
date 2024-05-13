@@ -1,12 +1,13 @@
 <?php
+ob_start();
 session_start();
 
-require_once "../../../private/functions/functions.php";
+require_once __DIR__ . "/../../../private/functions/functions.php";
+
 if (!isset($_SESSION["user"])) {
     header("Location: /index.php");
 }
 
-$config = parse_ini_file("../../../config.ini");
 ?>
 
 <!doctype html>
@@ -20,18 +21,11 @@ $config = parse_ini_file("../../../config.ini");
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="icon" href="/public/image/logo.ico">
     <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
-    <script>
-        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.querySelector('html').classList.add('dark');
-        } else {
-            document.querySelector('html').classList.remove('dark');
-        }
-    </script>
 </head>
+
 
 <body>
 <?= renderNotification() ?>
-
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
             <div class="mx-6 px-6 py-4">
@@ -75,11 +69,7 @@ $config = parse_ini_file("../../../config.ini");
                     </a>
                 </li>
                 <?php if ($_SESSION["user"]["roleId"] > 1) : ?>
-                    <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if (isset($_GET["page"]) and $_GET["page"] == "ttt") {
-                                                                                    echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";
-                                                                                } else {
-                                                                                    echo "transition-all text-gray-500 group";
-                                                                                } ?>">
+                    <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold group">
                         <button type="button" aria-controls="dropdown" data-collapse-toggle="dropdown">
                             <i class="fa-solid fa-user-tie mr-2 text-lg group-hover:text-cyan-400"></i>
                             <span class="group-hover:text-gray-600">Administration</span>
@@ -117,15 +107,15 @@ $config = parse_ini_file("../../../config.ini");
             </a>
         </div>
     </aside>
-    <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+    <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%] dark:bg-slate-800">
         <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5">
             <div class="px-6 flex items-center justify-between ">
-                <h5 hidden class="text-2xl text-gray-600 block font-medium">
+                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-slate-200 dark:bg-slate-800">
                     Tableau de bord
                 </h5>
             </div>
         </div>
-        <div id="app" class="px-6 pt-6 h-screen flex-col flex items-center w-full rounded-tl-lg 2xl:container bg-slate-50">
+        <div id="app" class="px-6 pt-6 h-screen flex-col flex items-center w-full rounded-tl-lg 2xl:container bg-slate-50  dark:bg-slate-800">
             <?php
             if (isset($_GET["page"])) {
                 switch ($_GET["page"]):
@@ -150,6 +140,9 @@ $config = parse_ini_file("../../../config.ini");
                     case "editPost":
                         require_once "user/editPost.php";
                         break;
+                    default:
+                        require_once "user/myaccount.php";
+                        break;
                 endswitch;
             } else {
                 require_once "user/myaccount.php";
@@ -162,5 +155,5 @@ $config = parse_ini_file("../../../config.ini");
     <script type="application/javascript" src="/public/js/dark_mode.js"></script>
 
 </body>
-
 </html>
+<?php ob_end_flush(); ?>
