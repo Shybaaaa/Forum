@@ -8,6 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $id = $_POST["deleteModalInput"];
             deletePost($id, $_SESSION["user"]["id"]);
             break;
+        case isset($_POST["modalRestorePost"]):
+            $id = $_POST["deleteModalInput"];
+            restorePost($id, $_SESSION["user"]["id"]);
+            break;
         case isset($_POST["search"]):
             $search = $_POST["inputSearch"];
             $posts = getPostUser($_SESSION["user"]["id"], "all" , "true", $search);
@@ -90,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                             <?php if(!$post["isDeleted"]): ?>
                                 <button onclick="renderModalDeletePost(<?= $post["id"];?>, '<?= $post["reference"] ?>')" class="btnDelete" data-modal-target="deleteModal" data-modal-show="deleteModal"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
                             <?php else: ?>
-                                <button value="<?= $post["id"]?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
+                                <button data-modal-target="restoreModal" data-modal-show="restoreModal" onclick="renderModalRestorePost(<?= $post["id"];?>, '<?= $post["reference"] ?>')" value="<?= $post["id"]?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -152,10 +156,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                     <h3 id="deleteModalH3" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"></h3>
                     <div class="flex flex-col">
                         <label class="text-sm text-gray-800 font-semibold text-left mb-1" for="deleteModalInput">Post :</label>
-                        <input type="text" id="deleteModalInput" readonly name="deleteModalInput" placeholder="Id" class="cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
+                        <input type="text" id="restoreModalInput" readonly name="deleteModalInput" placeholder="Id" class="cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
                     </div>
                     <div class="flex flex-row align-middle justify-evenly">
-                        <input data-modal-hide="restoreModal" name="modalRestorePost" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" value="Oui, supprimer !">
+                        <input data-modal-hide="restoreModal" name="modalRestorePost" type="submit" class="text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" value="Oui, restaurer !">
                         <button data-modal-hide="restoreModal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Annuler</button>
                     </div>
                 </div>

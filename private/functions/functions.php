@@ -904,20 +904,41 @@ function deletePost(int $idPost, int $idUser)
             $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
             newLogs("DELETE POST", "Post supprimé : " . $idPost);
             newNotification("success", "Post supprimé avec succès !", true, "fa-circle-check");
-            header("Refresh: 0");
         } else {
             newLogs("DELETE POST", "Utilisateur non autorisé : " . $idUser);
             newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");
-            header("Refresh: 0");
         }
     } else {
         newLogs("DELETE POST", "Post innexistant : " . $idPost);
         newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
-        header("Refresh: 0");
     }
+
+    $_POST = array();
+    header("Refresh: 0");
 }
 
 function restorePost(int $idPost, int $idUser)
 {
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT posts.id, posts.createdBy FROM posts WHERE id = ?");
+    $stmt->execute([$idPost]);
+    $isPost = $stmt->fetch();
 
+    if ($isPost) {
+        if ($isPost["createdBy"] == $idUser) {
+            $stmt = $pdo->prepare("UPDATE posts SET isDeleted = 0, isActive = 1, updatedAt = ?, updatedBy = ?, status = 'a' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
+            newLogs("RESTORE POST", "Post restauré : " . $idPost);
+            newNotification("success", "Post restauré avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("RESTORE POST", "Utilisateur non autorisé : " . $idUser);
+            newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("RESTORE POST", "Post innexistant : " . $idPost);
+        newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+    }
+
+    $_POST = array();
+    header("Refresh: 0");
 }
