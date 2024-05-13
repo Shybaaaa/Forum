@@ -13,12 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif (isset($_POST["updateUsernameSubmit"])) {
         if (isset($_POST["updateUsernameField"])) {
-            $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
-            if ($status["type"] == "success") {
-                echo "<script>window.location.reload()</script>";
-            } else {
-                echo "<script>window.location.reload()</script>";
-            }
+            updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
         }
     } elseif (isset($_POST["updatePasswordSubmit"])) {
         $oldPass = htmlspecialchars(trim($_POST["passwordOld"]));
