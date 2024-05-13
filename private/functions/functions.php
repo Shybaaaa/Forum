@@ -329,15 +329,21 @@ function updateUsername($id, $username)
         if ($isUsername) {
             newLogs("Username update", "Nom d'utilisateur déjà utilisé");
             newNotification("error", "Nom d'utilisateur déjà utilisé", true, "fa-circle-exclamation");
-            return ["type" => "error"];
+            header("Refresh: 0");
         } else {
             newLogs("Username update", "Nom d'utilisateur modifié avec succès");
             $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
             $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
             $_SESSION["user"]["username"] = $username;
+            $_POST = array();
             newNotification("success", "Nom d'utilisateur modifié avec succès", true, "fa-circle-check");
-            return ["type" => "success"];
+            header("Refresh: 0");
         }
+    } else {
+        newLogs("Username update", "Nom d'utilisateur trop court");
+        newNotification("error", "Nom d'utilisateur trop court", true, "fa-circle-exclamation");
+        header("Refresh: 0");
+
     }
 }
 
