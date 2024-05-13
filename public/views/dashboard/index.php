@@ -17,17 +17,10 @@ if (!isset($_SESSION["user"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Forum - Tableau de bord</>
+    <title>Forum - Tableau de bord</title>
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="icon" href="/public/image/logo.ico">
     <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
-<!--    <script>-->
-<!--        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {-->
-<!--            document.querySelector('html').classList.add('dark');-->
-<!--        } else {-->
-<!--            document.querySelector('html').classList.remove('dark');-->
-<!--        }-->
-<!--    </script>-->
 </head>
 
 
