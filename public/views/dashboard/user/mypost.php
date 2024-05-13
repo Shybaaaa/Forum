@@ -17,6 +17,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $posts = getPostUser($_SESSION["user"]["id"], "all", "true", $search);
             break;
     }
+
+    $pdo = dbConnect();
+
+    $stmt = $pdo->prepare("SELECT * FROM posts");
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_OBJ);
+    if(isset($_GET['q']) and !empty($_GET['q'])){
+        
+        $value = $_GET['q'];
+    
+        $stmt = $pdo->prepare("SELECT * FROM posts WHERE CONCAT(tilte, postCategoryId) LIKE '%".$value."%'");
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
 }
 
 ?>
@@ -25,7 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="flex flex-row m-2 my-3 justify-between">
-                <form action="" enctype="multipart/form-data" method="post">
+
+                <form action="" method="POST">
+
                     <div class="relative mb-3 mr-5 float-left">
                         <label for="inputSearch" class="sr-only">Rechercher</label>
                         <input id="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:bg-neutral-600 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400" />
