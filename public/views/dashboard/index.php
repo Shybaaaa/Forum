@@ -17,7 +17,7 @@ if (!isset($_SESSION["user"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Forum - Tableau de bord</title>
+    <title>Forum - Tableau de bord</>
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="icon" href="/public/image/logo.ico">
     <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
@@ -29,6 +29,7 @@ if (!isset($_SESSION["user"])) {
 <!--        }-->
 <!--    </script>-->
 </head>
+
 
 <body>
 <?= renderNotification() ?>
@@ -113,15 +114,15 @@ if (!isset($_SESSION["user"])) {
             </a>
         </div>
     </aside>
-    <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+    <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%] dark:bg-slate-800">
         <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5">
             <div class="px-6 flex items-center justify-between ">
-                <h5 hidden class="text-2xl text-gray-600 block font-medium">
+                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-slate-200 bg-slate-800">
                     Tableau de bord
                 </h5>
             </div>
         </div>
-        <div id="app" class="px-6 pt-6 h-screen flex-col flex items-center w-full rounded-tl-lg 2xl:container bg-slate-50">
+        <div id="app" class="px-6 pt-6 h-screen flex-col flex items-center w-full rounded-tl-lg 2xl:container bg-slate-50  dark:bg-slate-800">
             <?php
             if (isset($_GET["page"])) {
                 switch ($_GET["page"]):

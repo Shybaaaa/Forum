@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
 
 ?>  
 
-<div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5">
+<div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="flex flex-row m-2 my-3 justify-between">
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
                         <label for="inputSearch" class="sr-only">Rechercher</label>
                         <input id="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:bg-neutral-600 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"/>
                         <button type="submit" name="search">
-                            <i class="fa-solid fa-search text-gray-700 absolute top-3 left-3"></i>
+                            <i class="fa-solid fa-search text-gray-700 absolute top-3 left-3 dark:text-slate-400"></i>
                         </button>
                     </div>
                 </form>
@@ -29,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
                     </a>
                 </div>
             </div>
-            <table class="min-w-full text-left text-xs whitespace-nowrap">
-                <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-600">
+            <table class="min-w-full text-left text-xs whitespace-nowrap dark:text-slate-200">
+                <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-300">
                 <tr>
                     <th scope="col" class="px-6 py-5">
                         Titre
@@ -52,16 +52,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
                 <tbody>
                 <?php if ($posts): ?>
                 <?php foreach ($posts as $post): ?>
-                    <tr class="border-b dark:border-neutral-600">
+                    <tr class="border-b dark:border-neutral-300">
                         <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square"></i></a></th>
                         <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
                         <td class="px-6 py-5">
                             <?php if ($post["status"] == "a"): ?>
-                                <span class="text-green-500 font-bold text-sm">En ligne</span>
+                                <span class="text-green-500 font-bold text-sm dark:text-green-400">En ligne</span>
                             <?php elseif ($post["status"] == "b"): ?>
-                                <span class="text-orange-300 font-bold text-sm">Masqué</span>
+                                <span class="text-orange-300 font-bold text-sm dark:text-orange-200">Masqué</span>
                             <?php elseif ($post["status"]  == "c"): ?>
-                                <span class="text-red-600 font-bold text-sm">Supprimé</span>
+                                <span class="text-red-600 font-bold text-sm dark:text-red-500">Supprimé</span>
                             <?php endif; ?>
                         </td>
                         <td class="px-6 py-5"><?= getNbComments($post["id"])["nbComments"] ?></td>
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
                 <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5" class="text-center italic text-gray-500 py-5">Vous n'avez encore posté aucun poste.</td>
+                        <td colspan="5" class="text-center italic text-gray-500 py-5 dark:text-slate-300">Vous n'avez encore posté aucun poste.</td>
                     </tr>
                 <?php endif; ?>
                 </tbody>
