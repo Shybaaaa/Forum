@@ -4784,6 +4784,11 @@ input:checked + .toggle-bg {
   background-color: rgb(99 49 18 / var(--tw-bg-opacity));
 }
 
+.bg-slate-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-0 {
   --tw-bg-opacity: 0;
 }
@@ -6215,6 +6220,11 @@ input:checked + .toggle-bg {
   color: rgb(114 59 19 / var(--tw-text-opacity));
 }
 
+.text-indigo-200 {
+  --tw-text-opacity: 1;
+  color: rgb(205 219 254 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -7293,6 +7303,11 @@ img {
 .group:hover .group-hover\:text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(224 36 36 / var(--tw-text-opacity));
+}
+
+.group:hover .group-hover\:text-indigo-200 {
+  --tw-text-opacity: 1;
+  color: rgb(205 219 254 / var(--tw-text-opacity));
 }
 
 @media (prefers-reduced-motion: no-preference) {
