@@ -325,17 +325,19 @@ function updateUsername($id, $username)
     $stmt->execute([$username]);
     $isUsername = $stmt->fetch();
 
-    if ($isUsername) {
-        newLogs("Username update", "Nom d'utilisateur déjà utilisé");
-        return ["type" => "error", "message" => "Nom d'utilisateur déjà utilisé"];
-        exit;
-    } else {
-        newLogs("Username update", "Nom d'utilisateur modifié avec succès");
-        $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
-        $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
-        $_SESSION["user"]["username"] = $username;
-        return ["type" => "success", "message" => "Nom d'utilisateur modifié avec succès"];
-        exit;
+    if (count($username) > 1) {
+        if ($isUsername) {
+            newLogs("Username update", "Nom d'utilisateur déjà utilisé");
+            newNotification("error", "Nom d'utilisateur déjà utilisé", true, "fa-circle-exclamation");
+            return ["type" => "error"];
+        } else {
+            newLogs("Username update", "Nom d'utilisateur modifié avec succès");
+            $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+            $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
+            $_SESSION["user"]["username"] = $username;
+            newNotification("success", "Nom d'utilisateur modifié avec succès", true, "fa-circle-check");
+            return ["type" => "success"];
+        }
     }
 }
 
