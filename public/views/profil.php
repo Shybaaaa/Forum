@@ -35,7 +35,7 @@ $user = getUserByRef($_GET["ref"]);
                         <?php endif; ?>
                     </div>
                     <div class="inline-flex text-center flex-col items-center ">
-                        <span class="text-2xl font-semibold"><?= $user["username"] ?></span>
+                        <span class="text-2xl font-semibold dark:text-slate-200"><?= $user["username"] ?></span>
                         <?php
                             switch (getRole($user["roleId"])["name"]) {
                                 case "Fondateur":
