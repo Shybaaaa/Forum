@@ -6371,11 +6371,6 @@ input:checked + .toggle-bg {
   color: rgb(1 71 55 / var(--tw-text-opacity));
 }
 
-.text-indigo-200 {
-  --tw-text-opacity: 1;
-  color: rgb(205 219 254 / var(--tw-text-opacity));
-}
-
 .text-indigo-300 {
   --tw-text-opacity: 1;
   color: rgb(180 198 252 / var(--tw-text-opacity));
@@ -6583,6 +6578,7 @@ input:checked + .toggle-bg {
   --tw-text-opacity: 1;
   color: rgb(114 59 19 / var(--tw-text-opacity));
 }
+
 
 .underline {
   text-decoration-line: underline;

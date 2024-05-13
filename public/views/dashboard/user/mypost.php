@@ -17,19 +17,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $posts = getPostUser($_SESSION["user"]["id"], "all", "true", $search);
             break;
     }
+
     $pdo = dbConnect();
 
     $stmt = $pdo->prepare("SELECT * FROM posts");
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_OBJ);
-    if (isset($_GET['q']) and !empty($_GET['q'])) {
-
+    if(isset($_GET['q']) and !empty($_GET['q'])){
+        
         $value = $_GET['q'];
-
-        $stmt = $pdo->prepare("SELECT * FROM posts WHERE CONCAT(tilte, postCategoryId) LIKE '%" . $value . "%'");
+    
+        $stmt = $pdo->prepare("SELECT * FROM posts WHERE CONCAT(tilte, postCategoryId) LIKE '%".$value."%'");
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
 }
 
 ?>
