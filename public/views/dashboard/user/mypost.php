@@ -1,6 +1,5 @@
 <?php
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
     $posts = searchPost($_POST["search"]);
     print_r($posts);
@@ -16,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST["search"])) {
         <div>
             <div class="flex flex-row m-2 my-3 justify-between">
 
-                <form action="" method="post">
+                <form action="" method="POST">
 
                     <div class="relative mb-3 mr-5 float-left">
                         <label for="inputSearch" class="sr-only">Rechercher</label>
