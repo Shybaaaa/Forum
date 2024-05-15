@@ -311,7 +311,6 @@ function updateUsername($id, $username)
         newLogs("Username update", "Nom d'utilisateur trop court");
         newNotification("error", "Nom d'utilisateur trop court", true, "fa-circle-exclamation");
         header("Refresh: 0");
-
     }
 }
 
@@ -363,7 +362,6 @@ function deleteUser($id, $password)
         header("Location: /index.php?page=home");
     } else {
         newLogs("DELETE USER", "Mot de passe incorrect");
-
     }
 }
 
@@ -643,7 +641,7 @@ function addComment($message, $postId, $reference, $id)
     $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
     newNotification("success", "Commentaire publié !", true, "fa-circle-check");
-    $_POST = array();
+
     header("Refresh: 0");
 }
 
@@ -851,9 +849,9 @@ function addRespondComment($message, $commentId, $reference, $id)
 {
     $pdo = dbConnect();
 
-    // $message = htmlspecialchars(trim($message));
+    $message = htmlspecialchars(trim($message));
 
-    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    $lastRef = $pdo->query("SELECT id FROM sous_comments ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
         $lastRef = 0;
     }
