@@ -967,3 +967,13 @@ function showPost(int $idPost, int $idUser)
     $_POST = array();
     header("Refresh: 0");
 }
+
+function getRCOWhereCOM($id)
+{
+    $pdo = dbConnect();
+
+    $sql = "SELECT * FROM sous_comments WHERE commentId = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    return $stmt->fetchAll();
+}

@@ -113,6 +113,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <p class="mb-2 text-gray-700 text-sm dark:text-gray-200"><?= $comment["message"] ?></p>
                 </article>
+                <?php foreach (getRCOWhereCOM($comment["id"]) as $sous_comment) : ?>
+                    <article class="bg-gray-200 w-1/2 rounded-lg px-6 py-2 my-3 ml-20 dark:bg-slate-500">
+                        <div class="space-x-1 flex items-center mb-4">
+                            <!-- <h3>Réponse :</h3> -->
+                            <a href="index.php?page=profil&ref=<?= getUser($sous_comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
+                                <img class="w-10 h-10 me-4 rounded-full transition duration-75" src="<?= getUser($sous_comment["createdBy"])["image"] ?>" alt="">
+                                <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
+                                    <p><?= getUser($sous_comment["createdBy"])["username"] ?></p>
+                                </div>
+                            </a>
+                            <p class="text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($sous_comment["createdAt"])) ?> à <?= date("H:i", strtotime($sous_comment["createdAt"])) ?></p>
+                            <p class="text-gray-500 text-sm text-pretty dark:text-slate-300"> répond à</p>
+                            <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
+                                <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
+                                    <p><?= getUser($comment["createdBy"])["username"] ?></p>
+                                </div>
+                        </div>
+                        <p class="mb-2 text-gray-700 text-sm dark:text-gray-200"><?= $sous_comment["message"] ?></p>
+                    </article>
+                <?php endforeach; ?>
             <?php endforeach; ?>
         </div>
     </div>
