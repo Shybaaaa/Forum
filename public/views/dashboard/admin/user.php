@@ -5,7 +5,7 @@ $users = getUser(-1);
 
 ?>
 
-<div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5">
+<div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="relative m-[2px] mb-3 mr-5 float-left">
@@ -26,29 +26,29 @@ $users = getUser(-1);
             <table class="min-w-full text-left text-xs whitespace-nowrap">
                 <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-600">
                 <tr>
-                    <th scope="col" class="px-6 py-5">
+                    <th scope="col" class="px-6 py-5 dark:text-slate-200">
                         Nom
                     </th>
-                    <th scope="col" class="px-6 py-5">
+                    <th scope="col" class="px-6 py-5 dark:text-slate-200">
                         Role
                     </th>
-                    <th scope="col" class="px-6 py-5">
+                    <th scope="col" class="px-6 py-5 dark:text-slate-200">
                         Status
                     </th>
-                    <th scope="col" class="px-6 py-5">
+                    <th scope="col" class="px-6 py-5 dark:text-slate-200">
                         Posts
                     </th>
-                    <th scope="col" class="px-6 py-5">
+                    <th scope="col" class="px-6 py-5 dark:text-slate-200">
                         Commentaires
                     </th>
-                    <th scope="col" class="px-6 py-5">
+                    <th scope="col" class="px-6 py-5 dark:text-slate-200">
                         Actions
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($users as $user): ?>
-                    <tr class="border-b dark:border-neutral-600">
+                    <tr class="border-b dark:text-slate-300">
                         <th scope="row" class="px-6 py-5"><?= $user["username"] ?></th>
                         <td class="px-6 py-5"><?= getRole($user["roleId"])["name"] ?></td>
                         <td class="px-6 py-5">

@@ -311,7 +311,6 @@ function updateUsername($id, $username)
         newLogs("Username update", "Nom d'utilisateur trop court");
         newNotification("error", "Nom d'utilisateur trop court", true, "fa-circle-exclamation");
         header("Refresh: 0");
-
     }
 }
 
@@ -382,7 +381,6 @@ function deleteUser($id, $password)
         header("Location: /index.php?page=home");
     } else {
         newLogs("DELETE USER", "Mot de passe incorrect");
-
     }
 }
 
@@ -704,7 +702,7 @@ function addComment($message, $postId, $reference, $id)
     $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
     newNotification("success", "Commentaire publié !", true, "fa-circle-check");
-    $_POST = array();
+
     header("Refresh: 0");
 }
 
@@ -919,9 +917,9 @@ function addRespondComment($message, $commentId, $reference, $id)
 {
     $pdo = dbConnect();
 
-    // $message = htmlspecialchars(trim($message));
+    $message = htmlspecialchars(trim($message));
 
-    $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
+    $lastRef = $pdo->query("SELECT id FROM sous_comments ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
         $lastRef = 0;
     }
@@ -1038,6 +1036,7 @@ function showPost(int $idPost, int $idUser)
     header("Refresh: 0");
 }
 
+
 function deletePostAdmin(int $idPost, int $userLevel)
 {
     $pdo = dbConnect();
@@ -1138,4 +1137,14 @@ function showPostAdmin(int $idPost, int $userLevel)
     }
 
     header("Refresh: 0");
+}
+
+function getRCOWhereCOM($id)
+{
+    $pdo = dbConnect();
+
+    $sql = "SELECT * FROM sous_comments WHERE commentId = ? and isActive = 1 and isDeleted = 0";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    return $stmt->fetchAll();
 }

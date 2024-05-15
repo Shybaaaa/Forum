@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             addComment($_POST["comment"], $post["id"], $post["reference"], $_SESSION["user"]["id"]);
             break;
         case isset($_POST["commentrespond"]):
-            addRespondComment($_POST["message"], $post["commentId"], $post["reference"], $_SESSION["user"]["id"]);
+            addRespondComment($_POST["message"], $_POST["commentId"], $post["reference"], $_SESSION["user"]["id"]);
             break;
     }
 }
@@ -109,10 +109,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </a>
                         <p class="ml-3 text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i", strtotime($comment["createdAt"])) ?></p>
-                        <button data-modal-target="commentRespond" data-modal-show="commentRespond" onclick="FONCTION" class="fa-solid fa-reply px-6 py-5"></button>
+                        <button data-modal-target="commentRespond" data-modal-show="commentRespond" onclick="respondComment(<?= $comment['id'] ?>)" class="fa-solid fa-reply px-6 py-5"></button>
                     </div>
                     <p class="mb-2 text-gray-700 text-sm dark:text-gray-200"><?= $comment["message"] ?></p>
                 </article>
+                <?php foreach (getRCOWhereCOM($comment["id"]) as $sous_comment) : ?>
+                    <article class="bg-gray-200 w-1/2 rounded-lg px-6 py-2 my-3 ml-20 dark:bg-slate-500">
+                        <div class="space-x-1 flex items-center mb-4">
+                            <!-- <h3>Réponse :</h3> -->
+                            <a href="index.php?page=profil&ref=<?= getUser($sous_comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
+                                <img class="w-10 h-10 me-4 rounded-full transition duration-75" src="<?= getUser($sous_comment["createdBy"])["image"] ?>" alt="">
+                                <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
+                                    <p><?= getUser($sous_comment["createdBy"])["username"] ?></p>
+                                </div>
+                            </a>
+                            <p class="text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($sous_comment["createdAt"])) ?> à <?= date("H:i", strtotime($sous_comment["createdAt"])) ?></p>
+                            <p class="text-gray-500 text-sm text-pretty dark:text-slate-300"> répond à</p>
+                            <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
+                                <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
+                                    <p><?= getUser($comment["createdBy"])["username"] ?></p>
+                                </div>
+                        </div>
+                        <p class="mb-2 text-gray-700 text-sm dark:text-gray-200"><?= $sous_comment["message"] ?></p>
+                    </article>
+                <?php endforeach; ?>
             <?php endforeach; ?>
         </div>
     </div>
@@ -137,8 +157,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="flex items-center h-max flex-col justify-center w-full">
                     <div class="mb-6 w-full">
                         <label for="commentrespond" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Message</label>
-                        <input type="text" id="commentrespond" readonly name="commentrespond" placeholder="Id" class="cursor-not-allowed text-gray-700 bg-gray-100 hidden">
-                        <textarea id="commentrespond" name="commentrespond" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="2"><?= $_SESSION["user"]["biography"] ?></textarea>
+                        <input type="text" id="commentId" readonly name="commentId" placeholder="Id" class="cursor-not-allowed text-gray-700 bg-gray-100 hidden">
+                        <textarea id="commentrespond" name="message" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="2"><?= $_SESSION["user"]["biography"] ?></textarea>
                         <div id="textareaBError" class="counter"><span id="counter">0</span> caractères (500 max)</div>
                     </div>
                     <div class="mt-3 w-full flex justify-end">
@@ -149,3 +169,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+
+<script src="/public/js/viewpost.js"></script>

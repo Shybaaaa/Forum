@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
     }
 
+
 //    $pdo = dbConnect();
 //
 //    $stmt = $pdo->prepare("SELECT * FROM posts");
@@ -94,7 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <?php else: ?>
                                     <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
                                 <?php endif; ?>
-
                                 <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
                                 <td class="px-6 py-5">
                                     <?php if ($post["status"] == "a"): ?>
@@ -208,31 +208,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<div id="hideModal" tabindex="-1"
-     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="hideModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button"
-                    class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="hideModal">
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="hideModal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
                 <span class="sr-only">Fermer la popup</span>
             </button>
             <form action="" enctype="multipart/form-data" method="post">
                 <div class="p-4 md:p-5 text-center dark">
                     <i class="fa-solid fa-eye-slash text-center mb-4 text-gray-400 w-12 h-12 text-4xl"></i>
-                    <input type="text" id="hideModalInput" readonly name="hideModalInput" placeholder="Id"
-                           class="hidden sr-only cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
+                    <input type="text" id="hideModalInput" readonly name="hideModalInput" placeholder="Id" class="hidden sr-only cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
                     <div class="flex flex-row items-center">
-                        <h3 id="hideModalH3"
-                            class="font-normal text-sm text-center w-8/12 h-full text-gray-500 dark:text-gray-400"></h3>
-                        <input data-modal-hide="hideModal" name="modalHidePost" type="submit"
-                               class="text-white w-3/12 bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                               value="Masquer">
+                        <h3 id="hideModalH3" class="font-normal text-sm text-center w-8/12 h-full text-gray-500 dark:text-gray-400"></h3>
+                        <input data-modal-hide="hideModal" name="modalHidePost" type="submit" class="text-white w-3/12 bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" value="Masquer">
                     </div>
                 </div>
             </form>
@@ -240,31 +231,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<div id="showModal" tabindex="-1"
-     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="showModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button"
-                    class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="showModal">
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="showModal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
                 <span class="sr-only">Fermer la popup</span>
             </button>
             <form action="" enctype="multipart/form-data" method="post">
                 <div class="p-4 md:p-5 text-center dark">
                     <i class="fa-solid fa-eye text-center mb-4 text-gray-400 w-12 h-12 text-4xl"></i>
-                    <input type="text" id="showModalInput" readonly name="showModalInput" placeholder="Id"
-                           class="hidden sr-only cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
+                    <input type="text" id="showModalInput" readonly name="showModalInput" placeholder="Id" class="hidden sr-only cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
                     <div class="flex flex-row items-center">
-                        <h3 id="hideModalH3"
-                            class="font-normal text-sm text-center w-8/12 h-full text-gray-500 dark:text-gray-400"></h3>
-                        <input data-modal-hide="showModal" name="modalShowPost" type="submit"
-                               class="text-white w-3/12 bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                               value="Afficher">
+                        <h3 id="hideModalH3" class="font-normal text-sm text-center w-8/12 h-full text-gray-500 dark:text-gray-400"></h3>
+                        <input data-modal-hide="showModal" name="modalShowPost" type="submit" class="text-white w-3/12 bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" value="Afficher">
                     </div>
                 </div>
             </form>
