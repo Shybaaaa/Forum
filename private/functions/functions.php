@@ -724,7 +724,7 @@ function getUserByRef($refUser)
 function getPostByRef($ref)
 {
     $pdo = dbConnect();
-    $sql = "SELECT * FROM posts WHERE reference = ? and isActive = 1 and isDeleted = 0";
+    $sql = "SELECT * FROM posts WHERE reference = ? and isDeleted = 0";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$ref]);
     $post = $stmt->fetch();
@@ -928,7 +928,7 @@ function hidePost(int $idPost, int $idUser)
             $stmt = $pdo->prepare("UPDATE posts SET isActive = 0, updatedAt = ?, updatedBy = ?, status = 'b' WHERE id = ?");
             $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
             newLogs("HIDE POST", "Post caché : " . $idPost);
-            newNotification("success", "Post caché avec succès !", true, "fa-circle-check");
+            newNotification("warning", "Post caché avec succès !", true, "fa-eye-slash");
         } else {
             newLogs("HIDE POST", "Utilisateur non autorisé : " . $idUser);
             newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");

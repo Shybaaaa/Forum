@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
 
 ?>
 
-<div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-800">
+<div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="w-full m-3">
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
                 </div>
                 <div class="border-b border-separate w-1/2 mx-auto"></div>
                 <div class="flex flex-row items-center justify-evenly">
-                    <label for="category" class="block text-gray-800 w-1/4 text-center font-medium">Catégories :</label>
+                    <label for="category" class="block text-gray-800 w-1/4 text-center font-medium dark:text-slate-300">Catégories :</label>
                     <select name="category" id="category" class="w-1/2 rounded-lg mx-auto border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50 dark:bg-slate-600 text-slate-300">
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= $category["id"] ?>" <?=
