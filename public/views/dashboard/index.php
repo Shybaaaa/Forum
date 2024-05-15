@@ -13,7 +13,6 @@ if (!isset($_SESSION["user"])) {
 
 <!doctype html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -30,8 +29,6 @@ if (!isset($_SESSION["user"])) {
         }
     </script>
 </head>
-
-
 <body class="overflow-y-hidden">
 <?= renderNotification() ?>
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] dark:bg-slate-700">
@@ -164,7 +161,6 @@ if (!isset($_SESSION["user"])) {
 
     <script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
     <script type="application/javascript" src="/public/js/dark_mode.js"></script>
-
 </body>
 </html>
 <?php ob_end_flush(); ?>
