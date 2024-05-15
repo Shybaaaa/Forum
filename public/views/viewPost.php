@@ -1,12 +1,17 @@
 <?php
 
-if (!isset($_GET["ref"])) {
-    header("Location: /index.php?page=home");
-} elseif (!getPostByRef($_GET["ref"])) {
+if (!isset($_GET["ref"]) || !getPostByRef($_GET["ref"])) {
     header("Location: /index.php?page=home");
 }
 
 $post = getPostByRef($_GET["ref"]);
+
+if ($_SESSION["user"]["roleId"] < 2) {
+    if (!$post["isActive"] && $_SESSION["user"]["id"] != $post["createdBy"]) {
+        header("Location: /index.php?page=home");
+    }
+}
+
 $userCreator = getUser($post["createdBy"]);
 $comments = getCommentsWherePOS($post["id"]);
 
