@@ -117,7 +117,7 @@ if (!isset($_SESSION["user"])) {
     <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%] dark:bg-slate-800">
         <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5 dark:bg-slate-800">
             <div class="px-6 flex items-center justify-between ">
-                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-slate-200">
+                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-slate-200 dark:bg-slate-8">
                     Tableau de bord
                 </h5>
             </div>

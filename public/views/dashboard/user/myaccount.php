@@ -2,64 +2,23 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["updatePicture"])) {
         if (isset($_FILES["imageUpdate"]) && $_FILES["imageUpdate"]["error"] != 4) {
-            $status = updateUserProfile($_SESSION["user"]["id"], $_FILES["imageUpdate"]);
-            if ($status["type"] == "success") {
-                newNotification("success", "La photo de profil a bien été modifié.", true, "fa-circle-check");
-                echo "<script>window.location.reload()</script>";
-            } else {
-                newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-                echo "<script>window.location.reload()</script>";
-            }
+            updateUserProfile($_SESSION["user"]["id"], $_FILES["imageUpdate"]);
         }
     } elseif (isset($_POST["updateUsernameSubmit"])) {
         if (isset($_POST["updateUsernameField"])) {
-            $status = updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
-            if ($status["type"] == "success") {
-                echo "<script>window.location.reload()</script>";
-            } else {
-                echo "<script>window.location.reload()</script>";
-            }
+            updateUsername($_SESSION["user"]["id"], $_POST["updateUsernameField"]);
         }
     } elseif (isset($_POST["updatePasswordSubmit"])) {
         $oldPass = htmlspecialchars(trim($_POST["passwordOld"]));
         $newPass = htmlspecialchars(trim($_POST["passwordNew"]));
         $newPassConfirm = htmlspecialchars(trim($_POST["passwordNewConfirm"]));
-        $status = updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
-        if ($status["type"] == "success") {
-            newNotification("success", "Le mots de passe a bien été modifié.", true, "fa-circle-check");
-            echo "<script>window.location.reload()</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
     } elseif (isset($_POST["updateDescSubmit"])) {
-        $status = updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
-        if ($status["type"] == "success") {
-            newNotification("success", "La biographie a bien été modifié.", true, "fa-circle-check");
-            echo "<script>window.location.reload()</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
     } elseif (isset($_POST["deleteProfilePicture"])) {
-        $status = deleteUserProfile($_SESSION["user"]["id"]);
-        if ($status["type"] == "success") {
-            newNotification("success", "La photo de profil a bien été supprimé.", true, "fa-circle-check");
-            echo "<script>window.location.reload()</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        deleteUserProfile($_SESSION["user"]["id"]);
     } elseif (isset($_POST["deleteProfile"])) {
-        $status = deleteUser($_SESSION["user"]["id"], $_POST["password"]);
-        if ($status["type"] == "success") {
-            session_destroy();
-            newNotification("success", "Votre compte a bien été supprimé.", true, "fa-circle-check");
-            echo "<script>window.location.href = '../../login.php'</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        deleteUser($_SESSION["user"]["id"], $_POST["password"]);
     }
 }
 ?>

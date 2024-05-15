@@ -115,7 +115,7 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
     }
 }
 
-function loginUser($email, $password, $remember)
+function loginUser($email, $password)
 {
     $email = htmlspecialchars($email);
     $password = htmlspecialchars($password);
@@ -166,53 +166,22 @@ function loginUser($email, $password, $remember)
     }
 }
 
-function updateUser($id, $username, $surname, $email, $password, $image)
-{
-    $username = htmlspecialchars($username);
-    $surname = htmlspecialchars($surname);
-    $email = htmlspecialchars($email);
-    $password = htmlspecialchars($password);
-    $image = htmlspecialchars($image);
-    $pdo = dbConnect();
-
-    if ($password != "") {
-        $hPassword = md5($password);
-        $sql = "UPDATE users SET username = ?, surname = ?, email = ?, password = ?, image = ? WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$username, $surname, $email, $hPassword, $image, $id]);
-    } else {
-        $sql = "UPDATE users SET username = ?, surname = ?, email = ?, image = ? WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$username, $surname, $email, $image, $id]);
-    }
-
-    $_SESSION["user"] = [
-        "username" => $username,
-        "email" => $email,
-        "image" => $image,
-        "roleId" => $_SESSION["user"]["roleId"],
-        "surname" => $surname,
-    ];
-
-    newNotification("success", "Utilisateur modifié avec succès", true, "fa-circle-check");
-    header("Location: ./index.php");
-}
-
 function updateUserBiography($id, $biography)
 {
     $biography = htmlspecialchars(trim($biography));
 
     if (strlen($biography) > 500) {
         newLogs("Biography update", "Biographie trop longue");
-        return ["type" => "error", "message" => "Biographie trop longue"];
+        newNotification("error", "Biographie trop longue", true, "fa-circle-exclamation");
     } else {
         $pdo = dbConnect();
         $stmt = $pdo->prepare("UPDATE users SET biography = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
         $stmt->execute([$biography, date("Y-m-d H:i:s"), $id, $id]);
         $_SESSION["user"]["biography"] = $biography;
         newLogs("Biography update", "Biographie modifiée avec succès : " . $biography);
-        return ["type" => "success", "message" => "Biographie modifiée avec succès"];
+        newNotification("success", "Biographie modifiée avec succès", true, "fa-circle-check");
     }
+    header("Refresh: 0");
 }
 
 function deleteUserProfile($id)
@@ -236,10 +205,13 @@ function deleteUserProfile($id)
         $stmt->execute([date("Y-m-d H:i:s"), $id, $id]);
         $_SESSION["user"]["image"] = "";
 
-        return ["type" => "success", "message" => "Image supprimée avec succès"];
+        newLogs("Image delete", "Image supprimée avec succès");
+        newNotification("success", "Image supprimée avec succès", true, "fa-circle-check");
     } else {
-        return ["type" => "error", "message" => "Erreur lors de la suppression de l'image"];
+        newLogs("Image delete", "Erreur lors de la suppression de l'image");
+        newNotification("error", "Erreur lors de la suppression de l'image", true, "fa-circle-exclamation");
     }
+    header("Refresh: 0");
 }
 
 function updateUserProfile($id, $image)
@@ -263,22 +235,21 @@ function updateUserProfile($id, $image)
             $newUrl = uploadImage($image);
             $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
             $stmt->execute([$newUrl, date("Y-m-d H:i:s"), $id, $id]);
-
             $_SESSION["user"]["image"] = $newUrl;
-            newLogs("Image update", "Image modifiée avec succès : " . $newUrl);
         } else {
             $urlFile = uploadImage($image);
             $stmt = $pdo->prepare("UPDATE users SET image = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
             $stmt->execute([$urlFile, date("Y-m-d H:i:s"), $id, $id]);
             $_SESSION["user"]["image"] = $urlFile;
-            newLogs("Image update", "Image modifiée avec succès : " . $urlFile);
         }
-        return ["type" => "success", "message" => "Image modifiée avec succès"];
-        exit;
+        newLogs("Image update", "Image modifiée avec succès : " . $urlFile);
+        newNotification("success", "Image modifiée avec succès", true, "fa-circle-check");
     } else {
-        return ["type" => "error", "message" => "Erreur lors de l'upload de l'image"];
-        exit;
+        newLogs("Image update", "Erreur lors de l'upload de l'image");
+        newNotification("error", "Erreur lors de l'upload de l'image", true, "fa-circle-exclamation");
     }
+
+    header("Refresh: 0");
 }
 
 function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
@@ -296,25 +267,22 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
         if ($newPass == $confirmNewPass) {
             if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$#!%*?&.]{6,}$/", $newPass)) {
                 newLogs("CREATE USER ERROR", "Mots de passe incorrect");
-                return ["type" => "error", "message" => "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre"];
-                exit();
+                newNotification("error", "Le mots de passe doivent contenir au moins 6 caractères et 1 chiffre", true, "fa-circle-exclamation");
             } else {
                 $stmt = $pdo->prepare("UPDATE users SET password = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
                 $stmt->execute([md5($newPass), date("Y-m-d H:i:s"), $id, $id]);
                 newLogs("Password update", "Mot de passe modifié avec succès");
-                return ["type" => "success", "message" => "Mot de passe modifié avec succès"];
-                exit;
+                newNotification("success", "Mot de passe modifié avec succès", true, "fa-circle-check");
             }
         } else {
             newLogs("Password update", "Les mots de passe ne correspondent pas");
-            return ["type" => "error", "message" => "Les mots de passe ne correspondent pas"];
-            exit;
+            newNotification("error", "Les mots de passe ne correspondent pas", true, "fa-circle-exclamation");
         }
     } else {
         newLogs("Password update", "Mot de passe incorrect");
-        return ["type" => "error", "message" => "Mot de passe incorrect"];
-        exit;
+        newNotification("error", "Mot de passe incorrect", true, "fa-circle-exclamation");
     }
+    header("Refresh: 0");
 }
 
 function updateUsername($id, $username)
@@ -325,19 +293,25 @@ function updateUsername($id, $username)
     $stmt->execute([$username]);
     $isUsername = $stmt->fetch();
 
-    if (count($username) > 1) {
+    if (strlen($username) > 1) {
         if ($isUsername) {
             newLogs("Username update", "Nom d'utilisateur déjà utilisé");
             newNotification("error", "Nom d'utilisateur déjà utilisé", true, "fa-circle-exclamation");
-            return ["type" => "error"];
+            header("Refresh: 0");
         } else {
             newLogs("Username update", "Nom d'utilisateur modifié avec succès");
             $stmt = $pdo->prepare("UPDATE users SET username = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
             $stmt->execute([$username, date("Y-m-d H:i:s"), $id, $id]);
             $_SESSION["user"]["username"] = $username;
+            $_POST = array();
             newNotification("success", "Nom d'utilisateur modifié avec succès", true, "fa-circle-check");
-            return ["type" => "success"];
+            header("Refresh: 0");
         }
+    } else {
+        newLogs("Username update", "Nom d'utilisateur trop court");
+        newNotification("error", "Nom d'utilisateur trop court", true, "fa-circle-exclamation");
+        header("Refresh: 0");
+
     }
 }
 
@@ -385,12 +359,11 @@ function deleteUser($id, $password)
         $stmt = $pdo->prepare("UPDATE users SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ? WHERE id = ?");
         $stmt->execute([date("Y-m-d H:i:s"), $id, $id]);
         newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
-        return ["type" => "success", "message" => "Utilisateur supprimé avec succès"];
-        exit;
+        newNotification("warning", "Votre compte a bien été supprimé", true, "fa-circle-check");
+        header("Location: /index.php?page=home");
     } else {
         newLogs("DELETE USER", "Mot de passe incorrect");
-        return ["type" => "error", "message" => "Mot de passe incorrect"];
-        exit;
+
     }
 }
 
@@ -669,7 +642,9 @@ function addComment($message, $postId, $reference, $id)
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$message, $postId, $reference, date("Y-m-d H:i:s"), $id]);
 
-    return ["type" => "success", "message" => "Le commentaire a bien été publié."];
+    newNotification("success", "Commentaire publié !", true, "fa-circle-check");
+    $_POST = array();
+    header("Refresh: 0");
 }
 
 function getNbPosts($id)
@@ -876,7 +851,7 @@ function addRespondComment($message, $commentId, $reference, $id)
 {
     $pdo = dbConnect();
 
-    $message = htmlspecialchars(trim($message));
+    // $message = htmlspecialchars(trim($message));
 
     $lastRef = $pdo->query("SELECT id FROM comments ORDER BY id desc limit 1")->fetchColumn();
     if ($lastRef === null) {
@@ -936,6 +911,58 @@ function restorePost(int $idPost, int $idUser)
         }
     } else {
         newLogs("RESTORE POST", "Post innexistant : " . $idPost);
+        newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+    }
+
+    $_POST = array();
+    header("Refresh: 0");
+}
+
+function hidePost(int $idPost, int $idUser)
+{
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT posts.id, posts.createdBy FROM posts WHERE id = ?");
+    $stmt->execute([$idPost]);
+    $isPost = $stmt->fetch();
+
+    if ($isPost) {
+        if ($isPost["createdBy"] == $idUser) {
+            $stmt = $pdo->prepare("UPDATE posts SET isActive = 0, updatedAt = ?, updatedBy = ?, status = 'b' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
+            newLogs("HIDE POST", "Post caché : " . $idPost);
+            newNotification("success", "Post caché avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("HIDE POST", "Utilisateur non autorisé : " . $idUser);
+            newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("HIDE POST", "Post innexistant : " . $idPost);
+        newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+    }
+
+    $_POST = array();
+    header("Refresh: 0");
+}
+
+function showPost(int $idPost, int $idUser)
+{
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT posts.id, posts.createdBy FROM posts WHERE id = ?");
+    $stmt->execute([$idPost]);
+    $isPost = $stmt->fetch();
+
+    if ($isPost) {
+        if ($isPost["createdBy"] == $idUser) {
+            $stmt = $pdo->prepare("UPDATE posts SET isActive = 1, updatedAt = ?, updatedBy = ?, status = 'a' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $idUser, $idPost]);
+            newLogs("SHOW POST", "Post affiché : " . $idPost);
+            newNotification("success", "Post affiché avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("SHOW POST", "Utilisateur non autorisé : " . $idUser);
+            newNotification("error", "Erreur lors de la modification du post.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("SHOW POST", "Post innexistant : " . $idPost);
         newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
     }
 

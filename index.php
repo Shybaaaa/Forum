@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 require_once __DIR__ . "/private/functions/functions.php";
 dbConnect();
@@ -35,12 +36,12 @@ if (isset($_SESSION["user"])) {
 </head>
 
 <body class="bg-gray-100 dark:bg-slate-800">
-<!--<div id="loader" class="fixed top-0 left-0 z-[99] w-screen h-screen bg-white flex flex-col space-y-2 items-center justify-center">-->
-<!--    <i class="fa-solid fa-spinner motion-safe:animate-spin text-indigo-500 text-7xl"></i>-->
-<!--    <h2 class="text-xl font-medium text-gray-800">Chargement de la page.</h2>-->
-<!--</div>-->
+    <!--<div id="loader" class="fixed top-0 left-0 z-[99] w-screen h-screen bg-white flex flex-col space-y-2 items-center justify-center">-->
+    <!--    <i class="fa-solid fa-spinner motion-safe:animate-spin text-indigo-500 text-7xl"></i>-->
+    <!--    <h2 class="text-xl font-medium text-gray-800">Chargement de la page.</h2>-->
+    <!--</div>-->
 
-<?= renderNotification() ?>
+    <?= renderNotification() ?>
 
     <div class="">
         <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
@@ -158,3 +159,5 @@ if (isset($_SESSION["user"])) {
 </body>
 
 </html>
+
+<?php ob_end_flush(); ?>
