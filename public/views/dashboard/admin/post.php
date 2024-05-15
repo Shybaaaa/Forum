@@ -4,7 +4,7 @@ $posts = getPosts("all");
 
 ?>
 
-<div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5">
+<div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="relative m-[2px] mb-3 mr-5 float-left">
@@ -23,7 +23,7 @@ $posts = getPosts("all");
                 </a>
             </div> -->
             <table class="min-w-full text-left text-xs whitespace-nowrap">
-                <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-600">
+                <thead class="uppercase tracking-wider border-b-2 dark:text-slate-300">
                 <tr>
                     <th scope="col" class="px-6 py-5">
                         Titre
@@ -47,7 +47,7 @@ $posts = getPosts("all");
                 </thead>
                 <tbody>
                 <?php foreach ($posts as $post): ?>
-                    <tr class="border-b dark:border-neutral-600">
+                    <tr class="border-b dark:border-neutral-600 dark:text-slate-300">
                         <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
                         <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
                         <td class="px-6 py-5"><?= getUser($post["createdBy"])["username"] ?></td>
