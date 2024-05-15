@@ -5,7 +5,7 @@ $categorys = getCategory(-1);
 
 ?>
 
-<div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5">
+<div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="relative m-[2px] mb-3 mr-5 float-left">
@@ -24,7 +24,7 @@ $categorys = getCategory(-1);
                 </a>
             </div>
             <table class="min-w-full text-left text-xs whitespace-nowrap">
-                <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-600">
+                <thead class="uppercase tracking-wider border-b-2 dark:text-slate-300">
                 <tr>
                     <th scope="col" class="px-6 py-5">
                         Titre
@@ -45,7 +45,7 @@ $categorys = getCategory(-1);
                 </thead>
                 <tbody>
                 <?php foreach ($categorys as $category): ?>
-                    <tr class="border-b dark:border-neutral-600">
+                    <tr class="border-b dark:text-slate-300">
                         <th scope="row" class="px-6 py-5"><?= ucfirst($category["name"]) ?></th>
                         <td class="px-6 py-5"><?= getNbposts($category["id"])["nbPosts"] ?></td>
                         <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
