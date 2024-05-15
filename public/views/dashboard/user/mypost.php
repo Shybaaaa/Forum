@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </form>
                 <div class="relative m-[2px] mb-3 float-right sm:block">
-                    <a href="../../../public/views/insert_post.php" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
+                    <a href="?page=addPost" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                         <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
                         Créer un post
                     </a>
@@ -87,52 +87,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </tr>
                 </thead>
                 <tbody>
-
-                <?php if ($posts): ?>
-                <?php foreach ($posts as $post): ?>
-                    <tr class="border-b dark:border-neutral-300">
-                        <?php if (!$post["isDeleted"]): ?>
-                            <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a target="_blank" href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square"></i></a></th>
-                        <?php else: ?>
-                            <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
-                        <?php endif; ?>
-
-                        <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
-                        <td class="px-6 py-5">
-                            <?php if ($post["status"] == "a"): ?>
-                                <span class="text-green-500 font-bold text-sm dark:text-green-400">En ligne</span>
-                            <?php elseif ($post["status"] == "b"): ?>
-                                <span class="text-orange-300 font-bold text-sm dark:text-orange-200">Masqué</span>
-                            <?php elseif ($post["status"]  == "c"): ?>
-                                <span class="text-red-600 font-bold text-sm dark:text-red-500">Supprimé</span>
-                            <?php endif; ?>
-                        </td>
-                        <td class="px-6 py-5"><?= getNbComments($post["id"])["nbComments"] ?></td>
-                        <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
-                            <?php if ($post["isDeleted"]): ?>
-                                <button disabled title="Désactivé"><i class="cursor-not-allowed fa-solid fa-eye-slash text-gray-200"></i></button>
-                            <?php else: ?>
-                                <?php if($post["isActive"]): ?>
-                                    <button onclick="renderModalHidePost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')"
-                                            data-modal-target="hideModal" data-modal-show="hideModal"><i
-                                                class="fa-solid fa-eye text-green-500"></i></button>
+                    <?php if ($posts): ?>
+                        <?php foreach ($posts as $post): ?>
+                            <tr class="border-b dark:border-neutral-300">
+                                <?php if (!$post["isDeleted"]): ?>
+                                    <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a target="_blank" href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square"></i></a></th>
                                 <?php else: ?>
-                                    <button onclick="renderModalShowPost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')"
-                                            data-modal-target="showModal" data-modal-show="showModal"><i
-                                                class="fa-solid fa-eye-slash text-orange-400"></i></button>
+                                    <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if (!$post["isDeleted"]): ?>
-                                <a href="index.php?page=editPost&ref=<?= $post["reference"] ?>" ><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></a>
-                            <?php else: ?>
-                                <button disabled><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="cursor-not-allowed fa-solid fa-pen-to-square text-gray-200"></i></button>
-                            <?php endif; ?>
-
-
-                                    <?php if (!$post["isDeleted"]) : ?>
-                                        <button onclick="renderModalDeletePost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')" class="btnDelete" data-modal-target="deleteModal" data-modal-show="deleteModal"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
-                                    <?php else : ?>
-                                        <button data-modal-target="restoreModal" data-modal-show="restoreModal" onclick="renderModalRestorePost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')" value="<?= $post["id"] ?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
+                                <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
+                                <td class="px-6 py-5">
+                                    <?php if ($post["status"] == "a"): ?>
+                                        <span class="text-green-500 font-bold text-sm dark:text-green-400">En ligne</span>
+                                    <?php elseif ($post["status"] == "b"): ?>
+                                        <span class="text-orange-300 font-bold text-sm dark:text-orange-200">Masqué</span>
+                                    <?php elseif ($post["status"]  == "c"): ?>
+                                        <span class="text-red-600 font-bold text-sm dark:text-red-500">Supprimé</span>
+                                    <?php elseif ($post["status"]  == "d"): ?>
+                                        <span class="text-red-700 font-bold text-sm dark:text-red-500">Désactivé</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="px-6 py-5"><?= getNbComments($post["id"])["nbComments"] ?></td>
+                                <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
+                                    <?php if ($post["isDeleted"]): ?>
+                                        <button disabled title="Désactivé"><i class="cursor-not-allowed fa-solid fa-eye-slash text-gray-200"></i></button>
+                                    <?php else: ?>
+                                        <?php if($post["isActive"]): ?>
+                                            <button onclick="renderModalHidePost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')"
+                                                    data-modal-target="hideModal" data-modal-show="hideModal"><i
+                                                        class="fa-solid fa-eye text-green-500"></i></button>
+                                        <?php else: ?>
+                                            <button onclick="renderModalShowPost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')"
+                                                    data-modal-target="showModal" data-modal-show="showModal"><i
+                                                        class="fa-solid fa-eye-slash text-orange-400"></i></button>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php if (!$post["isDeleted"]): ?>
+                                        <a href="index.php?page=editPost&ref=<?= $post["reference"] ?>" ><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="fa-solid fa-pen-to-square text-gray-600"></i></a>
+                                    <?php else: ?>
+                                        <button disabled><i title="Modifier" data-row-update="<?= $post["reference"]?>" class="cursor-not-allowed fa-solid fa-pen-to-square text-gray-200"></i></button>
+                                    <?php endif; ?>
+                                    <?php if($post["status"] === "d"): ?>
+                                        <button disabled><i title="Supprimé" class="cursor-not-allowed fa-solid fa-trash text-gray-200"></i></button>
+                                    <?php else: ?>
+                                        <?php if (!$post["isDeleted"]) : ?>
+                                            <button onclick="renderModalDeletePost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')" class="btnDelete" data-modal-target="deleteModal" data-modal-show="deleteModal"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
+                                        <?php else : ?>
+                                            <button data-modal-target="restoreModal" data-modal-show="restoreModal" onclick="renderModalRestorePost(<?= $post["id"]; ?>, '<?= $post["reference"] ?>')" value="<?= $post["id"] ?>"><i title="Restaurer" class="fa-solid fa-trash-restore text-green-500"></i></button>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>
