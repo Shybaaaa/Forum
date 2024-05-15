@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             addComment($_POST["comment"], $post["id"], $post["reference"], $_SESSION["user"]["id"]);
             break;
         case isset($_POST["commentrespond"]):
-            addRespondComment($_POST["message"], $_POST["commentId"], $post["reference"], $_SESSION["user"]["id"]);
+            addRespondComment($_POST["message"], $_POST["commentId"], $post["reference"], $_SESSION["user"]["id"], $post["id"]);
             break;
     }
 }
@@ -101,24 +101,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="w-full">
             <?php foreach ($comments as $comment) : ?>
                 <article class="bg-gray-100 w-1/2 rounded-lg px-6 py-2 my-3 ml-3 dark:bg-slate-600">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex flex-row items-center">
+                    <div class="flex w-full justify-between items-center mb-4">
+                        <div class="flex w-1/2 flex-row items-center">
                             <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
                                 <img class="w-10 h-10 me-4 rounded-full transition duration-75" src="<?= getUser($comment["createdBy"])["image"] ?>" alt="">
                                 <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
                                     <p><?= getUser($comment["createdBy"])["username"] ?></p>
                                 </div>
                             </a>
-                            <p class="ml-3 text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i", strtotime($comment["createdAt"])) ?></p>
+                            <p class="ml-3 text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i",  strtotime($comment["createdAt"])) ?></p>
                         </div>
-                        <button title="Répondre" data-modal-target="commentRespond" data-modal-show="commentRespond" onclick="respondComment(<?= $comment['id'] ?>)" class="fa-solid fa-reply px-6 py-5"></button>
+                        <div class="w-1/2 flex items-center justify-end">
+                            <button title="Répondre" data-modal-target="commentRespond" data-modal-show="commentRespond" onclick="respondComment(<?= $comment['id'] ?>)" class="fa-solid fa-reply px-6 py-5"></button>
+                        </div>
                     </div>
                     <p class="mb-2 text-gray-700 text-sm dark:text-gray-200"><?= $comment["message"] ?></p>
                 </article>
                 <?php foreach (getRCOWhereCOM($comment["id"]) as $sous_comment) : ?>
                     <article class="bg-gray-200 w-1/2 rounded-lg px-6 py-2 my-3 ml-20 dark:bg-slate-500">
                         <div class="space-x-1 flex items-center mb-4">
-                            <!-- <h3>Réponse :</h3> -->
                             <a href="index.php?page=profil&ref=<?= getUser($sous_comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
                                 <img class="w-10 h-10 me-4 rounded-full transition duration-75" src="<?= getUser($sous_comment["createdBy"])["image"] ?>" alt="">
                                 <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
@@ -131,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
                                     <p><?= getUser($comment["createdBy"])["username"] ?></p>
                                 </div>
+                            </a>
                         </div>
                         <p class="mb-2 text-gray-700 text-sm dark:text-gray-200"><?= $sous_comment["message"] ?></p>
                     </article>

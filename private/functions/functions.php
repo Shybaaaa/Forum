@@ -349,7 +349,7 @@ function addPost(string $title, string $description, int $postCategoryId, $photo
 
 function reloadSession()
 {
-    if (isset($_SESSION["user"])){
+    if (isset($_SESSION["user"])) {
         $pdo = dbConnect();
         $stmt = $pdo->prepare("SELECT users.username, users.email, users.image, users.roleId, users.biography FROM users WHERE id = ?");
         $stmt->execute([$_SESSION["user"]["id"]]);
@@ -478,7 +478,6 @@ function getAllPost($idPost, $isDeleted)
         } else {
             $var = [];
         }
-
     } elseif (!$isDeleted) {
         $sql = "SELECT * FROM posts WHERE isDeleted = ?";
         $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
@@ -913,7 +912,7 @@ function getNbCommentForUser($idUser)
     return $stmt->fetch();
 }
 
-function addRespondComment($message, $commentId, $reference, $id)
+function addRespondComment($message, $commentId, $reference, $userId, $postId)
 {
     $pdo = dbConnect();
 
@@ -925,11 +924,13 @@ function addRespondComment($message, $commentId, $reference, $id)
     }
     $reference = "RCO_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-    $sql = "INSERT INTO sous_comments (message, commentId, reference, createdAt, createdBy) values (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO sous_comments (message, commentId, reference, createdAt, createdBy, postId) values (?, ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$message, $commentId, $reference, date("Y-m-d H:i:s"), $id]);
+    $stmt->execute([$message, $commentId, $reference, date("Y-m-d H:i:s"), $userId, $postId]);
 
-    return ["type" => "success", "message" => "Le commentaire a bien été publié."];
+    newNotification("success", "Commentaires publiés", true, "fa-circle-check");
+    $_POST = array();
+    header("Refresh: 0");
 }
 
 function deletePost(int $idPost, int $idUser)
