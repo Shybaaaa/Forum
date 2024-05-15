@@ -627,8 +627,8 @@ function addCategory(string $name, int $id, string $icon)
 
         $reference = "CAT_" . str_pad($lastRef + 1, 4, "0", STR_PAD_LEFT);
 
-        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference, createdAt, createdBy) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$name, $reference, date("Y-m-d H:i:s"), $id]);
+        $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference, createdAt, createdBy, icons) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$name, $reference, date("Y-m-d H:i:s"), $id, $icon]);
 
         newNotification("success", "Catégorie ajoutée avec succès", true, "fa-circle-check");
     }
