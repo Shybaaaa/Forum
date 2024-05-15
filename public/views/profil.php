@@ -67,19 +67,19 @@ $user = getUserByRef($_GET["ref"]);
                 <h3 class="text-lg font-semibold text-gray-600 w-[90%] py-2 text-left dark:text-slate-200">Stats :</h3>
                 <div class="flex flex-row justify-evenly w-full items-center gap-x-4 *:bg-gray-50/30 *:shadow-md *:p-4 *:rounded-lg *:w-40">
                     <div class="flex flex-col items-center gap-y-2">
-                        <span class="text-2xl font-semibold text-indigo-600"><?= getNbPosts($user["id"])["nbPosts"] ?></span>
+                        <span class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400"><?= getNbPosts($user["id"])["nbPosts"] ?></span>
                         <span class="text-sm text-gray-500 dark:text-sm dark:text-slate-300">Publications</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
-                        <span class="text-2xl font-semibold text-indigo-600"><?= getNbCommentsForUser($user["id"])["nbComments"] ?></span>
+                        <span class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400"><?= getNbCommentsForUser($user["id"])["nbComments"] ?></span>
                         <span class="text-sm text-gray-500 dark:text-slate-300">Commentaires</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
-                        <span class="text-2xl font-semibold text-indigo-600">0</span>
+                        <span class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400">0</span>
                         <span class="text-sm text-gray-500 dark:text-slate-300">Suivis</span>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
-                        <span class="text-2xl font-semibold text-indigo-600">0</span>
+                        <span class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400">0</span>
                         <span class="text-sm text-gray-500 dark:text-slate-300">Abonnés</span>
                     </div>
                 </div>
@@ -105,10 +105,10 @@ $user = getUserByRef($_GET["ref"]);
                                 <div class="flex flex-col gap-y-2">
                                     <div class="flex flex-row items-center gap-x-2 group">
                                         <i class="fa-solid fa-user text-gray-500 transition-all duration-75 dark:text-slate-200"></i>
-                                        <a href="index.php?page=profil&ref=<?= getUser($post["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-200 transition duration-150 dark:text-slate-200"><?= getUser($post["createdBy"])["username"] ?></a>
+                                        <a href="index.php?page=profil&ref=<?= getUser($post["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150 dark:group-hover:text-indigo-400 dark:text-slate-200"><?= getUser($post["createdBy"])["username"] ?></a>
                                     </div>
                                     <div class="flex flex-row items-center gap-x-2">
-                                        <i class="fa-solid fa-calendar text-gray-500 dark: text-slate-200"></i>
+                                        <i class="fa-solid fa-calendar text-gray-500 dark:text-slate-200"></i>
                                         <p class="text-sm text-gray-500 dark:text-slate-300"><?= date("d/m/Y", strtotime($post["createdAt"])) ?></p>
                                     </div>
                                 </div>

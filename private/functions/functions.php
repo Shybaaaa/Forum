@@ -658,11 +658,17 @@ function getCategory($id)
 function getNbComments($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE postId = ?";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare("SELECT COUNT(*) as nbComments FROM comments WHERE postId = ? and isActive = 1 and isDeleted = 0");
     $stmt->execute([$id]);
+    $nbC = $stmt->fetch();
 
-    return $stmt->fetch();
+    $stmt = $pdo->prepare("SELECT COUNT(*) as nbComments FROM sous_comments WHERE postId = ? and isActive = 1 and isDeleted = 0");
+    $stmt->execute([$id]);
+    $nbSC = $stmt->fetch();
+
+    return [
+        "nbComments" => $nbC["nbComments"] + $nbSC["nbComments"]
+    ];
 }
 
 
@@ -739,11 +745,18 @@ function getPostsWhereCat($catId, $nbPosts, $order)
 function getNbCommentsForUser($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbComments FROM comments WHERE createdBy = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
 
-    return $stmt->fetch();
+    $stmt = $pdo->prepare("SELECT COUNT(*) as nbComments FROM comments WHERE createdBy = ?");
+    $stmt->execute([$id]);
+    $nbC = $stmt->fetch();
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) as nbComments FROM sous_comments WHERE createdBy = ?");
+    $stmt->execute([$id]);
+    $nbSC = $stmt->fetch();
+
+    return [
+        "nbComments" => $nbC["nbComments"] + $nbSC["nbComments"]
+    ];
 }
 
 function getCategoryByRef($ref)
