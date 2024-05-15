@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             addComment($_POST["comment"], $post["id"], $post["reference"], $_SESSION["user"]["id"]);
             break;
         case isset($_POST["commentrespond"]):
-            addRespondComment($_POST["message"], $_POST["commentId"], $post["reference"], $_SESSION["user"]["id"]);
+            addRespondComment($_POST["message"], $_POST["commentId"], $post["reference"], $_SESSION["user"]["id"], $post["id"]);
             break;
     }
 }
