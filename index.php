@@ -3,6 +3,7 @@ ob_start();
 session_start();
 require_once __DIR__ . "/private/functions/functions.php";
 dbConnect();
+reloadSession();
 
 if (isset($_GET["disconnect"]) && $_GET["disconnect"] == 1) {
     disconnect();

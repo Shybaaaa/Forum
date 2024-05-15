@@ -1,8 +1,9 @@
 <?php
 ob_start();
 session_start();
-
 require_once __DIR__ . "/../../../private/functions/functions.php";
+
+reloadSession();
 
 if (!isset($_SESSION["user"])) {
     header("Location: /index.php");
@@ -31,7 +32,7 @@ if (!isset($_SESSION["user"])) {
 </head>
 
 
-<body>
+<body class="overflow-y-hidden">
 <?= renderNotification() ?>
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] dark:bg-slate-700">
         <div>
@@ -65,7 +66,7 @@ if (!isset($_SESSION["user"])) {
                         <span class="group-hover:text-gray-600 dark:text-slate-300">Mon compte</span>
                     </a>
                 </li>
-                <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if (isset($_GET["page"]) and $_GET["page"] == "mypost" or $_GET["page"] == "editPost") {
+                <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if (isset($_GET["page"]) and $_GET["page"] == "mypost" or $_GET["page"] == "editPost" or $_GET["page"] == "addPost") {
                                                                                 echo "font-semibold text-white bg-gradient-to-tl rounded-xl shadow-md from-cyan-500 to-indigo-500 scale-105";
                                                                             } else {
                                                                                 echo "transition-all text-gray-500 group";
@@ -146,6 +147,9 @@ if (!isset($_SESSION["user"])) {
                         break;
                     case "editPost":
                         require_once "user/editPost.php";
+                        break;
+                    case "addPost":
+                        require_once "user/addPost.php";
                         break;
                     default:
                         require_once "user/myaccount.php";
