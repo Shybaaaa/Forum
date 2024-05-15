@@ -7932,6 +7932,11 @@ img {
   color: rgb(250 202 21 / var(--tw-text-opacity));
 }
 
+.dark\:text-indigo-400:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(141 162 251 / var(--tw-text-opacity));
+}
+
 .dark\:placeholder-gray-400:is(.dark *)::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(156 163 175 / var(--tw-placeholder-opacity));
@@ -8026,6 +8031,7 @@ img {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(155 28 28 / var(--tw-ring-opacity));
 }
+
 
 @media (min-width: 640px) {
   .sm\:col-span-2 {
