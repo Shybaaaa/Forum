@@ -348,6 +348,25 @@ function addPost(string $title, string $description, int $postCategoryId, $photo
     }
 }
 
+function reloadSession()
+{
+    if (isset($_SESSION["user"])){
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT users.username, users.email, users.image, users.roleId, users.biography FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION["user"]["id"]]);
+        $user = $stmt->fetch();
+        $_SESSION["user"] = [
+            "id" => $_SESSION["user"]["id"],
+            "reference" => $_SESSION["user"]["reference"],
+            "username" => $user["username"],
+            "email" => $user["email"],
+            "image" => $user["image"],
+            "roleId" => $user["roleId"],
+            "biography" => $user["biography"],
+        ];
+    }
+}
+
 function deleteUser($id, $password)
 {
     $pdo = dbConnect();
@@ -428,20 +447,57 @@ function newLogs($type, $logs)
     $stmt->execute([$type, $logs, $ip, $created]);
 }
 
-function getPosts($post)
+function getPosts($post, $isDeleted)
 {
     $pdo = dbConnect();
 
     if ($post === "all") {
-        $sql = "SELECT * FROM posts where isActive = 1 and isDeleted = 0";
+        $sql = "SELECT * FROM posts where isActive = 1";
+        $sql = ($isDeleted) ? $sql : $sql . " and isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
     } else {
-        $sql = "SELECT * FROM posts WHERE id = ? and isActive = 1 and isDeleted = 0";
+        $sql = "SELECT * FROM posts WHERE id = ? and isActive = 1";
+        $sql = ($isDeleted) ? $sql : $sql . " and isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$post]);
     }
 
+    return $stmt->fetchAll();
+}
+function getAllPost($idPost, $isDeleted)
+{
+    $pdo = dbConnect();
+    if ($isDeleted) {
+        $sql = "SELECT * FROM posts";
+        $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
+        $stmt = $pdo->prepare($sql);
+
+        if ($idPost != "all") {
+            $var = [
+                $idPost
+            ];
+        } else {
+            $var = [];
+        }
+
+    } elseif (!$isDeleted) {
+        $sql = "SELECT * FROM posts WHERE isDeleted = ?";
+        $sql = ($idPost == "all") ? $sql : $sql . " and id = ?";
+        $stmt = $pdo->prepare($sql);
+
+        if ($idPost != "all") {
+            $var = [
+                ($isDeleted) ? 1 : 0,
+                $idPost
+            ];
+        } else {
+            $var = [
+                ($isDeleted) ? 1 : 0,
+            ];
+        }
+    }
+    $stmt->execute($var);
     return $stmt->fetchAll();
 }
 
@@ -551,21 +607,19 @@ function getRole($id)
 }
 
 
-function addCategory($name, $id)
+function addCategory(string $name, int $id, string $icon)
 {
     $name = htmlspecialchars(trim($name));
 
     $pdo = dbConnect();
-    $stmt = $pdo->prepare("SELECT * FROM postCategory where name = :name");
-    $stmt->execute([
-        ":name" => $name
-    ]);
+    $stmt = $pdo->prepare("SELECT * FROM postCategory where name = ?");
+    $stmt->execute([$name]);
 
     $category = $stmt->fetch();
 
     if ($category) {
         newLogs("CREATE CATEGORY", "Catégorie déjà existante : " . $name);
-        header("Location: /public/views/insert_category.php?error=1&message=Catégorie déjà existante");
+        newNotification("error", "Catégorie déjà existante", true, "fa-circle-exclamation");
     } else {
         newLogs("CREATE CATEGORY", "Catégorie ajoutée : " . $name);
 
@@ -579,8 +633,9 @@ function addCategory($name, $id)
         $stmt = $pdo->prepare("INSERT INTO postCategory (name, reference, createdAt, createdBy) VALUES (?, ?, ?, ?)");
         $stmt->execute([$name, $reference, date("Y-m-d H:i:s"), $id]);
 
-        header("Location: /public/views/insert_category.php?success=1&message=Catégorie ajoutée avec succès");
+        newNotification("success", "Catégorie ajoutée avec succès", true, "fa-circle-check");
     }
+    header("Refresh: 0");
 }
 
 function getCategory($id)
@@ -967,5 +1022,107 @@ function showPost(int $idPost, int $idUser)
     }
 
     $_POST = array();
+    header("Refresh: 0");
+}
+
+function deletePostAdmin(int $idPost, int $userLevel)
+{
+    $pdo = dbConnect();
+    if ($userLevel > 1) {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT posts.id FROM posts WHERE id = ?");
+        $stmt->execute([$idPost]);
+        $isPost = $stmt->fetch();
+
+        if ($isPost) {
+            $stmt = $pdo->prepare("UPDATE posts SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ?, status = 'd' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userLevel, $idPost]);
+            newLogs("DELETE POST", "Post supprimé : " . $idPost);
+            newNotification("success", "Post supprimé avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("DELETE POST", "Post innexistant : " . $idPost);
+            newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("DELETE POST", "Utilisateur non autorisé : " . $userLevel);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
+    header("Refresh: 0");
+}
+
+function restorePostAdmin(int $idPost, int $userLevel)
+{
+    $pdo = dbConnect();
+    if ($userLevel > 2) {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT posts.id FROM posts WHERE id = ?");
+        $stmt->execute([$idPost]);
+        $isPost = $stmt->fetch();
+
+        if ($isPost) {
+            $stmt = $pdo->prepare("UPDATE posts SET isDeleted = 0, isActive = 1, updatedAt = ?, updatedBy = ?, status = 'a' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userLevel, $idPost]);
+            newLogs("RESTORE POST", "Post restauré : " . $idPost);
+            newNotification("success", "Post restauré avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("RESTORE POST", "Post innexistant : " . $idPost);
+            newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("RESTORE POST", "Utilisateur non autorisé : " . $userLevel);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
+    header("Refresh: 0");
+}
+
+function hidePostAdmin(int $idPost, int $userLevel)
+{
+    $pdo = dbConnect();
+    if ($userLevel > 1) {
+        $stmt = $pdo->prepare("SELECT posts.id FROM posts WHERE id = ?");
+        $stmt->execute([$idPost]);
+        $isPost = $stmt->fetch();
+
+        if ($isPost) {
+            $stmt = $pdo->prepare("UPDATE posts SET isActive = 0, updatedAt = ?, updatedBy = ?, status = 'b' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userLevel, $idPost]);
+            newLogs("HIDE POST", "Post caché : " . $idPost);
+            newNotification("warning", "Post caché avec succès !", true, "fa-eye-slash");
+        } else {
+            newLogs("HIDE POST", "Post innexistant : " . $idPost);
+            newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("HIDE POST", "Utilisateur non autorisé : " . $userLevel);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
+    header("Refresh: 0");
+}
+
+function showPostAdmin(int $idPost, int $userLevel)
+{
+    $pdo = dbConnect();
+    if ($userLevel > 1) {
+        $stmt = $pdo->prepare("SELECT posts.id FROM posts WHERE id = ?");
+        $stmt->execute([$idPost]);
+        $isPost = $stmt->fetch();
+
+        if ($isPost) {
+            $stmt = $pdo->prepare("UPDATE posts SET isActive = 1, updatedAt = ?, updatedBy = ?, status = 'a' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userLevel, $idPost]);
+            newLogs("SHOW POST", "Post affiché : " . $idPost);
+            newNotification("success", "Post affiché avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("SHOW POST", "Post innexistant : " . $idPost);
+            newNotification("error", "Post innexistant.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("SHOW POST", "Utilisateur non autorisé : " . $userLevel);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
     header("Refresh: 0");
 }

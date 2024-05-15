@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Photo de profil</dt>
                 <div class="flex flex-row items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-slate-300">
                     <?php if($_SESSION["user"]["image"] != ""): ?>
-                        <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
+                        <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300 object-cover" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
                     <?php else : ?>
                         <div class="w-24 h-24 bg-gray-500 text-white rounded-full flex items-center justify-center">
                             <i class="fa-solid fa-user text-5xl"></i>
