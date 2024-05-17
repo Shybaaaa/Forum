@@ -90,9 +90,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php if ($posts) : ?>
                         <?php foreach ($posts as $post) : ?>
                             <tr class="border-b dark:border-neutral-300">
+
                                 <?php if (!$post["isDeleted"]) : ?>
-                                    <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a target="_blank" href="/index.php?page=post&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square"></i></a></th>
+                                    <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a target="_blank" href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square"></i></a></th>
                                 <?php else : ?>
+
                                     <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
                                 <?php endif; ?>
                                 <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
