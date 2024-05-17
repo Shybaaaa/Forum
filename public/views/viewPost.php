@@ -15,8 +15,6 @@ if ($_SESSION["user"]["roleId"] < 2) {
 $userCreator = getUser($post["createdBy"]);
 $comments = getCommentsWherePOS($post["id"]);
 
-// print_r($comments);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     switch ($_POST) {
         case isset($_POST["submitMsg"]):
@@ -27,17 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
     }
 }
-
-
 ?>
-
-<script>
-    if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.querySelector('html').classList.add('dark');
-    } else {
-        document.querySelector('html').classList.remove('dark');
-    }
-</script>
 
 <div class="h-screen">
     <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden dark:bg-slate-700">

@@ -91,7 +91,7 @@ $user = getUserByRef($_GET["ref"]);
                 <div class="flex flex-col w-full items-center gap-y-4">
                     <?php $posts = getPostsByUser($user["id"], 2, "desc"); if (!$posts){ echo "<div class='w-full text-center'><span class='w-full italic text-sm text-center text-gray-500'>Il n'y a aucune publication.</span></div>";} ; foreach ($posts as $post): ?>
                         <div class="flex flex-row items-center justify-between gap-x-3 w-[90%] bg-gray-50/30 shadow-md p-4 rounded-lg">
-                            <a href="index.php?page=viewpost&ref=<?= $post["reference"]?>">
+                            <a href="index.php?page=post&ref=<?= $post["reference"]?>">
                                 <div class="group">
                                     <h2 class="text-lg font-bold text-black group-hover:text-indigo-600 transition-all duration-75 dark:text-slate-200"><?= ucfirst($post["title"]) ?></h2>
                                     <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($post["description"], 0, 60) ?>...</p>

@@ -877,21 +877,6 @@ function updatePostUserByRef(string $ref, string $title, string $description, $p
     }
 }
 
-function searchPost($search)
-{
-    $search = htmlspecialchars(trim($search));
-
-    $pdo = dbConnect();
-
-    if (isset($search) && !empty($search)) {
-        $sql = "SELECT * FROM posts WHERE posts.title LIKE '%$search%'";
-        $stmt = $pdo->query($sql);
-        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $posts;
-    }
-}
-
 function getCommentsWherePOS($id)
 {
     $pdo = dbConnect();
@@ -1148,4 +1133,9 @@ function getRCOWhereCOM($id)
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
     return $stmt->fetchAll();
+}
+
+function searchBar($search, $table)
+{
+
 }

@@ -160,7 +160,7 @@ if (!isset($_SESSION["user"])) {
     </div>
 
     <script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
-    <script type="application/javascript" src="/public/js/dark_mode.js"></script>
+    <script src="/public/js/dark_mode.js"></script>
 </body>
 </html>
 <?php ob_end_flush(); ?>
