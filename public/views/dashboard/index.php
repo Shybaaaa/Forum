@@ -19,7 +19,7 @@ if (!isset($_SESSION["user"])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum - Tableau de bord</title>
     <link rel="stylesheet" href="../../css/main.css">
-    <link rel="icon" href="/public/image/logo.ico">
+    <link rel="icon" href="/.github/logo.ico">
     <script src="https://kit.fontawesome.com/abcb30c057.js" crossorigin="anonymous"></script>
     <script>
         if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -160,7 +160,7 @@ if (!isset($_SESSION["user"])) {
     </div>
 
     <script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
-    <script type="application/javascript" src="/public/js/dark_mode.js"></script>
+    <script src="/public/js/dark_mode.js"></script>
 </body>
 </html>
 <?php ob_end_flush(); ?>

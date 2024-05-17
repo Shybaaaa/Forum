@@ -22,7 +22,7 @@ $category = getCategoryByRef($_GET["ref"]);
             <?php $postsCategory = getPostsWhereCat($category["id"], -1, "desc"); foreach ($postsCategory as $postCategory): ?>
                 <article class="border-b border-spacing-0 h-16 m-0 px-3">
                     <div class="flex flex-row items-center justify-between gap-x-3">
-                        <a href="index.php?page=viewpost&ref=<?= $postCategory["reference"]?>">
+                        <a href="index.php?page=post&ref=<?= $postCategory["reference"]?>">
                             <div class="group">
                                 <h2 class="text-lg font-bold text-black group-hover:text-indigo-600 transition-all duration-75 dark:text-slate-200"><?= ucfirst($postCategory["title"]) ?></h2>
                                 <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($postCategory["description"], 0, 60) ?>...</p>

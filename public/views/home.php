@@ -19,10 +19,10 @@ $categorys = getCategory(-1);
                 foreach ($postsCategory as $postCategory) : ?>
                     <article class="border-b w-full border-spacing-0 h-16 m-0 px-3">
                         <div class="flex flex-row items-center justify-between gap-x-3">
-                            <a href="index.php?page=viewpost&ref=<?= $postCategory["reference"] ?>">
-                                <div class="group">
-                                    <h2 class="text-lg font-bold text-black dark:text-slate-200 group-hover:text-indigo-300 transition-all duration-75"><?= ucfirst($postCategory["title"]) ?></h2>
-                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($postCategory["description"], 0, 60) ?>...</p>
+                            <a href="index.php?page=post&ref=<?= $postCategory["reference"] ?>">
+                                <div class="group duration-75">
+                                    <h2 class="text-lg font-bold text-black dark:text-slate-200 group-hover:text-indigo-500 transition-all duration-75"><?= ucfirst($postCategory["title"]) ?></h2>
+                                    <p class="text-sm text-gray-500 group-hover:text-gray-600 transition-all duration-75 dark:text-slate-300"><?= substr($postCategory["description"], 0, 60) ?>...</p>
                                 </div>
                             </a>
                             <div class="flex flex-row items-center gap-x-8">

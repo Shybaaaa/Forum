@@ -1,0 +1,15 @@
+# Fait les redirections error de base
+ErrorDocument 400 /public/views/errors/500.html
+ErrorDocument 401 /public/views/errors/500.html
+ErrorDocument 403 /public/views/errors/500.html
+ErrorDocument 404 /public/views/errors/500.html
+ErrorDocument 500 /public/views/errors/500.html
+
+# Disable directory browsing
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off
+
+# Set the default charset
+AddDefaultCharset utf-8
