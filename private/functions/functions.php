@@ -1135,7 +1135,52 @@ function getRCOWhereCOM($id)
     return $stmt->fetchAll();
 }
 
-function searchBar($search, $table)
+function searchMyPost(int $idUser, string $search)
 {
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE CONCAT(title, id) LIKE ? and createdBy = ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%", $idUser]);
+    return $stmt->fetchAll();
+}
 
+function searchUser(string $search)
+{
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM users WHERE CONCAT(username, id) LIKE ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%"]);
+    return $stmt->fetchAll();
+}
+
+function searchCategory(string $search)
+{
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM postCategory WHERE CONCAT(name, id) LIKE ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%"]);
+    return $stmt->fetchAll();
+}
+
+function searchPost(string $search)
+{
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE CONCAT(title, id) LIKE ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%"]);
+    return $stmt->fetchAll();
+}
+
+function searchRole(string $search)
+{
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM roles WHERE CONCAT(name, id) LIKE ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%"]);
+    return $stmt->fetchAll();
 }
