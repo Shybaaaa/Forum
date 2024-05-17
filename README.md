@@ -3,9 +3,7 @@
 ## Table des matières
 - [Introduction](#introduction)
 - [Fonctionnalités](#fonctionnalités)
-- [Utilisation](#utilisation)
 - [Configuration](#configuration)
-- [Contribution](#contribution)
 - [Licence](#licence)
 - [Auteurs](#auteurs)
 
@@ -20,10 +18,6 @@ Bienvenue sur **Forum G1**, une plateforme de discussion moderne et conviviale c
 - **Modération** : Outils de modération pour maintenir un environnement respectueux.
 - **Interface utilisateur réactive** : Profitez d'une interface fluide sur tous les appareils.
 
-## Utilisation
-
-Une fois l'application démarrée, ouvrez votre navigateur et rendez-vous sur `http://localhost:3000`. Vous pouvez maintenant commencer à utiliser Forum G1 pour créer et participer à des discussions.
-
 ## Configuration
 
 Assurez-vous de configurer les variables d'environnement nécessaires. Créez un fichier `.env` à la racine du projet et ajoutez les informations suivantes :
@@ -34,16 +28,6 @@ DB_USER=your_database_user
 DB_PASS=your_database_password
 DB_NAME=your_database_name
 ```
-
-## Contribution
-
-Les contributions sont les bienvenues ! Pour contribuer :
-
-1. Forkez le projet.
-2. Créez une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`).
-3. Commitez vos modifications (`git commit -m 'Add some AmazingFeature'`).
-4. Poussez votre branche (`git push origin feature/AmazingFeature`).
-5. Ouvrez une Pull Request.
 
 ## Licence
 
