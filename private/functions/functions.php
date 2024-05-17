@@ -1135,7 +1135,12 @@ function getRCOWhereCOM($id)
     return $stmt->fetchAll();
 }
 
-function searchBar($search, $table)
+function searchMyPost(int $idUser, string $search)
 {
-
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE CONCAT(title, id) LIKE ? and createdBy = ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%", $idUser]);
+    return $stmt->fetchAll();
 }
