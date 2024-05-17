@@ -570,12 +570,12 @@ function getUser($id)
     $pdo = DBConnect();
 
     if ($id === -1) {
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $tempUser = $stmt->fetchAll();
     } else {
-        $sql = "SELECT * FROM users WHERE id = ?";
+        $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
         $tempUser = $stmt->fetch();

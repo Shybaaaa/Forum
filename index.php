@@ -70,6 +70,18 @@ if (isset($_SESSION["user"])) {
                                         Accueil
                                     </a>
                                 </li>
+                                <li class="mx-auto w-full">
+                                    <a href="index.php?page=home" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-500 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold dark:text-slate-200">
+                                        <i class="fa-solid fa-list"></i>
+                                        Catégories
+                                    </a>
+                                </li>
+                                <li class="mx-auto w-full">
+                                    <a href="index.php?page=users" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-500 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold dark:text-slate-200">
+                                        <i class="fa-solid fa-users"></i>
+                                        Utilisateurs
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -131,6 +143,9 @@ if (isset($_SESSION["user"])) {
                             break;
                         case "profil":
                             require_once "public/views/profil.php";
+                            break;
+                        case "users":
+                            require_once "public/views/users.php";
                             break;
                         default:
                             require_once "public/views/home.php";
