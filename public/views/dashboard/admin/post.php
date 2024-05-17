@@ -40,6 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <thead class="uppercase tracking-wider border-b-2 dark:text-slate-300">
                 <tr>
                     <th scope="col" class="px-6 py-5">
+                        #
+                    </th>
+                    <th scope="col" class="px-6 py-5">
                         Titre
                     </th>
                     <th scope="col" class="px-6 py-5">
@@ -62,6 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <tbody>
                 <?php foreach ($posts as $post): ?>
                     <tr class="border-b dark:border-neutral-600">
+                        <th scope="row" class="px-6 py-5">
+                            #<?= $post["id"] ?>
+                        </th>
                         <?php if (!$post["isDeleted"]): ?>
                             <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a target="_blank" href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square text-gray-600"></i></a></th>
                         <?php else: ?>

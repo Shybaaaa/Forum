@@ -17,15 +17,15 @@ if ($_SESSION["user"]["id"] != $post["createdBy"]) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
     if (!isset($_POST["title"]) && !isset($_POST["description"]) && !isset($_POST["category"])) {
         newNotification("error", "Veuillez completez tous les champs.", true, "fa-exclamation-circle");
-        header("Location: index.php?page=editPost&ref={$_GET["ref"]}");
+        header("Refresh: 0");
     } else {
         $status = updatePostUserByRef($post["reference"], $_POST["title"], $_POST["description"], $_FILES["image"], $_POST["category"], $_SESSION["user"]["id"], $post["createdBy"]);
         if ($status["type"] == "success"){
             newNotification("success", $status["message"], true, "fa-check-circle");
-            header("Location: index.php?page=myaccount&ref={$_GET["ref"]}");
+            header("Location: index.php?page=mypost");
         } else {
             newNotification("error", $status["message"], true, "fa-exclamation-circle");
-            header("Location: index.php?page=editPost&ref={$_GET["ref"]}");
+            header("Refresh: 0");
         }
     }
 }

@@ -22,24 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         case isset($_POST["search"]):
             $search = $_POST["inputSearch"];
-            $posts = getPostUser($_SESSION["user"]["id"], "all", "true", $search);
+            $posts = searchMyPost($_SESSION["user"]["id"], $search);
             break;
     }
-
-
-//    $pdo = dbConnect();
-//
-//    $stmt = $pdo->prepare("SELECT * FROM posts");
-//    $stmt->execute();
-//    $rows = $stmt->fetchAll(PDO::FETCH_OBJ);
-//    if(isset($_GET['q']) and !empty($_GET['q'])){
-//
-//        $value = $_GET['q'];
-//
-//        $stmt = $pdo->prepare("SELECT * FROM posts WHERE CONCAT(tilte, postCategoryId) LIKE '%".$value."%'");
-//        $stmt->execute();
-//        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
-//    }
 }
 
 ?>
@@ -53,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="relative mb-3 mr-5 float-left">
                         <label for="inputSearch" class="sr-only">Rechercher</label>
-                        <input id="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:bg-neutral-600 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400" />
+                        <input id="inputSearch" name="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:bg-neutral-600 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400" />
                         <button type="submit" name="search">
                             <i class="fa-solid fa-search text-gray-700 absolute top-3 left-3 dark:text-slate-400"></i>
                         </button>
