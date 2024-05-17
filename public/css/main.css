@@ -1978,6 +1978,22 @@ input:checked + .toggle-bg {
   margin-top: auto;
 }
 
+.-ml-12 {
+  margin-left: -3rem;
+}
+
+.-mr-10 {
+  margin-right: -2.5rem;
+}
+
+.-mt-3 {
+  margin-top: -0.75rem;
+}
+
+.-mt-52 {
+  margin-top: -13rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -5384,6 +5400,10 @@ input:checked + .toggle-bg {
   background-position: center;
 }
 
+.bg-bottom {
+  background-position: bottom;
+}
+
 .bg-repeat {
   background-repeat: repeat;
 }
@@ -7438,6 +7458,12 @@ img {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\:scale-110:hover {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -7485,6 +7511,10 @@ img {
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-green-400\/90:hover {
+  background-color: rgb(49 196 141 / 0.9);
 }
 
 .hover\:font-bold:hover {
@@ -7537,6 +7567,12 @@ img {
 
 .hover\:opacity-95:hover {
   opacity: 0.95;
+}
+
+.hover\:shadow-lg:hover {
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .before\:hover\:text-center:hover::before {

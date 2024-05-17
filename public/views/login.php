@@ -2,6 +2,11 @@
 session_start();
 require_once "../../private/functions/functions.php";
 
+if (isset($_SESSION["user"])) {
+    newNotification("warning", "Vous êtes déjà connecté.", true, "fa-exclamation-circle");
+    header("Location: /index.php");
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = htmlspecialchars(trim($_POST["email"]));
     $password = htmlspecialchars(trim($_POST["password"]));
@@ -25,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum - Login</title>
     <link rel="stylesheet" href="/public/css/main.css">
-    <link rel="icon" href="/public/image/logo.ico">
+    <link rel="icon" href="/.github/logo.ico">
 </head>
 <body class="overflow-hidden">
 
