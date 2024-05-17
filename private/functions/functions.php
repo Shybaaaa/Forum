@@ -1143,6 +1143,7 @@ function searchMyPost(int $idUser, string $search)
     $stmt = $pdo->prepare($sql);
     $stmt->execute(["%" . $search . "%", $idUser]);
     return $stmt->fetchAll();
+
 }
 
 function searchUser(string $search)
@@ -1184,3 +1185,4 @@ function searchRole(string $search)
     $stmt->execute(["%" . $search . "%"]);
     return $stmt->fetchAll();
 }
+

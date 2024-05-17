@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
             <table class="min-w-full text-left text-xs whitespace-nowrap">
                 <thead class="uppercase tracking-wider border-b-2 dark:text-slate-300">
+
                     <tr>
                         <th scope="col" class="px-6 py-5">
                             Titre
@@ -71,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a target="_blank" href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square text-gray-600"></i></a></th>
                             <?php else : ?>
                                 <th scope="row" class="px-6 py-5"><?= $post["title"] ?></th>
+
                             <?php endif; ?>
                             <td class="px-6 py-5"><?= ucfirst(getCategory($post["postCategoryId"])["name"]) ?></td>
                             <td class="px-6 py-5"><?= getUser($post["createdBy"])["username"] ?></td>
