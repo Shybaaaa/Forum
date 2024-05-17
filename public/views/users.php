@@ -28,8 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="h-screen">
     <div class="w-[90%] h-[90%] rounded-lg shadow-sm bg-white mx-auto px-6 py-4 dark:bg-slate-700">
+
         <div class="grid gap-5 lg:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <?php foreach ($users as $user) : ?>
+
                 <a href="?page=profil&ref=<?= $user["reference"] ?>" class="py-2 flex items-center justify-center w-full max-w-sm hover:scale-105 duration-75 transition  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div class="flex flex-col items-center">
                         <img class="w-24 h-24 mb-3 object-cover rounded-full shadow-lg" src="<?= $user["image"] ?>" alt="Bonnie image" />
