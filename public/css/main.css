@@ -1978,22 +1978,6 @@ input:checked + .toggle-bg {
   margin-top: auto;
 }
 
-.-ml-12 {
-  margin-left: -3rem;
-}
-
-.-mr-10 {
-  margin-right: -2.5rem;
-}
-
-.-mt-3 {
-  margin-top: -0.75rem;
-}
-
-.-mt-52 {
-  margin-top: -13rem;
-}
-
 .box-border {
   box-sizing: border-box;
 }
@@ -8150,6 +8134,18 @@ img {
 
   .md\:w-4\/12 {
     width: 33.333333%;
+  }
+
+  .md\:w-32 {
+    width: 8rem;
+  }
+
+  .md\:w-10 {
+    width: 2.5rem;
+  }
+
+  .md\:w-40 {
+    width: 10rem;
   }
 
   .md\:p-5 {
