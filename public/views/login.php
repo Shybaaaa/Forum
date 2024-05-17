@@ -2,6 +2,11 @@
 session_start();
 require_once "../../private/functions/functions.php";
 
+if (isset($_SESSION["user"])) {
+    newNotification("warning", "Vous êtes déjà connecté.", true, "fa-exclamation-circle");
+    header("Location: /index.php");
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = htmlspecialchars(trim($_POST["email"]));
     $password = htmlspecialchars(trim($_POST["password"]));

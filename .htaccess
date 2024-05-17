@@ -1,0 +1,1 @@
+ErrorDocument 500 /public/views/errors/500.php
