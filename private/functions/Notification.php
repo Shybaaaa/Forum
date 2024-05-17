@@ -12,7 +12,7 @@ function newNotification(string $type, string $message, bool $isClosable, string
         "icon" => $icon,
     ];
 
-    setcookie("notification", json_encode($notification), time() + 10, "/");
+    setcookie("notification", json_encode($notification), time() + 5, "/");
 }
 
 function renderNotification()
