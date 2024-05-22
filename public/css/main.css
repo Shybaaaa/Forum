@@ -1327,10 +1327,6 @@ input:checked + .toggle-bg {
   top: 0.25rem;
 }
 
-.top-1\/2 {
-  top: 50%;
-}
-
 .top-10 {
   top: 2.5rem;
 }
@@ -7967,11 +7963,6 @@ img {
 .dark\:text-indigo-400:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(141 162 251 / var(--tw-text-opacity));
-}
-
-.dark\:text-neutral-200:is(.dark *) {
-  --tw-text-opacity: 1;
-  color: rgb(229 229 229 / var(--tw-text-opacity));
 }
 
 .dark\:text-orange-200:is(.dark *) {
