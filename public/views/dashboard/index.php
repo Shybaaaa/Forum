@@ -79,24 +79,29 @@ if (!isset($_SESSION["user"])) {
                             <i class="fa-solid fa-user-tie mr-2 text-lg group-hover:text-cyan-400"></i>
                             <span class="group-hover:text-gray-600 dark:text-slate-300">Administration</span>
                         </button>
+                        <?php if (isset($_GET["page"]) && $_GET["page"] == "adminHome" || $_GET["page"] == "adminUser" || $_GET["page"] == "adminCategory" || $_GET["page"] == "adminPost" || $_GET["page"] == "adminRole"): ?>
+                        <ul id="dropdown" class="py-2 space-y-2">
+                        <?php else: ?>
                         <ul id="dropdown" class="hidden py-2 space-y-2">
+                        <?php endif; ?>
+
                             <li>
-                                <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
+                                <a href="?page=adminHome" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
+                                <a href="?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
                             </li>
                             <li>
                                 <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tickets</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
+                                <a href="?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
+                                <a href="?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
+                                <a href="?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
                             </li>
                         </ul>
                     </li>
@@ -124,9 +129,6 @@ if (!isset($_SESSION["user"])) {
             <?php
             if (isset($_GET["page"])) {
                 switch ($_GET["page"]):
-                    case "myaccount":
-                        require_once "user/myaccount.php";
-                        break;
                     case "mypost":
                         require_once "user/mypost.php";
                         break;
@@ -147,6 +149,9 @@ if (!isset($_SESSION["user"])) {
                         break;
                     case "addPost":
                         require_once "user/addPost.php";
+                        break;
+                    case "adminHome":
+                        require_once "admin/home.php";
                         break;
                     default:
                         require_once "user/myaccount.php";
