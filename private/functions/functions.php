@@ -1,8 +1,9 @@
 <?php
 require __DIR__ . "/Notification.php";
 
-function dbConnect()
+function dbConnect(): PDO
 {
+    $pdo = null;
     date_default_timezone_set('Europe/Paris');
     $config = parse_ini_file(__DIR__ . "/../../config.ini");
     try {
@@ -14,7 +15,7 @@ function dbConnect()
     return $pdo;
 }
 
-function addUser($username, $description, $email, $password, $vPassword, $image)
+function addUser($username, $description, $email, $password, $vPassword, $image): void
 {
     //    Déclaration des variables.
     $username = trim(htmlspecialchars($username));
@@ -117,8 +118,8 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
 
 function loginUser($email, $password)
 {
-    $email = htmlspecialchars($email);
-    $password = htmlspecialchars($password);
+    $email = htmlspecialchars(trim($email));
+    $password = htmlspecialchars(trim($password));
     $hPassword = md5($password);    // "Cryptage" du mots de passe entré par l'utilisateur
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -128,7 +129,6 @@ function loginUser($email, $password)
         $sql = "SELECT users.id, users.reference, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
-
         $isUser = $stmt->fetch();
 
         // Si l'utilisateur existe et que le mots de passe est bon, on le connecte.
@@ -145,25 +145,25 @@ function loginUser($email, $password)
             newNotification("success", "Vous êtes connecté avec succès.", true, "fa-circle-check");
             header("Location: /index.php?page=home");
         } else {
-            $sql = "SELECT users.id FROM users WHERE email = ? and isActive = 0 and isDeleted = 0 and isBanned = 0 and password = ?";
+            $sql = "SELECT users.id FROM users WHERE email = ? and isActive = 0 and isDeleted = 1 and isBanned = 0 and password = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$email, $hPassword]);
             $isUser = $stmt->fetch();
 
             if ($isUser) {
-                return [
+                $var = [
                     "id" => $isUser["id"],
                     "isActive" => 0,
                 ];
+                setcookie("status", json_encode($var), time() + 3600, "/public/views/login.php");
             } else {
                 newNotification("error", "Adresse email ou mots de passe incorrect", true, "fa-circle-exclamation");
-                header("Location: login.php");
             }
         }
     } else {
         newNotification("error", "Adresse email incorrect", true, "fa-circle-exclamation");
-        header("Location: login.php");
     }
+    header('Refresh: 0');
 }
 
 function updateUserBiography($id, $biography): void
@@ -351,7 +351,7 @@ function reloadSession()
 {
     if (isset($_SESSION["user"])) {
         $pdo = dbConnect();
-        $stmt = $pdo->prepare("SELECT users.username, users.email, users.image, users.roleId, users.biography FROM users WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT users.username, users.email, users.image, users.roleId, users.biography, users.isBanned, users.bannedAt, users.bannedBy FROM users WHERE id = ?");
         $stmt->execute([$_SESSION["user"]["id"]]);
         $user = $stmt->fetch();
         $_SESSION["user"] = [
@@ -362,6 +362,9 @@ function reloadSession()
             "image" => $user["image"],
             "roleId" => $user["roleId"],
             "biography" => $user["biography"],
+            "isBanned" => $user["isBanned"],
+            "bannedAt" => $user["bannedAt"],
+            "bannedBy" => $user["bannedBy"],
         ];
     }
 }
@@ -376,6 +379,7 @@ function deleteUser($id, $password)
     if ($user) {
         $stmt = $pdo->prepare("UPDATE users SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ? WHERE id = ?");
         $stmt->execute([date("Y-m-d H:i:s"), $id, $id]);
+        session_destroy();
         newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
         newNotification("warning", "Votre compte a bien été supprimé", true, "fa-circle-check");
         header("Location: /index.php?page=home");
@@ -565,20 +569,27 @@ function safeRestore($id)
     header("Location: /public/views/dashboard/setting.php");
 }
 
-function getUser($id)
+function getUser(int $id, bool $order = false): array
 {
     $pdo = DBConnect();
 
-    if ($id === -1) {
-        $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users";
+    if ($order){
+        $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users ORDER BY users.roleId DESC";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $tempUser = $stmt->fetchAll();
     } else {
-        $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id]);
-        $tempUser = $stmt->fetch();
+        if ($id === -1) {
+            $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $tempUser = $stmt->fetchAll();
+        } else {
+            $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$id]);
+            $tempUser = $stmt->fetch();
+        }
     }
 
     return $tempUser;
@@ -674,12 +685,13 @@ function getNbComments($id)
 function loginRestore($id)
 {
     $pdo = dbConnect();
-    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
+    $sql = "UPDATE users SET users.isActive = 1, users.isDeleted = 0 WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute($id);
 
     newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
-    header("Location: /index.php?success=1&message=Vous êtes connecté avec succès bon retour parmis nous");
+    newNotification("success", "Utilisateur restauré avec succès", true, "fa-circle-check");
+    header("Refresh: 0");
 }
 
 
@@ -1149,7 +1161,7 @@ function searchUser(string $search)
 {
     $search = trim(htmlspecialchars($search));
     $pdo = dbConnect();
-    $sql = "SELECT * FROM users WHERE CONCAT(username, id) LIKE ? ORDER BY createdAt ASC";
+    $sql = "SELECT * FROM users WHERE CONCAT(username, id) LIKE ? ORDER BY roleId DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(["%" . $search . "%"]);
     return $stmt->fetchAll();
