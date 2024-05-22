@@ -1143,7 +1143,6 @@ function searchMyPost(int $idUser, string $search)
     $stmt = $pdo->prepare($sql);
     $stmt->execute(["%" . $search . "%", $idUser]);
     return $stmt->fetchAll();
-
 }
 
 function searchUser(string $search)
@@ -1186,3 +1185,45 @@ function searchRole(string $search)
     return $stmt->fetchAll();
 }
 
+function banUser(int $idUserBanned, array $userRequest)
+{
+    if ($userRequest["roleId"] > 1) {
+        $pdo = dbConnect();
+        $UserBanned = getUser($idUserBanned);
+
+        if ($UserBanned) {
+            if ($userRequest["roleId"] > $UserBanned["roleId"]) {
+                $stmt = $pdo->prepare("UPDATE users SET isBanned = 1, bannedAt = ?, bannedBy = ? WHERE id = ?");
+                $stmt->execute([date("Y-m-d H:i:s"), $userRequest["id"], $UserBanned["id"]]);
+                newNotification("success", "L'utilisateur a bien été banni", true, "fa-circle-check");
+                header("Refresh: 0");
+            } else {
+                newNotification('error', "Vous ne pouvez pas bannir cet utilisateur", true, "fa-circle-exclamation");
+                header("Refresh: 0");
+            }
+        } else {
+            newNotification("error", "L'utilisateur n'existe pas", true, "fa-circle-exclamation");
+            header("Refresh: 0");
+        }
+    } else {
+        newNotification('error', "Vous n'avez pas les permissions nécessaires", true, "fa-circle-exclamation");
+        header("Refresh: 0");
+    }
+}
+
+function unbanUser(int $idUserBanned, array $userRequest)
+{
+    $UserBanned = getUser($idUserBanned);
+    $UserWhoBan = getUser($idUserBanned["bannedBy"]);
+
+    if ($userRequest["roleId"] > $UserBanned["roleId"]) {
+        $pdo = dbConnect();
+
+        if ($UserBanned) {
+            if ($userRequest["roleId"] >= $UserWhoBan["roleId"]) {
+                $stmt = $pdo->prepare("UPDATE users SET isBanned = 0, bannedAt = ?, bannedBy = ? WHERE id = ?");
+                $stmt->execute([date("Y-m-d H:i:s"), $userRequest["id"], $UserBanned["id"]]);
+            }
+        }
+    }
+}
