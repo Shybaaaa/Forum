@@ -35,7 +35,7 @@ if (!isset($_SESSION["user"])) {
         <div>
             <div class="mx-6 px-6 py-4">
                 <a href="/index.php" class="flex flex-row items-center justify-center">
-                    <span class="text-base font-bold ml-3 text-gray-600 inline-flex items-center dark:text-slate-300"><i class="fa-solid fa-house mr-2"></i> Accueil</span>
+                    <span class="text-base font-bold ml-3 text-gray-600 inline-flex items-center dark:text-gray-100"><i class="fa-solid fa-house mr-2"></i> Accueil</span>
                 </a>
             </div>
 
@@ -48,7 +48,7 @@ if (!isset($_SESSION["user"])) {
                     <?php endif; ?>
                 </div>
                 <div class="flex flex-col text-center mt-2 mb-2">
-                    <span class="mt-4 text-xl font-semibold text-gray-600 lg:blockd dark:text-slate-200"><?= $_SESSION["user"]["username"] ?></span>
+                    <span class="mt-4 text-xl font-semibold text-gray-600 lg:block dark:text-white"><?= $_SESSION["user"]["username"] ?></span>
                     <span class="font-bold uppercase text-sm text-gray-400 tracking-tight subpixel-antialiased dark:text-slate-400"><?= getRole($_SESSION["user"]["roleId"])["name"] ?></span>
                 </div>
             </div>
@@ -59,8 +59,8 @@ if (!isset($_SESSION["user"])) {
                                                                                 echo "transition-all text-gray-500 group";
                                                                             } ?>">
                     <a href="index.php?page=myaccount">
-                        <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
-                        <span class="group-hover:text-gray-600 dark:text-slate-300">Mon compte</span>
+                        <i class="fa-solid fa-user mr-2 text-lg dark:text-white group-hover:text-cyan-400"></i>
+                        <span class="group-hover:text-gray-600 dark:group-hover:text-gray-300 dark:text-gray-50">Mon compte</span>
                     </a>
                 </li>
                 <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if (isset($_GET["page"]) and $_GET["page"] == "mypost" or $_GET["page"] == "editPost" or $_GET["page"] == "addPost") {
@@ -69,15 +69,15 @@ if (!isset($_SESSION["user"])) {
                                                                                 echo "transition-all text-gray-500 group";
                                                                             } ?>">
                     <a href="index.php?page=mypost">
-                        <i class="fa-solid fa-folder mr-2 text-lg group-hover:text-cyan-400"></i>
-                        <span class="group-hover:text-gray-600 dark:text-slate-300">Mes posts</span>
+                        <i class="fa-solid fa-folder mr-2 text-lg dark:text-white group-hover:text-cyan-400"></i>
+                        <span class="group-hover:text-gray-600 dark:group-hover:text-gray-300 dark:text-gray-50">Mes posts</span>
                     </a>
                 </li>
                 <?php if ($_SESSION["user"]["roleId"] > 1) : ?>
                     <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold group">
                         <button type="button" aria-controls="dropdown" data-collapse-toggle="dropdown">
-                            <i class="fa-solid fa-user-tie mr-2 text-lg group-hover:text-cyan-400"></i>
-                            <span class="group-hover:text-gray-600 dark:text-slate-300">Administration</span>
+                            <i class="fa-solid fa-user-tie mr-2 text-lg dark:text-white group-hover:text-cyan-400"></i>
+                            <span class="group-hover:text-gray-600 dark:group-hover:text-gray-300 dark:text-gray-50">Administration</span>
                         </button>
                         <?php if (isset($_GET["page"]) && $_GET["page"] == "adminHome" || $_GET["page"] == "adminUser" || $_GET["page"] == "adminCategory" || $_GET["page"] == "adminPost" || $_GET["page"] == "adminRole"): ?>
                         <ul id="dropdown" class="py-2 space-y-2">
@@ -120,7 +120,7 @@ if (!isset($_SESSION["user"])) {
     <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%] dark:bg-slate-800">
         <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5 dark:bg-slate-700 duration-300">
             <div class="px-6 w-full flex items-center justify-between">
-                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-slate-200">
+                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-gray-100">
                     Tableau de bord
                 </h5>
                 <span>
