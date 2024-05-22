@@ -1,5 +1,5 @@
 <?php
-$users = getUser(-1);
+$users = getUser(-1, true);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     switch ($_POST) {
