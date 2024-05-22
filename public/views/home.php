@@ -25,12 +25,12 @@ $categorys = getCategory(-1);
                                     <p class="text-sm text-gray-500 group-hover:text-gray-600 transition-all duration-75 dark:text-slate-300"><?= substr($postCategory["description"], 0, 60) ?>...</p>
                                 </div>
                             </a>
-                            <div class="flex flex-row items-center gap-x-8">
+                            <div class="flex flex-row w-1/4 items-center gap-x-8">
                                 <div class="flex flex-col w-fit h-fit items-center gap-x-2">
                                     <p class="text-sm text-gray-600 dark:text-slate-300"><?= getNbComments($postCategory["id"])["nbComments"] ?></p>
                                     <span class="text-sm text-gray-300">Messages</span>
                                 </div>
-                                <div class="flex flex-col gap-y-2">
+                                <div class="flex flex-col w-full gap-y-2">
                                     <div class="flex flex-row items-center gap-x-2 group">
                                         <i class="fa-solid fa-user text-gray-500 transition-all duration-75 dark:text-slate-300"></i>
                                         <a href="index.php?page=profil&ref=<?= getUser($postCategory["createdBy"])["reference"] ?>" class="text-sm text-gray-500 font-medium group-hover:text-indigo-500 transition duration-150 dark:text-slate-300"><?= getUser($postCategory["createdBy"])["username"] ?></a>

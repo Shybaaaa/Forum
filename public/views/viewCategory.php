@@ -28,7 +28,7 @@ $category = getCategoryByRef($_GET["ref"]);
                                 <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($postCategory["description"], 0, 60) ?>...</p>
                             </div>
                         </a>
-                        <div class="flex flex-row items-center gap-x-8">
+                        <div class="flex flex-row items-center w-1/4 gap-x-8">
                             <div class="flex flex-col w-fit h-fit items-center gap-x-2">
                                 <p class="text-sm text-gray-500 dark:text-slate-200"><?= getNbComments($postCategory["id"])["nbComments"] ?></p>
                                 <span class="text-sm text-gray-400 dark:text-slate-200">Messages</span>
