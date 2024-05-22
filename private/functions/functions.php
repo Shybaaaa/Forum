@@ -166,11 +166,11 @@ function loginUser($email, $password)
     }
 }
 
-function updateUserBiography($id, $biography)
+function updateUserBiography($id, $biography): void
 {
     $biography = htmlspecialchars(trim($biography));
 
-    if (strlen($biography) > 500) {
+    if (strlen($biography) > 55) {
         newLogs("Biography update", "Biographie trop longue");
         newNotification("error", "Biographie trop longue", true, "fa-circle-exclamation");
     } else {

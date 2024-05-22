@@ -16,6 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+if ($_SESSION["user"]["roleId"] < 2){
+    newNotification("error", "Error 401", true, "fa-triangle-exclamation");
+    header("Location: /index.php?page=home");
+
+}
+
 ?>
 
 <div class="w-10/12 h-[80%] bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
