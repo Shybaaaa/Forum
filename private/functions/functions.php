@@ -635,7 +635,7 @@ function addCategory(string $name, int $id, string $icon)
     header("Refresh: 0");
 }
 
-function getCategory($id)
+function getCategory(int $id)
 {
     $pdo = dbConnect();
 
@@ -643,15 +643,15 @@ function getCategory($id)
         $sql = "SELECT * FROM postCategory";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        $tempCategory = $stmt->fetchAll();
+        $category = $stmt->fetchAll();
     } else {
         $sql = "SELECT * FROM postCategory WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
-        $tempCategory = $stmt->fetch();
+        $category = $stmt->fetch();
     }
 
-    return $tempCategory;
+    return $category;
 }
 
 function getNbComments($id)

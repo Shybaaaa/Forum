@@ -3,6 +3,7 @@
 ## Table des matières
 - [Introduction](#introduction)
 - [Fonctionnalités](#fonctionnalités)
+- [Installation](#installation)
 - [Configuration](#configuration)
 - [Licence](#licence)
 - [Auteurs](#auteurs)
@@ -17,6 +18,39 @@ Bienvenue sur **Forum G1**, une plateforme de discussion moderne et conviviale c
 - **Sujets et réponses** : Créez des sujets et répondez aux discussions existantes.
 - **Modération** : Outils de modération pour maintenir un environnement respectueux.
 - **Interface utilisateur réactive** : Profitez d'une interface fluide sur tous les appareils.
+
+## Installation
+Pour installer l'application et pré-requis effectuer les commandes suivantes :
+```git
+git clone https://github.com/Shybaaaa/workshop_forum.git
+```
+
+<br/>
+
+Après vous pourrez executer la commande suivante pour installer l'ensemble des pré-requis :
+```node
+npm run installDependencies
+```
+
+<br/>
+
+Ensuite vous lancez la commande suivante pour générer le code CSS et être à jour sur celui-ci :
+```node
+npm run build
+```
+
+<br/>
+
+Pour au final démarrer le serveur avec la commande suivante : 
+```node
+npm run serve
+```
+ou
+```php
+php -S localhost:8888
+```
+
+<br/>
 
 ## Configuration
 
