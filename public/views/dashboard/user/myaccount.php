@@ -2,14 +2,7 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["updatePicture"])) {
         if (isset($_FILES["imageUpdate"]) && $_FILES["imageUpdate"]["error"] != 4) {
-            $status = updateUserProfile($_SESSION["user"]["id"], $_FILES["imageUpdate"]);
-            if ($status["type"] == "success") {
-                newNotification("success", "La photo de profil a bien été modifié.", true, "fa-circle-check");
-                echo "<script>window.location.reload()</script>";
-            } else {
-                newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-                echo "<script>window.location.reload()</script>";
-            }
+            updateUserProfile($_SESSION["user"]["id"], $_FILES["imageUpdate"]);
         }
     } elseif (isset($_POST["updateUsernameSubmit"])) {
         if (isset($_POST["updateUsernameField"])) {
@@ -19,47 +12,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $oldPass = htmlspecialchars(trim($_POST["passwordOld"]));
         $newPass = htmlspecialchars(trim($_POST["passwordNew"]));
         $newPassConfirm = htmlspecialchars(trim($_POST["passwordNewConfirm"]));
-        $status = updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
-        if ($status["type"] == "success") {
-            newNotification("success", "Le mots de passe a bien été modifié.", true, "fa-circle-check");
-            echo "<script>window.location.reload()</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        updateUserPassword($_SESSION["user"]["id"], $oldPass, $newPass, $newPassConfirm);
     } elseif (isset($_POST["updateDescSubmit"])) {
-        $status = updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
-        if ($status["type"] == "success") {
-            newNotification("success", "La biographie a bien été modifié.", true, "fa-circle-check");
-            echo "<script>window.location.reload()</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        updateUserBiography($_SESSION["user"]["id"], $_POST["updateDescription"]);
     } elseif (isset($_POST["deleteProfilePicture"])) {
-        $status = deleteUserProfile($_SESSION["user"]["id"]);
-        if ($status["type"] == "success") {
-            newNotification("success", "La photo de profil a bien été supprimé.", true, "fa-circle-check");
-            echo "<script>window.location.reload()</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        deleteUserProfile($_SESSION["user"]["id"]);
     } elseif (isset($_POST["deleteProfile"])) {
-        $status = deleteUser($_SESSION["user"]["id"], $_POST["password"]);
-        if ($status["type"] == "success") {
-            session_destroy();
-            newNotification("success", "Votre compte a bien été supprimé.", true, "fa-circle-check");
-            echo "<script>window.location.href = '../../login.php'</script>";
-        } else {
-            newNotification("error", "Une erreur c'est produite.", true, "fa-circle-xmark");
-            echo "<script>window.location.reload()</script>";
-        }
+        deleteUser($_SESSION["user"]["id"], $_POST["password"]);
     }
 }
 ?>
 
-<div class="w-11/12 h-fit shadow-sm rounded-lg bg-white px-2 py-2.5 select-none dark:bg-slate-700 ">
+<div class="w-11/12 h-fit shadow-sm rounded-lg bg-white px-2 py-2.5 select-none dark:bg-slate-700">
     <div class="flex flex-col w-full h-full">
         <h2 class="mt-2 ml-1.5 text-2xl text-gray-700 font-bold border-b-2 border-opacity-50 bg-clip-border border-gray-10 dark:text-slate-200">Informations Personnelles </h2>
         <div class="h-full w-8/12 mx-auto align-middle">
@@ -67,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Photo de profil</dt>
                 <div class="flex flex-row items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-slate-300">
                     <?php if($_SESSION["user"]["image"] != ""): ?>
-                        <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
+                        <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300 object-cover" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
                     <?php else : ?>
                         <div class="w-24 h-24 bg-gray-500 text-white rounded-full flex items-center justify-center">
                             <i class="fa-solid fa-user text-5xl"></i>
