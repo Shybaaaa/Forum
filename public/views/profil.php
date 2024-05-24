@@ -7,30 +7,28 @@ if(!isset($_GET["ref"])) {
 }
 
 $user = getUserByRef($_GET["ref"]);
-
-//print_r($user);
-
 ?>
-    <script>
-        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.querySelector('html').classList.add('dark');
-        } else {
-            document.querySelector('html').classList.remove('dark');
-        }
-    </script>
+
+<script>
+    if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.querySelector('html').classList.add('dark');
+    } else {
+        document.querySelector('html').classList.remove('dark');
+    }
+</script>
 
 <div class="h-screen">
-    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden dark:w-[80%] dark:bg-slate-700">
+    <div class="w-[80%] h-[95%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden dark:w-[80%] dark:bg-slate-700">
         <div class="w-full h-[20%] bg-gray-200 rounded-md dark:bg-slate-600"></div>
         <div class="-translate-y-1/2">
-            <div class="flex flex-col items-center justify-center gap-x-4">
-                <div class="w-[30%] h-[15%] flex flex-col space-y-3 items-center">
+            <div class="flex flex-col w-full items-center justify-center gap-x-4">
+                <div class="w-[50%] h-[15%] flex flex-col space-y-3 items-center">
                     <div class="flex justify-center w-full px-6 py-2">
                         <?php if(isset($user["image"]) && $user["image"] != ""): ?>
                             <img src="<?= $user["image"] ?>" alt="avatar" class="w-32 h-32 object-cover rounded-full shadow-md border-2" />
                         <?php else: ?>
-                            <span class="w-32 h-32 bg-gray-400 flex items-center justify-center text-8xl shadow-md rounded-full text-white">
-                                <i class="fa-solid p-8 fa-user"></i>
+                            <span class="w-32 h-32 mb-3 bg-gray-500 flex items-center justify-center text-7xl shadow-md rounded-full text-white">
+                                <i class="fa-solid fa-user"></i>
                             </span>
                         <?php endif; ?>
                     </div>

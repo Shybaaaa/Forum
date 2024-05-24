@@ -29,17 +29,17 @@ if (!isset($_SESSION["user"])) {
         }
     </script>
 </head>
-<body class="overflow-y-hidden">
+<body class="overflow-y-hidden bg-slate-50  dark:bg-slate-800 duration-300">
 <?= renderNotification() ?>
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] dark:bg-slate-700">
         <div>
             <div class="mx-6 px-6 py-4">
                 <a href="/index.php" class="flex flex-row items-center justify-center">
-                    <span class="text-base font-bold ml-3 text-gray-600 inline-flex items-center dark:text-slate-300"><i class="fa-solid fa-house mr-2"></i> Accueil</span>
+                    <span class="text-base font-bold ml-3 text-gray-600 inline-flex items-center dark:text-gray-100"><i class="fa-solid fa-house mr-2"></i> Accueil</span>
                 </a>
             </div>
 
-            <div class="flex flex-col items-center justify-center mt-5 dark:bg-slate-700">
+            <div class="flex flex-col items-center justify-center mt-5">
                 <div class="h-32 w-32 rounded-full bg-gray-500 text-white shadow flex justify-center items-center">
                     <?php if ($_SESSION["user"]["image"] == "") : ?>
                         <i class="fa-solid fa-user text-6xl"></i>
@@ -48,7 +48,7 @@ if (!isset($_SESSION["user"])) {
                     <?php endif; ?>
                 </div>
                 <div class="flex flex-col text-center mt-2 mb-2">
-                    <span class="mt-4 text-xl font-semibold text-gray-600 lg:blockd dark:text-slate-200"><?= $_SESSION["user"]["username"] ?></span>
+                    <span class="mt-4 text-xl font-semibold text-gray-600 lg:block dark:text-white"><?= $_SESSION["user"]["username"] ?></span>
                     <span class="font-bold uppercase text-sm text-gray-400 tracking-tight subpixel-antialiased dark:text-slate-400"><?= getRole($_SESSION["user"]["roleId"])["name"] ?></span>
                 </div>
             </div>
@@ -59,8 +59,8 @@ if (!isset($_SESSION["user"])) {
                                                                                 echo "transition-all text-gray-500 group";
                                                                             } ?>">
                     <a href="index.php?page=myaccount">
-                        <i class="fa-solid fa-user mr-2 text-lg group-hover:text-cyan-400"></i>
-                        <span class="group-hover:text-gray-600 dark:text-slate-300">Mon compte</span>
+                        <i class="fa-solid fa-user mr-2 text-lg dark:text-white group-hover:text-cyan-400"></i>
+                        <span class="group-hover:text-gray-600 dark:group-hover:text-gray-300 dark:text-gray-50">Mon compte</span>
                     </a>
                 </li>
                 <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold <?php if (isset($_GET["page"]) and $_GET["page"] == "mypost" or $_GET["page"] == "editPost" or $_GET["page"] == "addPost") {
@@ -69,34 +69,39 @@ if (!isset($_SESSION["user"])) {
                                                                                 echo "transition-all text-gray-500 group";
                                                                             } ?>">
                     <a href="index.php?page=mypost">
-                        <i class="fa-solid fa-folder mr-2 text-lg group-hover:text-cyan-400"></i>
-                        <span class="group-hover:text-gray-600 dark:text-slate-300">Mes posts</span>
+                        <i class="fa-solid fa-folder mr-2 text-lg dark:text-white group-hover:text-cyan-400"></i>
+                        <span class="group-hover:text-gray-600 dark:group-hover:text-gray-300 dark:text-gray-50">Mes posts</span>
                     </a>
                 </li>
                 <?php if ($_SESSION["user"]["roleId"] > 1) : ?>
                     <li class="py-2.5 px-3.5 w-full  duration-75 font-semibold group">
                         <button type="button" aria-controls="dropdown" data-collapse-toggle="dropdown">
-                            <i class="fa-solid fa-user-tie mr-2 text-lg group-hover:text-cyan-400"></i>
-                            <span class="group-hover:text-gray-600 dark:text-slate-300">Administration</span>
+                            <i class="fa-solid fa-user-tie mr-2 text-lg dark:text-white group-hover:text-cyan-400"></i>
+                            <span class="group-hover:text-gray-600 dark:group-hover:text-gray-300 dark:text-gray-50">Administration</span>
                         </button>
+                        <?php if (isset($_GET["page"]) && $_GET["page"] == "adminHome" || $_GET["page"] == "adminUser" || $_GET["page"] == "adminCategory" || $_GET["page"] == "adminPost" || $_GET["page"] == "adminRole"): ?>
+                        <ul id="dropdown" class="py-2 space-y-2">
+                        <?php else: ?>
                         <ul id="dropdown" class="hidden py-2 space-y-2">
+                        <?php endif; ?>
+
                             <li>
-                                <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
+                                <a href="?page=adminHome" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
+                                <a href="?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
                             </li>
                             <li>
                                 <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tickets</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
+                                <a href="?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
+                                <a href="?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
                             </li>
                             <li>
-                                <a href="index.php?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
+                                <a href="?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
                             </li>
                         </ul>
                     </li>
@@ -113,20 +118,27 @@ if (!isset($_SESSION["user"])) {
         </div>
     </aside>
     <div class="ml-auto mb-6 block max-h-screen overflow-y-hidden overflow-x-hidden lg:w-[75%] xl:w-[80%] 2xl:w-[85%] dark:bg-slate-800">
-        <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5 dark:bg-slate-800">
-            <div class="px-6 flex items-center justify-between ">
-                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-slate-200 dark:bg-slate-8">
+        <div class="flex shadow-sm items-center sticky top-0 z-10 h-16 bg-white lg:py-2.5 dark:bg-slate-700 duration-300">
+            <div class="px-6 w-full flex items-center justify-between">
+                <h5 hidden class="text-2xl text-gray-600 block font-medium dark:text-gray-100">
                     Tableau de bord
                 </h5>
+                <span>
+                    <button id="theme-toggle" type="button" class="text-gray-500 dark:text-yellow-400 hover:scale-110 transition-all duration-75 rounded-lg text-sm p-2.5">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </span>
             </div>
         </div>
-        <div id="app" class="px-6 pt-6 h-screen flex-col flex items-center w-full rounded-tl-lg 2xl:container bg-slate-50  dark:bg-slate-800">
+        <div id="app" class="px-6 pt-6 h-screen flex-col flex items-center w-full rounded-tl-lg 2xl:container">
             <?php
             if (isset($_GET["page"])) {
                 switch ($_GET["page"]):
-                    case "myaccount":
-                        require_once "user/myaccount.php";
-                        break;
                     case "mypost":
                         require_once "user/mypost.php";
                         break;
@@ -147,6 +159,9 @@ if (!isset($_SESSION["user"])) {
                         break;
                     case "addPost":
                         require_once "user/addPost.php";
+                        break;
+                    case "adminHome":
+                        require_once "admin/home.php";
                         break;
                     default:
                         require_once "user/myaccount.php";

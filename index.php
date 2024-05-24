@@ -37,10 +37,10 @@ if (isset($_SESSION["user"])) {
 </head>
 
 <body class="bg-gray-100 dark:bg-slate-800">
-    <!--<div id="loader" class="fixed top-0 left-0 z-[99] w-screen h-screen bg-white flex flex-col space-y-2 items-center justify-center">-->
-    <!--    <i class="fa-solid fa-spinner motion-safe:animate-spin text-indigo-500 text-7xl"></i>-->
-    <!--    <h2 class="text-xl font-medium text-gray-800">Chargement de la page.</h2>-->
-    <!--</div>-->
+<!--    <div id="loader" class="fixed top-0 left-0 z-[99] w-screen h-screen bg-white flex flex-col space-y-2 items-center justify-center">-->
+<!--        <i class="fa-solid fa-spinner motion-safe:animate-spin text-indigo-500 text-7xl"></i>-->
+<!--        <h2 class="text-xl font-medium text-gray-800">Chargement de la page.</h2>-->
+<!--    </div>-->
 
     <?= renderNotification() ?>
 
@@ -91,7 +91,7 @@ if (isset($_SESSION["user"])) {
 
                         <li class="mx-auto mt-auto mb-4 w-full">
                             <?php if (isset($_SESSION["user"]) && $_SESSION["user"]) : ?>
-                                <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded px-6 mx-auto py-2 w-full mb-5 hover:bg-gray-50 dark:hover:bg-slate-500 transition-all">
+                                <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded px-6 mx-auto py-2 w-full mb-5 hover:bg-gray-50 dark:hover:bg-slate-600 transition-all">
                                     <?php if ($_SESSION["user"]["image"]) : ?>
                                         <img class="w-10 h-10 rounded-full" src="<?= $_SESSION["user"]["image"] ?>" alt="">
                                     <?php else : ?>
@@ -102,17 +102,17 @@ if (isset($_SESSION["user"])) {
                                         <div class="text-sm text-gray-500 dark:text-slate-100"><?= $role["name"] ?></div>
                                     </div>
                                 </div>
-                                <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-md w-44 dark:bg-gray-600 dark:divide-gray-500">
                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                                         <li>
-                                            <a href="index.php?page=profil&ref=<?= $_SESSION["user"]["reference"] ?>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Mon profil</a>
+                                            <a href="index.php?page=profil&ref=<?= $_SESSION["user"]["reference"] ?>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-500">Mon profil</a>
                                         </li>
                                         <li>
-                                            <a href="/public/views/dashboard/index.php?page=myaccount" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tableau de bord</a>
+                                            <a href="/public/views/dashboard/index.php?page=myaccount" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-white">Tableau de bord</a>
                                         </li>
                                     </ul>
                                     <div class="py-1">
-                                        <a href="/index.php?disconnect=1" class="text-red-600 block px-4 py-2 text-sm hover:text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                        <a href="/index.php?disconnect=1" class="text-red-600 block px-4 py-2 text-sm hover:text-red-700 hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-red-500">
                                             <i class="fa-solid fa-right-from-bracket font-light ml-1.5"></i>
                                             Déconnexion
                                         </a>
@@ -162,11 +162,9 @@ if (isset($_SESSION["user"])) {
     </div>
 
     <script src="/public/js/notification.js"></script>
-    <script src="/public/js/loader.js"></script>
+<!--    <script src="/public/js/loader.js"></script>-->
     <script src="/public/js/dark_mode.js"></script>
-
 </body>
-
 </html>
 
 <?php ob_end_flush(); ?>

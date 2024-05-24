@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2 class="mt-2 ml-1.5 text-2xl text-gray-700 font-bold border-b-2 border-opacity-50 bg-clip-border border-gray-10 dark:text-slate-200">Informations Personnelles </h2>
         <div class="h-full w-8/12 mx-auto align-middle">
             <div class="px-4 py-6 flex flex-col items-center border-separate border-b sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Photo de profil</dt>
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-white">Photo de profil</dt>
                 <div class="flex flex-row items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-slate-300">
                     <?php if($_SESSION["user"]["image"] != ""): ?>
                         <img class="rounded-full w-24 h-24 shadow-lg border-2 border-gray-300 object-cover" src="<?= $_SESSION["user"]["image"] ?>" alt="image de profil">
@@ -38,44 +38,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     <?php endif; ?>
                     <div class="flex flex-row gap-x-2.5">
-                        <button id="btnUpdateProfile" data-modal-target="deleteProfilePicture" data-modal-toggle="deleteProfilePicture" class="font-medium text-red-600 hover:text-red-500" type="button">Supprimer</button>
+                        <button id="btnUpdateProfile" data-modal-target="deleteProfilePicture" data-modal-toggle="deleteProfilePicture" class="font-medium text-red-600 hover:text-red-500 dark:text-red-500 dark:hover:text-red-400 duration-100" type="button">Supprimer</button>
                         <span class="border-r border-separate border-spacing-2.5"></span>
-                        <button id="btnUpdateProfile" data-modal-target="updateProfilPicture" data-modal-toggle="updateProfilPicture" class="font-medium text-indigo-600 hover:text-indigo-500" type="button">Modifier</button>
+                        <button id="btnUpdateProfile" data-modal-target="updateProfilPicture" data-modal-toggle="updateProfilPicture" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400 duration-100" type="button">Modifier</button>
                     </div>
                 </div>
             </div>
             <div class="px-4 py-6 flex flex-col items-center border-separate border-b sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Username</dt>
-                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-white">Username</dt>
+                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 dark:text-gray-50 sm:col-span-2 sm:mt-0">
                     <?= $_SESSION["user"]["username"] ?>
-                    <button id="btnUpdateProfile" data-modal-target="updateUsername" data-modal-toggle="updateUsername" class="font-medium text-indigo-600 hover:text-indigo-500" type="button">Modifier</button>
+                    <button id="btnUpdateProfile" data-modal-target="updateUsername" data-modal-toggle="updateUsername" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400 duration-100" type="button">Modifier</button>
                 </dd>
             </div>
             <div class="px-4 py-6 flex flex-col items-center border-separate border-b sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Adresse Mail</dt>
-                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-white">Adresse Mail</dt>
+                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 dark:text-gray-50 sm:col-span-2 sm:mt-0">
                     <?= $_SESSION["user"]["email"] ?>
-                    <button id="btnUpdateProfile" data-modal-target="updateProfilPicture" disabled data-modal-toggle="updateProfilPicture" class="font-medium text-indigo-600 hover:text-indigo-500" type="button">Modifier</button>
+                    <button id="btnUpdateProfile" data-modal-target="updateProfilPicture" disabled data-modal-toggle="updateProfilPicture" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400 duration-100" type="button">Modifier</button>
                 </dd>
             </div>
             <div class="px-4 py-6 flex flex-col items-center border-separate border-b sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Mots de passe</dt>
-                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-white">Mots de passe</dt>
+                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 dark:text-gray-50 sm:col-span-2 sm:mt-0">
                     **********
-                    <button id="btnUpdateProfile" data-modal-target="updatePassword" data-modal-toggle="updatePassword" class="font-medium text-indigo-600 hover:text-indigo-500" type="button">Modifier</button>
+                    <button id="btnUpdateProfile" data-modal-target="updatePassword" data-modal-toggle="updatePassword" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400 duration-100" type="button">Modifier</button>
                 </dd>
             </div>
             <div class="px-4 py-6 flex flex-col items-center sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Biographie</dt>
-                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-slate-300">
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-white">Biographie</dt>
+                <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-50">
                     <p class="line-clamp-1"><?= $_SESSION["user"]["biography"] ?></p>
-                    <button id="btnUpdateProfile" data-modal-target="updateBiography" data-modal-toggle="updateBiography" class="font-medium text-indigo-600 hover:text-indigo-500" type="button">Modifier</button>
+                    <button id="btnUpdateProfile" data-modal-target="updateBiography" data-modal-toggle="updateBiography" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400 duration-100" type="button">Modifier</button>
                 </dd>
             </div>
             <div class="px-4 py-6 mt-5 flex flex-col items-center sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">Voulez-vous supprimer votre compte?</dt>
+                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-white">Voulez-vous supprimer votre compte?</dt>
                 <dd class="flex items-center justify-between mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    <button id="btnDeleteProfile" data-modal-target="deleteProfile" data-modal-toggle="deleteProfile" class="font-medium text-red-600 hover:text-red-500 hover:font-semibold" type="button">Supprimer</button>
+                    <button id="btnDeleteProfile" data-modal-target="deleteProfile" data-modal-toggle="deleteProfile" class="font-medium text-red-600 hover:text-red-500 hover:font-semibold dark:text-red-500 dark:hover:text-red-400 duration-100" type="button">Supprimer</button>
                 </dd>
             </div>
         </div>
@@ -258,8 +258,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="flex items-center h-max flex-col justify-center w-full">
                     <div class="mb-6 w-full">
                         <label for="passwordOld" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea id="updateDescription" name="updateDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="10"><?= $_SESSION["user"]["biography"] ?></textarea>
-                        <div id="textareaBError" class="counter"><span id="counter">0</span> caractères (500 max)</div>
+                        <textarea id="updateDescription" name="updateDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="50" cols="30" rows="10"><?= $_SESSION["user"]["biography"] ?></textarea>
+                        <div id="textareaBError" class="counter"><span id="counter">0</span> caractères (50 max)</div>
                     </div>
                     <div class="mt-3 w-full flex justify-end">
                         <input name="updateDescSubmit" type="submit" value="Mettre à jour" class="py-2 px-3 bg-gradient-to-tl to-indigo-600 from-blue-500 cursor-pointer text-medium text-white font-medium rounded-lg hover:bg-indigo-500 hover:opacity-95 transition duration-75">
