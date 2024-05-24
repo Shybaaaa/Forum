@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </thead>
                 <tbody>
                     <?php foreach ($posts as $post) : ?>
-                        <tr class="border-b dark:border-neutral-600">
+                        <tr class="border-b dark:border-neutral-600 dark:text-slate-300">
                             <?php if (!$post["isDeleted"]) : ?>
                                 <th scope="row" class="px-6 py-5"><?= $post["title"] ?> <a target="_blank" href="/index.php?page=viewpost&ref=<?= $post["reference"] ?>" title="Vers le post"> <i class="fa-solid fa-up-right-from-square text-gray-600"></i></a></th>
                             <?php else : ?>
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </svg>
                     <h3 id="deleteModalH3" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"></h3>
                     <div class="flex flex-col">
-                        <label class="text-sm text-gray-800 font-semibold text-left mb-1" for="deleteModalInput">Post :</label>
+                        <label class="text-sm text-gray-800 font-semibold text-left mb-1 dark:text-gray-300" for="deleteModalInput">Post :</label>
                         <input type="text" id="deleteModalInput" readonly name="deleteModalInput" placeholder="Id" class="cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
                     </div>
                     <div class="flex flex-row align-middle justify-evenly">
@@ -159,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </svg>
                     <h3 id="deleteModalH3" class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"></h3>
                     <div class="flex flex-col">
-                        <label class="text-sm text-gray-800 font-semibold text-left mb-1" for="deleteModalInput">Post :</label>
+                        <label class="text-sm text-gray-800 font-semibold text-left mb-1 dark:text-gray-300" for="deleteModalInput">Post :</label>
                         <input type="text" id="restoreModalInput" readonly name="deleteModalInput" placeholder="Id" class="cursor-not-allowed text-gray-700 bg-gray-100 border border-gray-400 px-2 py-2 rounded-lg">
                     </div>
                     <div class="flex flex-row align-middle justify-evenly">
