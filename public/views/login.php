@@ -2,11 +2,13 @@
 session_start();
 require_once "../../private/functions/functions.php";
 
-print_r($_COOKIE["status"]);
-
 if (isset($_SESSION["user"])) {
     newNotification("warning", "Vous êtes déjà connecté.", true, "fa-exclamation-circle");
     header("Location: /index.php");
+}
+
+if (isset($_COOKIE["status"])) {
+    $desactivate = json_decode($_COOKIE["status"], true);
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -16,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         loginUser($email, $password);
     }
 
-    if (isset($_POST["btnRestore"]) && isset($_COOKIE["status"]["isActive"]) && !$_COOKIE["status"]["isActive"]) {
-        loginRestore($_COOKIE["status"]["id"]);
+    if (isset($_POST["btnRestore"]) && $desactivate["isActive"] == 0) {
+        loginRestore($desactivate["id"]);
     }
 }
 ?>
@@ -71,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </div>
 
-<?php if (isset($_COOKIE["status"]["isActive"]) && $_COOKIE["status"]["isActive"] == 0): ?>
+<?php if (isset($desactivate) && $desactivate["isActives"] == 0): ?>
 <div id="restoreModal" tabindex="-1" class="flex overflow-y-auto fixed top-0 right-0 left-0 backdrop-brightness-50 z-50 w-full h md:inset-0  max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">

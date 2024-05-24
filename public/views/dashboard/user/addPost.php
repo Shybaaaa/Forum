@@ -20,10 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
             </div>
             <form action="" method="post" class="space-y-3" enctype="multipart/form-data">
                 <div class="col-span-full">
-<!--                    <div class="flex flex-row items-center justify-around">-->
-<!--                        <span class="font-semibold text-gray-800 text-md dark:text-slate-300">Image : </span>-->
-<!--                        <img src="--><?php //= $post["photo"] ?><!--" class="rounded-lg max-h-[256px] max-w-[256px]" alt="img post">-->
-<!--                    </div>-->
                     <div>
                         <label for="photo" class="block text-sm font-medium text-white">Photo</label>
                         <div class="mt-2 flex items-center gap-x-3">
@@ -40,10 +36,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
                 <div class="flex flex-row items-center justify-evenly">
                     <label for="category" class="block text-gray-800 w-1/4 text-center font-medium dark:text-slate-300">Catégories :</label>
                     <select name="category" id="category" class="w-1/2 rounded-lg mx-auto border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50 dark:bg-slate-600 dark:text-slate-300">
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?= $category["id"] ?>">
-                                <?= ucfirst($category["name"])?>
+                        <optgroup label="Catégories">
+                        <?php if (isset($_GET["cat"])): ?>
+                            <option value="<?= $_GET["cat"] ?>" selected>
+                                <?= ucfirst(getCategory($_GET["cat"])["name"]) ?>
                             </option>
+                        <?php endif; ?>
+                        <?php foreach ($categories as $category): ?>
+                            <?php if (isset($_GET["cat"]) && $_GET["cat"] != $category["id"]): ?>
+                                <option value="<?= $category["id"] ?>">
+                                    <?= ucfirst($category["name"])?>
+                                </option>
+                            <?php elseif (!isset($_GET["cat"])): ?>
+                                <option value="<?= $category["id"] ?>">
+                                    <?= ucfirst($category["name"])?>
+                                </option>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
                 </div>
