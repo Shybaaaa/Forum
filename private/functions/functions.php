@@ -126,7 +126,7 @@ function loginUser($email, $password)
         $pdo = dbConnect();
 
         // Requête pour récupérer l'utilisateur
-        $sql = "SELECT users.id, users.reference, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0";
+        $sql = "SELECT users.id, users.reference, users.username, users.email, users.image, users.roleId, users.biography from users where users.email = ? AND users.password = ? AND users.isActive = 1 AND users.isDeleted = 0 AND users.isBanned = 0";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email, $hPassword]);
         $isUser = $stmt->fetch();
@@ -314,7 +314,6 @@ function updateUsername($id, $username)
     }
 }
 
-
 function addPost(string $title, string $description, int $postCategoryId, $photo, int $id)
 {
     $title = htmlspecialchars(trim($title));
@@ -334,16 +333,27 @@ function addPost(string $title, string $description, int $postCategoryId, $photo
     if (!$isCategory) {
         newLogs("CREATE POST ERROR", "Catégorie de post inexistante");
         newNotification("error", "Catégorie de post inexistante", true, "fa-circle-exclamation");
-        header("Location: /index.php");
+        header("Refresh: 0");
         exit();
     } else {
+        if (strlen($title) > 0) {
+            if (strlen($description) > 0) {
+                $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference, createdAt, createdBy) VALUES (?, ?, ?, ?, ?, ?,?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$title, $description, $postCategoryId, $photo, $reference, date("Y-m-d H:i:s"), $id]);
 
-        $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference, createdAt, createdBy) VALUES (?, ?, ?, ?, ?, ?,?)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$title, $description, $postCategoryId, $photo, $reference, date("Y-m-d H:i:s"), $id]);
-
-        newLogs("CREATE POST", "Post créé avec succès : " . $title);
-        header("Location: /index.php?page=viewpost&ref=" . $reference);
+                newLogs("CREATE POST", "Post créé avec succès : " . $title);
+                header("Location: /index.php?page=post&ref=" . $reference);
+            } else {
+                newLogs("CREATE POST ERROR", "Description vide");
+                newNotification("error", "Description vide", true, "fa-circle-exclamation");
+                header("Refresh: 0");
+            }
+        } else {
+            newLogs("CREATE POST ERROR", "Titre vide");
+            newNotification("error", "Titre vide", true, "fa-circle-exclamation");
+            header("Refresh: 0");
+        }
     }
 }
 
@@ -366,6 +376,12 @@ function reloadSession()
             "bannedAt" => $user["bannedAt"],
             "bannedBy" => $user["bannedBy"],
         ];
+
+        if ($_SESSION["user"]["isBanned"] == 1) {
+            session_destroy();
+            newNotification("error", "Vous avez été banni !", true, "fa-circle-exclamation");
+            header("Location: /index.php?page=home");
+        }
     }
 }
 
@@ -412,19 +428,19 @@ function uploadImage($image)
                     return $url;
                 } else {
                     newLogs("error", "Erreur lors de l'upload de l'image (move_uploaded_file)");
-                    return;
+                    return false;
                 }
             } else {
                 newLogs("error", "Erreur lors de l'upload de l'image (imageSize)");
-                return;
+                return false;
             }
         } else {
             newLogs("error", "Erreur lors de l'upload de l'image (imageFileType)");
-            return;
+            return false;
         }
     } else {
         newLogs("error", "Erreur lors de l'upload de l'image (error)");
-        return;
+        return false;
     }
 }
 
@@ -449,24 +465,6 @@ function newLogs($type, $logs)
     $stmt->execute([$type, $logs, $ip, $created]);
 }
 
-function getPosts($post, $isDeleted)
-{
-    $pdo = dbConnect();
-
-    if ($post === "all") {
-        $sql = "SELECT * FROM posts where isActive = 1";
-        $sql = ($isDeleted) ? $sql : $sql . " and isDeleted = 0";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-    } else {
-        $sql = "SELECT * FROM posts WHERE id = ? and isActive = 1";
-        $sql = ($isDeleted) ? $sql : $sql . " and isDeleted = 0";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$post]);
-    }
-
-    return $stmt->fetchAll();
-}
 function getAllPost($idPost, $isDeleted)
 {
     $pdo = dbConnect();
@@ -545,28 +543,6 @@ function getPostUser($idUser, $idPost, $isDeleted)
     } else {
         return "Erreur";
     }
-}
-
-function safeDelete($id)
-{
-    $pdo = dbConnect();
-    $sql = "UPDATE users SET isActive = 0 WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-    newLogs("DELETE USER", "Utilisateur supprimé : " . $id);
-
-    header("Location: /public/views/dashboard/setting.php");
-}
-
-function safeRestore($id)
-{
-    $pdo = dbConnect();
-    $sql = "UPDATE users SET isActive = 1 WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-    newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
-
-    header("Location: /public/views/dashboard/setting.php");
 }
 
 function getUser(int $id, bool $order = false): array
@@ -685,15 +661,23 @@ function getNbComments($id)
 function loginRestore($id)
 {
     $pdo = dbConnect();
-    $sql = "UPDATE users SET users.isActive = 1, users.isDeleted = 0 WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($id);
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$id]);
+    $isUser = $stmt->fetch();
 
-    newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
-    newNotification("success", "Utilisateur restauré avec succès", true, "fa-circle-check");
-    header("Refresh: 0");
+    if ($isUser){
+        $sql = "UPDATE users SET users.isActive = 1, users.isDeleted = 0 WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+
+        unset($_COOKIE["status"]);
+        setcookie("status", "", time() - 3600, "/public/views/login.php");
+
+        newLogs("RESTORE USER", "Utilisateur restauré : " . $id);
+        newNotification("success", "Utilisateur restauré avec succès", true, "fa-circle-check");
+        header("Refresh: 0");
+    }
 }
-
 
 
 function addComment($message, $postId, $reference, $id)
@@ -720,7 +704,7 @@ function addComment($message, $postId, $reference, $id)
 function getNbPosts($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE createdBy = ?";
+    $sql = "SELECT COUNT(*) as nbPosts FROM posts WHERE createdBy = ? and isActive = 1 and isDeleted = 0";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 
@@ -730,7 +714,7 @@ function getNbPosts($id)
 function getNbUsers($id)
 {
     $pdo = dbConnect();
-    $sql = "SELECT COUNT(*) as nbUsers FROM users WHERE roleId = ?";
+    $sql = "SELECT COUNT(*) as nbUsers FROM users WHERE roleId = ? and isActive = 1 and isDeleted = 0";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 
@@ -1197,45 +1181,64 @@ function searchRole(string $search)
     return $stmt->fetchAll();
 }
 
-function banUser(int $idUserBanned, array $userRequest)
+function banUser(int $idUserBanned, array $userRequest, string $reason)
 {
-    if ($userRequest["roleId"] > 1) {
-        $pdo = dbConnect();
-        $UserBanned = getUser($idUserBanned);
+    if (isset($idUserBanned, $userRequest, $reason)){
+        if ($userRequest["roleId"] > 1) {
+            $pdo = dbConnect();
+            $UserBanned = getUser($idUserBanned);
+            $reason = htmlspecialchars(trim($reason));
 
-        if ($UserBanned) {
-            if ($userRequest["roleId"] > $UserBanned["roleId"]) {
-                $stmt = $pdo->prepare("UPDATE users SET isBanned = 1, bannedAt = ?, bannedBy = ? WHERE id = ?");
-                $stmt->execute([date("Y-m-d H:i:s"), $userRequest["id"], $UserBanned["id"]]);
-                newNotification("success", "L'utilisateur a bien été banni", true, "fa-circle-check");
-                header("Refresh: 0");
+            if ($UserBanned) {
+                if ($userRequest["roleId"] > $UserBanned["roleId"]) {
+                    $stmt = $pdo->prepare("UPDATE users SET isBanned = 1, bannedAt = ?, bannedBy = ? WHERE id = ?");
+                    $stmt->execute([date("Y-m-d H:i:s"), $userRequest["id"], $UserBanned["id"]]);
+                    newNotification("success", "L'utilisateur a bien été banni", true, "fa-circle-check");
+                    newLogs("BAN", "Utilisateur banni : " . $UserBanned["username"] . ", raison : " . $reason . " (Banni par {$userRequest["username"]}(#{$userRequest["id"]})");
+                    header("Refresh: 0");
+                } else {
+                    newNotification('error', "Vous ne pouvez pas bannir cet utilisateur", true, "fa-circle-exclamation");
+                    header("Refresh: 0");
+                }
             } else {
-                newNotification('error', "Vous ne pouvez pas bannir cet utilisateur", true, "fa-circle-exclamation");
+                newNotification("error", "L'utilisateur n'existe pas", true, "fa-circle-exclamation");
                 header("Refresh: 0");
             }
         } else {
-            newNotification("error", "L'utilisateur n'existe pas", true, "fa-circle-exclamation");
+            newNotification('error', "Vous n'avez pas les permissions nécessaires", true, "fa-circle-exclamation");
             header("Refresh: 0");
         }
-    } else {
-        newNotification('error', "Vous n'avez pas les permissions nécessaires", true, "fa-circle-exclamation");
-        header("Refresh: 0");
     }
 }
 
 function unbanUser(int $idUserBanned, array $userRequest)
 {
-    $UserBanned = getUser($idUserBanned);
-    $UserWhoBan = getUser($idUserBanned["bannedBy"]);
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$idUserBanned]);
+    $isUser = $stmt->fetch();
 
-    if ($userRequest["roleId"] > $UserBanned["roleId"]) {
-        $pdo = dbConnect();
+    if ($isUser){
+        $userBanned = getUser($idUserBanned);
+        $userWhoBan = getUser($userBanned["bannedBy"]);
 
-        if ($UserBanned) {
-            if ($userRequest["roleId"] >= $UserWhoBan["roleId"]) {
-                $stmt = $pdo->prepare("UPDATE users SET isBanned = 0, bannedAt = ?, bannedBy = ? WHERE id = ?");
-                $stmt->execute([date("Y-m-d H:i:s"), $userRequest["id"], $UserBanned["id"]]);
+        if ($userRequest["roleId"] > $userBanned["roleId"]) {
+            if ($userRequest["roleId"] >= $userWhoBan["roleId"]) {
+                $stmt = $pdo->prepare("UPDATE users SET isBanned = 0 WHERE id = ?");
+                $stmt->execute([$idUserBanned]);
+                newNotification("success", "{$userBanned["username"]} a bien été débanni", true, "fa-circle-check");
+                newLogs("UNBAN", "Utilisateur débanni : " . $userBanned["username"] . " (Débanni par {$userRequest["username"]}(#{$userRequest["id"]})");
+                header("Refresh: 0");
+            } else {
+                newNotification("error", "Vous ne pouvez pas débannir cet utilisateur", true, "fa-circle-exclamation");
+                header("Refresh: 0");
             }
+        } else{
+            newNotification("error", "Vous ne pouvez pas débannir cet utilisateur", true, "fa-circle-exclamation");
+            header("Refresh: 0");
         }
+    } else {
+        newNotification("error", "L'utilisateur n'existe pas", true, "fa-circle-exclamation");
+        header("Refresh: 0");
     }
 }

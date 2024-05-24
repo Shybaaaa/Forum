@@ -2,7 +2,8 @@
   "scripts": {
     "build": "npx tailwindcss -i ./private/css/input.css -o ./public/css/main.css --watch",
     "serve": "php -S localhost:8888",
-    "installDependencies": "npm install -D tailwindcss flowbite dotenv"
+    "installDependencies": "npm install -D tailwindcss flowbite dotenv",
+    "compress": "npx tailwindcss -i ./private/css/input.css -o ./public/css/main.css --minify"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",

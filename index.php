@@ -93,7 +93,7 @@ if (isset($_SESSION["user"])) {
                             <?php if (isset($_SESSION["user"]) && $_SESSION["user"]) : ?>
                                 <div type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded px-6 mx-auto py-2 w-full mb-5 hover:bg-gray-50 dark:hover:bg-slate-600 transition-all">
                                     <?php if ($_SESSION["user"]["image"]) : ?>
-                                        <img class="w-10 h-10 rounded-full" src="<?= $_SESSION["user"]["image"] ?>" alt="">
+                                        <img class="w-10 h-10 rounded-full object-cover" src="<?= $_SESSION["user"]["image"] ?>" alt="">
                                     <?php else : ?>
                                         <i class="fa-solid fa-user text-xl rounded-full p-3 bg-gray-500 text-white"></i>
                                     <?php endif; ?>
