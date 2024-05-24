@@ -21,6 +21,7 @@ const config = {
         'rgb(253, 246, 178)',
         'rgb(225, 239, 254)'
       ],
+        hoverOffset: 25,
         label: 'nombre d utilisateur',
         data: [25, 25, 25, 25],
         options: {
