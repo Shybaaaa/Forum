@@ -292,6 +292,38 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
     header("Refresh: 0");
 }
 
+function updateUserEmail(int $id, string $oldMail, string $newMail, string $confirmNewMail)
+{
+    $oldMail = filter_var(trim($oldMail, FILTER_VALIDATE_EMAIL));
+    $newMail = filter_var(trim($newMail, FILTER_VALIDATE_EMAIL));
+    $confirmNewMail = filter_var(trim($confirmNewMail, FILTER_VALIDATE_EMAIL));
+    $pdo = dbConnect();
+
+    $stmt = $pdo->prepare("SELECT users.email FROM users WHERE id = ? and email = ? and isActive = 1 and isDeleted = 0");
+    $stmt->execute([$id, $oldMail]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        if ($newMail == $confirmNewMail) {
+            if (!isset($newMail)) {
+                newLogs("CREATE USER ERROR", "Adresse mail incorrect");
+            } else {
+                $stmt = $pdo->prepare("UPDATE users SET email = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+                $stmt->execute([$newMail, date('Y-m-d H:i:s'), $id, $id]);
+                newLogs("EMAIL UPDATE", "Votre adresse mail modifié avec succès");
+                newNotification("success", "votre adresse mail modifié avec succès", true, "fa-circle-check");
+            }
+        } else {
+            newLogs("email update", "vos adresse mails ne correspondent pas");
+            newNotification("error", "vos adresse mails ne correspondent pas", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("email update", "Adresse mail incorrect");
+        newNotification("error", "Adresse mail incorrect", true, "fa-circle-exclamation");
+    }
+    header("Refresh: 0");
+}
+
 function updateUsername($id, $username)
 {
     $username = trim(htmlspecialchars($username));
