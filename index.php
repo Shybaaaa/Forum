@@ -19,13 +19,26 @@ if (isset($_SESSION["user"])) {
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Blog de partage de connaissance">
-    <meta name="keywords" content="Blog, partage, connaissance, informatique, développement, web, programmation">
-    <meta name="author" content="G1">
+    <meta name="description" content="Forum de partage de connaissance, réalisé pour le cours de développement web.">
+    <meta name="keywords" content="Blog, partage, connaissance, informatique, développement, web, programmation, forum, alexisdubois forum,">
+    <meta name="author" content="A.A.A.">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="3 days">
+    <meta name="theme-color" content="#FFFFFF">
+    <meta name="language" content="fr">
+    <meta name="image" content="" >
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="wkp.alexisdubois.be">
+    <meta property="og:title" content="Forum">
+    <meta property="og:description" content="Forum de partage de connaissance, réalisé pour le cours de développement web.">
+    <meta property="og:image" content="https://wkp.alexisdubois.be/public/image/logo.jpg">
+    <meta property="og:url" content="https://wkp.alexisdubois.be/">
+    <meta property="og:type" content="website">
+    <meta name="web_author" content="A.A.A.">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forum</title>
-    <link rel="icon" href="/public/image/logo.ico">
+    <link rel="shortcut icon" href="/public/image/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="/public/css/main.css">
     <script>
         if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -37,10 +50,6 @@ if (isset($_SESSION["user"])) {
 </head>
 
 <body class="bg-gray-100 dark:bg-slate-800">
-<!--    <div id="loader" class="fixed top-0 left-0 z-[99] w-screen h-screen bg-white flex flex-col space-y-2 items-center justify-center">-->
-<!--        <i class="fa-solid fa-spinner motion-safe:animate-spin text-indigo-500 text-7xl"></i>-->
-<!--        <h2 class="text-xl font-medium text-gray-800">Chargement de la page.</h2>-->
-<!--    </div>-->
 
     <?= renderNotification() ?>
 
@@ -48,7 +57,7 @@ if (isset($_SESSION["user"])) {
         <div class="hidden xl:fixed xl:inset-y-0 xl:flex xl:w-72 xl:flex-col">
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5 dark:bg-slate-700">
                 <div class="flex h-16 shrink-0 items-center justify-between">
-                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Forum</h4>
+                    <img class="h-16 w-16 object-cover" src="/public/image/logo_transparent.png" alt="logo du site">
                     <span>
                         <button id="theme-toggle" type="button" class="text-gray-500 dark:text-yellow-400 hover:scale-110 transition-all duration-75 rounded-lg text-sm p-2.5">
                             <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -162,7 +171,6 @@ if (isset($_SESSION["user"])) {
     </div>
 
     <script src="/public/js/notification.js"></script>
-<!--    <script src="/public/js/loader.js"></script>-->
     <script src="/public/js/dark_mode.js"></script>
 </body>
 </html>
