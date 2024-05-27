@@ -1,13 +1,13 @@
 <?php
 require_once "../../../private/functions/functions.php";
 
-$roles = getRole(-1);
+$logs = getLogs();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     switch ($_POST) {
         case isset($_POST["search"]):
             $search = $_POST["inputSearch"];
-            $roles = searchRole($_POST["inputSearch"]);
+            $logs = searchLogs($_POST["inputSearch"]);
             break;
     }
 }
@@ -28,25 +28,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </form>
             <table class="min-w-full text-left text-xs whitespace-nowrap">
-                <thead class="uppercase tracking-wider border-b-2 dark:border-neutral-600">
+                <thead class="uppercase tracking-wider border-b-2 dark:text-slate-300">
                     <tr>
-                        <th scope="col" class="px-6 py-5 dark:text-slate-200">
-                            Nom
+                        <th scope="col" class="px-6 py-5">
+                            Id
                         </th>
-                        <th scope="col" class="px-6 py-5 dark:text-slate-200">
-                            Utilisateurs
+                        <th scope="col" class="px-6 py-5">
+                            Types
+                        </th>
+                        <th scope="col" class="px-6 py-5">
+                            Logs
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($roles as $role) : ?>
+                    <?php foreach ($logs as $log) : ?>
                         <tr class="border-b dark:text-slate-300">
-                            <th scope="row" class="px-6 py-5"><?= ucfirst($role["name"]) ?></th>
-                            <td class="px-6 py-5"><?= getNbUsers($role["id"])["nbUsers"] ?></td>
+                            <th scope="row" class="px-6 py-5"><?= $log["id"] ?></th>
+                            <td class="px-6 py-5"><?= $log["type"] ?></td>
+                            <td class="px-6 py-5"><?= $log["logs"] ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        </div>
-    </div>
-</div>

@@ -13,6 +13,7 @@ if (!isset($_SESSION["user"])) {
 
 <!doctype html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -29,8 +30,9 @@ if (!isset($_SESSION["user"])) {
         }
     </script>
 </head>
+
 <body class="overflow-y-hidden bg-slate-50  dark:bg-slate-800 duration-300">
-<?= renderNotification() ?>
+    <?= renderNotification() ?>
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between shadow-lg h-screen bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] dark:bg-slate-700">
         <div>
             <div class="mx-6 px-6 py-4">
@@ -79,31 +81,31 @@ if (!isset($_SESSION["user"])) {
                             <i class="fa-solid fa-user-tie mr-2 text-lg dark:text-white group-hover:text-cyan-400"></i>
                             <span class="group-hover:text-gray-600 dark:group-hover:text-gray-300 dark:text-gray-50">Administration</span>
                         </button>
-                        <?php if (isset($_GET["page"]) && $_GET["page"] == "adminHome" || $_GET["page"] == "adminUser" || $_GET["page"] == "adminCategory" || $_GET["page"] == "adminPost" || $_GET["page"] == "adminRole"): ?>
-                        <ul id="dropdown" class="py-2 space-y-2">
-                        <?php else: ?>
-                        <ul id="dropdown" class="hidden py-2 space-y-2">
-                        <?php endif; ?>
+                        <?php if (isset($_GET["page"]) && $_GET["page"] == "adminLogs" || $_GET["page"] == "adminUser" || $_GET["page"] == "adminCategory" || $_GET["page"] == "adminPost" || $_GET["page"] == "adminRole") : ?>
+                            <ul id="dropdown" class="py-2 space-y-2">
+                            <?php else : ?>
+                                <ul id="dropdown" class="hidden py-2 space-y-2">
+                                <?php endif; ?>
 
-                            <li>
-                                <a href="?page=adminHome" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
-                            </li>
-                            <li>
-                                <a href="?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Tickets</a>
-                            </li>
-                            <li>
-                                <a href="?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
-                            </li>
-                            <li>
-                                <a href="?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
-                            </li>
-                            <li>
-                                <a href="?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
-                            </li>
-                        </ul>
+                                <!-- <li>
+                                    <a href="?page=adminHome" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Accueil</a>
+                                </li> -->
+                                <li>
+                                    <a href="?page=adminUser" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
+                                </li>
+                                <li>
+                                    <a href="?page=adminCategory" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Catégories</a>
+                                </li>
+                                <li>
+                                    <a href="?page=adminPost" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Posts</a>
+                                </li>
+                                <li>
+                                    <a href="?page=adminRole" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Roles</a>
+                                </li>
+                                <li>
+                                    <a href="?page=adminLogs" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Logs</a>
+                                </li>
+                                </ul>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -163,6 +165,9 @@ if (!isset($_SESSION["user"])) {
                     case "adminHome":
                         require_once "admin/home.php";
                         break;
+                    case "adminLogs":
+                        require_once "admin/logs.php";
+                        break;
                     default:
                         require_once "user/myaccount.php";
                         break;
@@ -177,5 +182,6 @@ if (!isset($_SESSION["user"])) {
     <script type="module" src="/node_modules/flowbite/dist/flowbite.min.js"></script>
     <script src="/public/js/dark_mode.js"></script>
 </body>
+
 </html>
 <?php ob_end_flush(); ?>
