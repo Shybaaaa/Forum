@@ -1,14 +1,18 @@
 <?php
-require_once "private/functions/functions.php"
+require_once "private/functions/functions.php";
+
+session_start();
+
+$variableAPasser = getUser($_SESSION ["user"]["id"]);
 
 ?>
-<div>
+<div class="chartBox"  style= "display: block; box-sizing: border-box; height: 250px; width: 250px;">
   <canvas id="myChart"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script> var variableRecuperee = <?php echo json_encode($variableAPasser); ?>; </script>
+<script> var roles = <?php echo json_encode($variableAPasser); ?>; </script>
 
 <script>
   const ctx = document.getElementById('myChart');
