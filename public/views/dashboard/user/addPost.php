@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePost"])) {
 
 ?>
 
-<div class="w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
+<div class="md:w-10/12 w-[95%] h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
             <div class="w-full m-3">

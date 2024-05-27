@@ -9,12 +9,16 @@ const themeToggleBtnSide = document.getElementById('theme-toggle-side');
 // Change the icons inside the button based on previous settings
 if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     themeToggleLightIcon.classList.remove('hidden');
-    themeToggleLightIconSide.classList.remove('hidden');
+    if (themeToggleLightIconSide !== null) {
+        themeToggleLightIconSide.classList.remove('hidden');
+    }
     document.documentElement.classList.add('dark');
     localStorage.setItem('color-theme', 'dark');
 } else {
     themeToggleDarkIcon.classList.remove('hidden');
-    themeToggleDarkIconSide.classList.remove('hidden');
+    if (themeToggleDarkIconSide !== null) {
+        themeToggleDarkIconSide.classList.remove('hidden');
+    }
     document.documentElement.classList.remove('dark');
     localStorage.setItem('color-theme', 'light');
 }
