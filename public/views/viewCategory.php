@@ -7,7 +7,6 @@ if (!isset($_GET["ref"])) {
 }
 
 $category = getCategoryByRef($_GET["ref"]);
-
 ?>
 
 <div class="h-screen">
@@ -15,7 +14,7 @@ $category = getCategoryByRef($_GET["ref"]);
         <div class="mb-2 flex flex-row border-b-2 h-16 items-center justify-between">
             <h2 class="text-lg text-black font-bold dark:text-slate-200"><a href="/index.php?page=home" class="inline-flex items-center"><i class="fa-solid fa-<?= $category["icons"]?> bg-indigo-500 text-white p-2 rounded-full shadow-md  mr-3"></i><?= ucfirst($category["name"]) ?></a></h2>
             <?php if(isset($_SESSION["user"])): ?>
-                <a href="/public/views/insert_post.php?cat=<?= $category["id"] ?>" type="button" class="text-sm font-sans font-medium text-indigo-500 rounded-md px-2.5 py-3 hover:text-indigo-500 transition-all">Créer un post</a>
+                <a href="/public/views/dashboard/index.php?page=addPost&cat=<?= $category["id"] ?>" type="button" class="text-sm font-sans font-medium text-indigo-500 rounded-md px-2.5 py-3 hover:text-indigo-500 transition-all">Créer un post</a>
             <?php endif; ?>
         </div>
         <div class="space-y-2">

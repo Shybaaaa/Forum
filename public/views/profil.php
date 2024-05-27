@@ -55,7 +55,7 @@ $user = getUserByRef($_GET["ref"]);
                         ?>
                     </div>
                     <div>
-                        <p class="text-gray-600 text-sm font-normal dark:text-slate-300 text-center line-clamp-2 "><?= $user["biography"] ?></p>
+                        <p class="text-gray-600 text-sm font-normal dark:text-slate-300 text-center line-clamp-2 "><?= html_entity_decode($user["biography"]) ?></p>
                     </div>
                 </div>
             </div>
