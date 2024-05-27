@@ -70,31 +70,38 @@ function addUser($username, $description, $email, $password, $vPassword, $image)
                     header("Location: /public/views/register.php");
                     exit();
                 } else {
-                    $hPassword = md5($password);
-                    $pdo = dbConnect();
-                    if ($description == "") {
-                        if ($image == "") {
-                            $sql = "INSERT INTO users (username, email, password, createdAt, reference) VALUES (?, ?, ?, ?,?)";
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $reference]);
+                    if (strlen($username) > 1 && strlen($username) < 16){
+                        $hPassword = md5($password);
+                        $pdo = dbConnect();
+                        if ($description == "") {
+                            if ($image == "") {
+                                $sql = "INSERT INTO users (username, email, password, createdAt, reference) VALUES (?, ?, ?, ?,?)";
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $reference]);
+                            } else {
+                                $urlFile = uploadImage($image);
+                                print_r($urlFile);
+                                $sql = "INSERT INTO users (username, email, password, createdAt, image, reference) VALUES (?, ?, ?, ?, ?,?)";
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile, $reference]);
+                            }
                         } else {
-                            $urlFile = uploadImage($image);
-                            print_r($urlFile);
-                            $sql = "INSERT INTO users (username, email, password, createdAt, image, reference) VALUES (?, ?, ?, ?, ?,?)";
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile, $reference]);
+                            if ($image == "") {
+                                $sql = "INSERT INTO users (username, biography, email, password, createdAt, reference) VALUES (?, ?, ?, ?, ?,?)";
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $reference]);
+                            } else {
+                                $urlFile = uploadImage($image);
+                                $sql = "INSERT INTO users (username, biography, email, password, createdAt, image, reference) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile, $reference]);
+                            }
                         }
                     } else {
-                        if ($image == "") {
-                            $sql = "INSERT INTO users (username, biography, email, password, createdAt, reference) VALUES (?, ?, ?, ?, ?,?)";
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $reference]);
-                        } else {
-                            $urlFile = uploadImage($image);
-                            $sql = "INSERT INTO users (username, biography, email, password, createdAt, image, reference) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute([$username, $description, $email, $hPassword, date("Y-m-d H:i:s"), $urlFile, $reference]);
-                        }
+                        newLogs("CREATE USER ERROR", "Nom d'utilisateur trop long ou trop court");
+                        newNotification("error", "Nom d'utilisateur trop long ou trop court", true, "fa-circle-exclamation");
+                        header("Location: /public/views/register.php");
+                        exit();
                     }
                 }
                 newLogs("CREATE USER", "Utilisateur créé avec succès : " . $username . " - " . $email);
@@ -285,6 +292,38 @@ function updateUserPassword($id, $oldPass, $newPass, $confirmNewPass)
     header("Refresh: 0");
 }
 
+function updateUserEmail(int $id, string $oldMail, string $newMail, string $confirmNewMail)
+{
+    $oldMail = filter_var(trim($oldMail, FILTER_VALIDATE_EMAIL));
+    $newMail = filter_var(trim($newMail, FILTER_VALIDATE_EMAIL));
+    $confirmNewMail = filter_var(trim($confirmNewMail, FILTER_VALIDATE_EMAIL));
+    $pdo = dbConnect();
+
+    $stmt = $pdo->prepare("SELECT users.email FROM users WHERE id = ? and email = ? and isActive = 1 and isDeleted = 0");
+    $stmt->execute([$id, $oldMail]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        if ($newMail == $confirmNewMail) {
+            if (!isset($newMail)) {
+                newLogs("CREATE USER ERROR", "Adresse mail incorrect");
+            } else {
+                $stmt = $pdo->prepare("UPDATE users SET email = ?, updatedAt = ?, updatedBy = ? WHERE id = ?");
+                $stmt->execute([$newMail, date('Y-m-d H:i:s'), $id, $id]);
+                newLogs("EMAIL UPDATE", "Votre adresse mail modifié avec succès");
+                newNotification("success", "votre adresse mail modifié avec succès", true, "fa-circle-check");
+            }
+        } else {
+            newLogs("email update", "vos adresse mails ne correspondent pas");
+            newNotification("error", "vos adresse mails ne correspondent pas", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("email update", "Adresse mail incorrect");
+        newNotification("error", "Adresse mail incorrect", true, "fa-circle-exclamation");
+    }
+    header("Refresh: 0");
+}
+
 function updateUsername($id, $username)
 {
     $username = trim(htmlspecialchars($username));
@@ -293,7 +332,7 @@ function updateUsername($id, $username)
     $stmt->execute([$username]);
     $isUsername = $stmt->fetch();
 
-    if (strlen($username) > 1) {
+    if (strlen($username) > 1 && strlen($username) < 16) {
         if ($isUsername) {
             newLogs("Username update", "Nom d'utilisateur déjà utilisé");
             newNotification("error", "Nom d'utilisateur déjà utilisé", true, "fa-circle-exclamation");
@@ -336,8 +375,8 @@ function addPost(string $title, string $description, int $postCategoryId, $photo
         header("Refresh: 0");
         exit();
     } else {
-        if (strlen($title) > 0) {
-            if (strlen($description) > 0) {
+        if (strlen($title) > 0 && strlen($title) < 51){
+            if (strlen($description) > 0 && strlen($description) < 1000) {
                 $sql = "INSERT INTO posts (title, description, postCategoryId, photo, reference, createdAt, createdBy) VALUES (?, ?, ?, ?, ?, ?,?)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$title, $description, $postCategoryId, $photo, $reference, date("Y-m-d H:i:s"), $id]);

@@ -60,7 +60,7 @@ if (isset($_SESSION["user"])) {
                 <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
             </svg>
         </button>
-        <aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5 dark:bg-slate-700" aria-label="Sidenav">
+        <aside id="sidebar" class="fixed top-0 left-0 py-5 z-40 w-64 h-screen transition-transform -translate-x-full flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5 dark:bg-slate-700" aria-label="Sidenav">
             <div class="flex h-16 shrink-0 items-center justify-between">
                 <img class="h-16 w-16 object-cover" src="/public/image/logo_transparent.png" alt="logo du site">
                 <span class="sm:block md:block lg:block xl:block">
@@ -75,7 +75,7 @@ if (isset($_SESSION["user"])) {
                 </span>
             </div>
             <nav class="flex flex-1 flex-col">
-                <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                <ul role="list" class="flex justify-between flex-1 flex-col gap-y-7">
                     <li>
                         <ul role="list" class="-mx-2 space-y-1">
                             <li class="mx-auto w-full">
@@ -95,7 +95,7 @@ if (isset($_SESSION["user"])) {
 
                     <li class="mx-auto mb-4 w-full">
                         <?php if (isset($_SESSION["user"]) && $_SESSION["user"]) : ?>
-                            <div type="button" data-dropdown-toggle="sidenavUser" data-dropdown-placement="bottom-start" class="flex items-center gap-3 rounded mx-auto py-2 w-full mb-5 hover:bg-gray-50 dark:hover:bg-slate-600 transition-all">
+                            <div type="button" data-dropdown-toggle="sidenavUser" data-dropdown-placement="bottom-start" class="flex items-center gap-3 px-2 rounded mx-auto py-2 w-full mb-5 hover:bg-gray-50 dark:hover:bg-slate-600 transition-all">
                                 <?php if ($_SESSION["user"]["image"]) : ?>
                                     <img class="w-10 h-10 rounded-full object-cover" src="<?= $_SESSION["user"]["image"] ?>" alt="">
                                 <?php else : ?>
@@ -136,7 +136,7 @@ if (isset($_SESSION["user"])) {
 
         <div class="hidden xl:fixed xl:inset-y-0 xl:flex xl:w-72  xl:flex-col">
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white shadow-lg px-6 rounded-r-2xl ring-1 ring-white/5 dark:bg-slate-700">
-                <div class="flex h-16 shrink-0 items-center justify-between">
+                <div class="flex h-16 mt-6 shrink-0 items-center justify-between">
                     <img class="h-16 w-16 object-cover" src="/public/image/logo_transparent.png" alt="logo du site">
                     <span class="hidden xl:block">
                         <button id="theme-toggle" type="button" class="text-gray-500 dark:text-yellow-400 hover:scale-110 transition-all duration-75 rounded-lg text-sm p-2.5">

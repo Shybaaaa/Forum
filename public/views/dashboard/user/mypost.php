@@ -29,14 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<div class="md:w-45 w-10/12 h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
+<div class="md:w-10/12 w-[100%] h-[85%] shadow bg-white px-3.5 rounded-lg py-2.5 dark:bg-slate-700">
     <div class="overflow-x-auto h-full flex flex-col justify-between">
         <div>
-            <div class="flex flex-row m-2 my-3 justify-between">
-
-                <form action="" method="POST">
-
-                    <div class="relative mb-3 mr-5 float-left">
+            <div class="flex flex-col sm:flex-row m-2 my-3 w-full sm:justify-between">
+                <form action="" class="w-1/2" method="POST">
+                    <div class="relative mb-3 sm:mr-5 float-left">
                         <label for="inputSearch" class="sr-only">Rechercher</label>
                         <input id="inputSearch" name="inputSearch" type="text" placeholder="Recherche..." class="block w-64 rounded-lg border dark:border-none dark:text-gray-50 dark:bg-slate-500 py-2 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400" />
                         <button type="submit" name="search">
@@ -44,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </button>
                     </div>
                 </form>
-                <div class="relative m-[2px] mb-3 float-right sm:block">
+                <div class="relative mb-3 float-right sm:block sm:right-4">
                     <a href="?page=addPost" type="button" class="bg-indigo-500 py-2.5 px-2 text-white rounded-lg font-medium hover:bg-indigo-500 hover:opacity-95 transition duration-75">
                         <i class="fa-solid fa-circle-plus text-sm text-white mr-1"></i>
                         Créer un post
