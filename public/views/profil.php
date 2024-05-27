@@ -18,9 +18,9 @@ $user = getUserByRef($_GET["ref"]);
 </script>
 
 <div class="h-screen">
-    <div class="w-[80%] h-[95%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden dark:w-[80%] dark:bg-slate-700">
-        <div class="w-full h-[20%] bg-gray-200 rounded-md dark:bg-slate-600"></div>
-        <div class="-translate-y-1/2">
+    <div class="w-[95%] lg:w-[80%] h-[90%] py-2 mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 overflow-x-hidden dark:bg-slate-700">
+        <div class="hidden sm:block w-full h-[20%] bg-gray-200 rounded-md dark:bg-slate-600"></div>
+        <div class="sm:-translate-y-1/2">
             <div class="flex flex-col w-full items-center justify-center gap-x-4">
                 <div class="w-[50%] h-[15%] flex flex-col space-y-3 items-center">
                     <div class="flex justify-center w-full px-6 py-2">
@@ -60,10 +60,10 @@ $user = getUserByRef($_GET["ref"]);
                 </div>
             </div>
         </div>
-        <div class="-translate-y-[60%]">
+        <div class="sm:-translate-y-[60%]">
             <div class="flex w-full items-center space-y-3 justify-center flex-col">
                 <h3 class="text-lg font-semibold text-gray-600 w-[90%] py-2 text-left dark:text-slate-200">Stats :</h3>
-                <div class="flex flex-row justify-evenly w-full items-center gap-x-4 *:bg-gray-50/30 *:shadow-md *:p-4 *:rounded-lg *:w-40">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-3 justify-items-center lg:flex flex-row justify-evenly w-full items-center lg:gap-x-4 *:bg-gray-50/50 *:w-28 dark:*:bg-gray-50/30 min-w-fit *:shadow-md *:p-4 *:rounded-lg sm:*:w-40">
                     <div class="flex flex-col items-center gap-y-2">
                         <span class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400"><?= getNbPosts($user["id"])["nbPosts"] ?></span>
                         <span class="text-sm text-gray-500 dark:text-sm dark:text-slate-300">Publications</span>
@@ -89,14 +89,14 @@ $user = getUserByRef($_GET["ref"]);
                 <div class="flex flex-col w-full items-center gap-y-4">
                     <?php $posts = getPostsByUser($user["id"], 2, "desc"); if (!$posts){ echo "<div class='w-full text-center'><span class='w-full italic text-sm text-center text-gray-500'>Il n'y a aucune publication.</span></div>";} ; foreach ($posts as $post): ?>
                         <div class="flex flex-row items-center justify-between gap-x-3 w-[90%] bg-gray-50/30 shadow-md p-4 rounded-lg">
-                            <a href="index.php?page=post&ref=<?= $post["reference"]?>">
+                            <a class="2xl:w-2/3 xl:w-2/3 lg:w-1/2" href="index.php?page=post&ref=<?= $post["reference"]?>">
                                 <div class="group">
                                     <h2 class="text-lg font-bold text-black group-hover:text-indigo-600 transition-all duration-75 dark:text-slate-200"><?= ucfirst($post["title"]) ?></h2>
-                                    <p class="text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($post["description"], 0, 60) ?>...</p>
+                                    <p class="hidden lg:block text-sm text-gray-500 group-hover:text-gray-400 transition-all duration-75 dark:text-slate-300"><?= substr($post["description"], 0, 60) ?>...</p>
                                 </div>
                             </a>
-                            <div class="flex flex-row items-center gap-x-8">
-                                <div class="flex flex-col w-fit h-fit items-center gap-x-2">
+                            <div class="flex flex-row w-1/2 xl:w-1/3 2xl:w-1/3 items-center gap-x-8">
+                                <div class="hidden lg:flex flex-col w-fit h-fit items-center gap-x-2">
                                     <p class="text-sm text-gray-600 dark:text-slate-300"><?= getNbComments($post["id"])["nbComments"] ?></p>
                                     <span class="text-sm text-gray-400 dark:text-slate-300">Messages</span>
                                 </div>

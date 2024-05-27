@@ -581,7 +581,7 @@ function getUser(int $id, bool $order = false): array
 {
     $pdo = DBConnect();
 
-    if ($order){
+    if ($order) {
         $sql = "SELECT users.username, users.roleId, users.image, users.biography, users.email, users.id, users.reference, users.status, users.createdAt, users.creatdedBy, users.isActive, users.isDeleted, users.isBanned,  users.bannedAt,  users.bannedBy FROM users ORDER BY users.roleId DESC";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -697,7 +697,7 @@ function loginRestore($id)
     $stmt->execute([$id]);
     $isUser = $stmt->fetch();
 
-    if ($isUser){
+    if ($isUser) {
         $sql = "UPDATE users SET users.isActive = 1, users.isDeleted = 0 WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
@@ -1215,7 +1215,7 @@ function searchRole(string $search)
 
 function banUser(int $idUserBanned, array $userRequest, string $reason)
 {
-    if (isset($idUserBanned, $userRequest, $reason)){
+    if (isset($idUserBanned, $userRequest, $reason)) {
         if ($userRequest["roleId"] > 1) {
             $pdo = dbConnect();
             $UserBanned = getUser($idUserBanned);
@@ -1250,7 +1250,7 @@ function unbanUser(int $idUserBanned, array $userRequest)
     $stmt->execute([$idUserBanned]);
     $isUser = $stmt->fetch();
 
-    if ($isUser){
+    if ($isUser) {
         $userBanned = getUser($idUserBanned);
         $userWhoBan = getUser($userBanned["bannedBy"]);
 
@@ -1265,7 +1265,7 @@ function unbanUser(int $idUserBanned, array $userRequest)
                 newNotification("error", "Vous ne pouvez pas débannir cet utilisateur", true, "fa-circle-exclamation");
                 header("Refresh: 0");
             }
-        } else{
+        } else {
             newNotification("error", "Vous ne pouvez pas débannir cet utilisateur", true, "fa-circle-exclamation");
             header("Refresh: 0");
         }
@@ -1273,4 +1273,129 @@ function unbanUser(int $idUserBanned, array $userRequest)
         newNotification("error", "L'utilisateur n'existe pas", true, "fa-circle-exclamation");
         header("Refresh: 0");
     }
+}
+
+function deleteCatAdmin(int $idCat, array $userRequest)
+{
+    $pdo = dbConnect();
+    if ($userRequest["roleId"] > 1) {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT id, 'name' FROM postCategory WHERE id = ?");
+        $stmt->execute([$idCat]);
+        $isCategory = $stmt->fetch();
+
+        if ($isCategory) {
+            $stmt = $pdo->prepare("UPDATE postCategory SET isDeleted = 1, isActive = 0, updatedAt = ?, updatedBy = ?, status = 'd' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userRequest["id"], $isCategory["id"]]);
+            newLogs("DELETE CAT", "Catégorie supprimée : {$isCategory['name']}(#{$isCategory['id']})");
+            newNotification("success", "Catégorie supprimée avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("DELETE CAT", "Catégorie innexistante : #{$idCat}");
+            newNotification("error", "Catégorie innexistante.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("DELETE CAT", "Utilisateur non autorisé : " . $userRequest["id"]);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
+    header("Refresh: 0");
+}
+
+function restoreCatAdmin(int $idCat, array $userRequest)
+{
+    $pdo = dbConnect();
+    if ($userRequest["roleId"] > 1) {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT id, 'name' FROM postCategory WHERE id = ?");
+        $stmt->execute([$idCat]);
+        $isCategory = $stmt->fetch();
+
+        if ($isCategory) {
+            $stmt = $pdo->prepare("UPDATE postCategory SET isDeleted = 0, isActive = 1, updatedAt = ?, updatedBy = ?, status = 'a' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userRequest["id"], $isCategory["id"]]);
+            newLogs("RESTORE CAT", "Catégorie restaurée : {$isCategory['name']}(#{$isCategory['id']})");
+            newNotification("success", "Catégorie restaurée avec succès !", true, "fa-circle-check");
+        } else {
+            newLogs("RESTORE CAT", "Catégorie innexistante : " . $isCategory);
+            newNotification("error", "Catégorie innexistante.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("RESTORE CAT", "Utilisateur non autorisé : " . $userRequest["id"]);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
+    header("Refresh: 0");
+}
+
+function hideCatAdmin(int $idCat, int $userLevel)
+{
+    $pdo = dbConnect();
+    if ($userLevel > 1) {
+        $stmt = $pdo->prepare("SELECT id FROM postCategory WHERE id = ?");
+        $stmt->execute([$idCat]);
+        $isCat = $stmt->fetch();
+
+        if ($isCat) {
+            $stmt = $pdo->prepare("UPDATE postCategory SET isActive = 0, updatedAt = ?, updatedBy = ?, status = 'b' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userLevel, $idCat]);
+            newLogs("HIDE CAT", "Catégorie cachée : " . $idCat);
+            newNotification("warning", "Catégorie cachée avec succès !", true, "fa-eye-slash");
+        } else {
+            newLogs("HIDE CAT", "Catégorie innexistante : " . $idCat);
+            newNotification("error", "Catégorie innexistante.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("HIDE CAT", "Utilisateur non autorisé : " . $userLevel);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
+    header("Refresh: 0");
+}
+
+function showCatAdmin(int $idCat, int $userLevel)
+{
+    $pdo = dbConnect();
+    if ($userLevel > 1) {
+        $stmt = $pdo->prepare("SELECT id FROM postCategory WHERE id = ?");
+        $stmt->execute([$idCat]);
+        $isCat = $stmt->fetch();
+
+        if ($isCat) {
+            $stmt = $pdo->prepare("UPDATE postCategory SET isActive = 0, updatedAt = ?, updatedBy = ?, status = 'b' WHERE id = ?");
+            $stmt->execute([date("Y-m-d H:i:s"), $userLevel, $idCat]);
+            newLogs("SHOW CAT", "Catégorie affichée : " . $idCat);
+            newNotification("warning", "Catégorie affichée avec succès !", true, "fa-eye-slash");
+        } else {
+            newLogs("SHOW CAT", "Catégorie innexistante : " . $idCat);
+            newNotification("error", "Catégorie innexistante.", true, "fa-circle-exclamation");
+        }
+    } else {
+        newLogs("SHOW CAT", "Utilisateur non autorisé : " . $userLevel);
+        newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
+    }
+
+    header("Refresh: 0");
+}
+
+function getLogs()
+{
+
+    $pdo = dbConnect();
+
+    $sql = "SELECT * FROM logs";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $logs = $stmt->fetchAll();
+
+    return $logs;
+}
+
+function searchLogs(string $search)
+{
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM logs WHERE CONCAT(type, logs) LIKE ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%"]);
+    return $stmt->fetchAll();
 }
