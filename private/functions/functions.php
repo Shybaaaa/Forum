@@ -1367,3 +1367,13 @@ function searchLogs(string $search)
     $stmt->execute(["%" . $search . "%"]);
     return $stmt->fetchAll();
 }
+
+function searchAll(string $search)
+{
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE CONCAT(title) LIKE ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%"]);
+    return $stmt->fetchAll();
+}
