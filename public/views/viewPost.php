@@ -28,9 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="h-screen">
-    <div class="w-[80%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden dark:bg-slate-700">
+    <div class="lg:w-[80%] w-[95%] h-[90%] mt-[2%] rounded-lg shadow-md space-y-4 max-h-fit bg-white mx-auto gap-x-7 gap-y-9 px-6 py-4 overflow-x-hidden dark:bg-slate-700">
         <div class="space-y-5">
-            <div class="*:min-w-full *:h-96 *:rounded-lg">
+            <div class="*:min-w-full *:h-32 sm:*:h-40 md:*:h-64 lg:*:h-80  *:rounded-lg">
                 <?php if (!$post["photo"] == "") : ?>
                     <img src="<?= $post["photo"] ?>" alt="">
                 <?php else : ?>
@@ -39,10 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="space-y-2">
                 <span>
-                    <h2 class="mt-2 text-3xl text-gray-800 font-bold dark:text-slate-200"><?= ucfirst($post["title"]) ?></h2>
+                    <h2 class="mt-2 text-2xl lg:text-3xl text-gray-800 font-bold dark:text-slate-200"><?= ucfirst($post["title"]) ?></h2>
                     <span class="uppercase text-indigo-500 text-sm font-bold tracking-wide"><?= getCategory($post["postCategoryId"])["name"] ?></span>
                 </span>
-                <p class="text-gray-700 dark:text-slate-200 text-md font-normal text-pretty text-justify tracking-wide"><?= nl2br(html_entity_decode($post["description"])) ?></p>
+                <p class="text-gray-700 dark:text-slate-200 text-md font-light md:font-normal text-pretty text-justify tracking-wide"><?= nl2br(html_entity_decode($post["description"])) ?></p>
                 <span class="text-gray-600 text-sm italic dark:text-slate-400 ">Publié le <?= date("d/m/Y", strtotime($post["createdAt"])) ?> à <?= date("H:i", strtotime($post["createdAt"])) ?></span>
             </div>
             <div class="flex flex-col flex-nowrap text-justify ">
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
         <div class="w-full">
             <?php foreach ($comments as $comment) : ?>
-                <article class="bg-gray-100 w-1/2 rounded-lg px-6 py-2 my-3 ml-3 dark:bg-slate-600">
+                <article class="bg-gray-100 w-[90%] sm:w-[80%] lg:w-[70%] rounded-lg px-6 py-2 my-3 ml-3 dark:bg-slate-600">
                     <div class="flex w-full justify-between items-center mb-4">
                         <div class="flex flex-row items-center">
                             <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             </a>
                         </div>
-                        <p class="text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i",  strtotime($comment["createdAt"])) ?></p>
+                        <p class="hidden md:block text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($comment["createdAt"])) ?> à <?= date("H:i",  strtotime($comment["createdAt"])) ?></p>
                         <?php if (isset($_SESSION["user"])) : ?>
                             <div class="flex items-center justify-end">
                                 <button title="Répondre" data-modal-target="commentRespond" data-modal-show="commentRespond" onclick="respondComment(<?= $comment['id'] ?>)" class="fa-solid fa-reply px-6 py-5"></button>
@@ -108,8 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p class="mb-2 text-gray-700 text-sm dark:text-gray-200"><?= nl2br(html_entity_decode($comment["message"])) ?></p>
                 </article>
                 <?php foreach (getRCOWhereCOM($comment["id"]) as $sous_comment) : ?>
-                    <article class="bg-gray-200 w-1/2 rounded-lg px-6 py-2 my-3 ml-20 dark:bg-slate-500">
-                        <div class="space-x-1 flex items-center justify-between mb-4">
+                    <article class="bg-gray-200 w-[90%] sm:w-[80%] lg:w-[70%] rounded-lg px-6 py-2 my-3 ml-7 lg:ml-20 dark:bg-slate-500">
+                        <div class="space-x-1 flex lg:flex-row flex-col lg:items-center lg:justify-between justify-start items-start mb-4">
                             <a href="index.php?page=profil&ref=<?= getUser($sous_comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
                                 <img class="w-10 h-10 me-4 rounded-full object-cover transition duration-75" src="<?= getUser($sous_comment["createdBy"])["image"] ?>" alt="">
                                 <div class="font-medium group-hover:text-indigo-600 transition duration-75 dark:text-white">
@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             </a>
                             <div class="flex flex-row gap-x-1">
-                                <p class="text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($sous_comment["createdAt"])) ?> à <?= date("H:i", strtotime($sous_comment["createdAt"])) ?></p>
+                                <p class="hidden md:block text-gray-500 text-sm text-pretty dark:text-slate-300"> <?= date("d/m/Y", strtotime($sous_comment["createdAt"])) ?> à <?= date("H:i", strtotime($sous_comment["createdAt"])) ?></p>
                                 <p class="text-gray-500 text-sm text-pretty dark:text-slate-300">répond à</p>
                             </div>
                             <a href="index.php?page=profil&ref=<?= getUser($comment["createdBy"])["reference"] ?>" class="flex items-center group transition-all">
@@ -154,8 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="mb-6 w-full">
                             <label for="commentrespond" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Message</label>
                             <input type="text" id="commentId" readonly name="commentId" placeholder="Id" class="cursor-not-allowed text-gray-700 bg-gray-100 hidden">
-                            <textarea  id="commentrespond" name="message" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="2"><?= $_SESSION["user"]["biography"] ?></textarea>
-                            <div id="textareaBError" class="counter"><span id="counter">0</span> caractères (500 max)</div>
+                            <textarea  id="commentrespond" name="message" placeholder="Votre réponse" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="500" cols="30" rows="2"></textarea>
+                            <div id="textareaBError" class="counter dark:text-gray-50 text-gray-700"><span id="counter">0</span> caractères (500 max)</div>
                         </div>
                         <div class="mt-3 w-full flex justify-end">
                             <input name="commentrespond" type="submit" value="Répondre" class="py-2 px-3 bg-gradient-to-tl to-indigo-600 from-blue-500 cursor-pointer text-medium text-white font-medium rounded-lg hover:bg-indigo-500 hover:opacity-95 transition duration-75">
