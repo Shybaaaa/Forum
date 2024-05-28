@@ -4,6 +4,7 @@
 - [Introduction](#introduction)
 - [Fonctionnalités](#fonctionnalités)
 - [Installation](#installation)
+- [Modification](#modification)
 - [Configuration](#configuration)
 - [Licence](#licence)
 - [Auteurs](#auteurs)
@@ -36,7 +37,7 @@ npm run installDependencies
 
 Ensuite vous lancez la commande suivante pour générer le code CSS et être à jour sur celui-ci :
 ```node
-npm run build
+npm run compress
 ```
 
 <br/>
@@ -51,6 +52,14 @@ php -S localhost:8888
 ```
 
 <br/>
+
+## Modification
+
+Si vous désirez modifier le code CSS (Tailwind), exécutez la commande suivante, qui générera le code CSS en même temps que vos changements :
+
+```npm
+npm run build
+```
 
 ## Configuration
 
