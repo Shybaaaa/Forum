@@ -1,4 +1,4 @@
-# Forum G1
+# Forum
 
 ## Table des matières
 - [Introduction](#introduction)
