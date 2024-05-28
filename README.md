@@ -81,4 +81,4 @@ Ce projet est sous licence Apache2. Voir le fichier [LICENSE](LICENSE) pour plus
 - [**Shybaaaa**](https://github.com/shybaaaa) - *Développeur principal*
 - [**A-Meuret**](https://github.com/A-Meuret) - *Développeur principal*
 - [**aless-guisset**](https://github.com/aless-guisset) - *Développeur principal*
-- [**Gauv0**](https://github.com/gauv0) - *Contributeur*
+- [**Gauv0**](https://github.com/gauv0) - *Développeur Darkmode*
