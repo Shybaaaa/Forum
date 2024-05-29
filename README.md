@@ -1,3 +1,7 @@
+<p align='center'>
+  <img width='128px' src='https://github.com/Shybaaaa/Forum/blob/main/public/image/logo_transparent.png' alt='logo'>  
+</p>
+
 # Forum
 
 ## Table des matières
