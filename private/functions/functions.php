@@ -1287,7 +1287,7 @@ function deleteCatAdmin(int $idCat, array $userRequest)
     $pdo = dbConnect();
     if ($userRequest["roleId"] > 1) {
         $pdo = dbConnect();
-        $stmt = $pdo->prepare("SELECT id, 'name' FROM postCategory WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT id, name FROM postCategory WHERE id = ?");
         $stmt->execute([$idCat]);
         $isCategory = $stmt->fetch();
 
@@ -1304,7 +1304,6 @@ function deleteCatAdmin(int $idCat, array $userRequest)
         newLogs("DELETE CAT", "Utilisateur non autorisé : " . $userRequest["id"]);
         newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
     }
-
     header("Refresh: 0");
 }
 

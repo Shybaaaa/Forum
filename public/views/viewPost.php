@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="text-gray-600 text-sm italic dark:text-slate-400 ">Publié le <?= date("d/m/Y", strtotime($post["createdAt"])) ?> à <?= date("H:i", strtotime($post["createdAt"])) ?></span>
             </div>
             <div class="flex flex-col flex-nowrap text-justify ">
-                <span class="text-gray-700 text-sm font-medium text-left text-normal mb-2 dark:text-slate-200">Créer par,</span>
+                <span class="text-gray-700 text-sm font-medium text-left text-normal mb-2 dark:text-slate-200">Créé par,</span>
                 <a href="/index.php?page=profil&ref=<?= $userCreator["reference"] ?>">
                     <div class="flex items-center gap-4 bg-white px-2 py-3 w-fit group hover:scale-105 hover:bg-gray-50 rounded-lg transition-all duration-75 dark:bg-slate-700">
                         <?php if (isset($userCreator["image"]) && $userCreator["image"] != "") : ?>
