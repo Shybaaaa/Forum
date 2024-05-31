@@ -64,9 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <th scope="row" class="px-6 py-5"><?= ucfirst($category["name"]) ?></th>
                             <td class="px-6 py-5"><?= getNbposts($category["id"])["nbPosts"] ?></td>
                             <td class="px-6 py-5 flex flex-row gap-x-3 *:text-sm">
-
-                                <!-- <button><i title="Modifier" class="fa-solid fa-pen-to-square text-gray-600"></i></button> -->
-
                                 <?php if (!$category["isDeleted"]) : ?>
                                     <button onclick="renderModalDeleteCat(<?= $category["id"]; ?>, '<?= $category["reference"] ?>')" data-modal-target="deleteModal" data-modal-show="deleteModal"><i title="Supprimé" class="fa-solid fa-trash text-red-600"></i></button>
                                 <?php else : ?>

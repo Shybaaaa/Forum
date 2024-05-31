@@ -26,7 +26,7 @@ if (isset($_SESSION["user"])) {
     <meta name="revisit-after" content="3 days">
     <meta name="theme-color" content="#FFFFFF">
     <meta name="language" content="fr">
-    <meta name="image" content="" >
+    <meta name="image" content="">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="wkp.alexisdubois.be">
     <meta property="og:title" content="Forum">
@@ -85,12 +85,6 @@ if (isset($_SESSION["user"])) {
                                 </a>
                             </li>
                             <li class="mx-auto w-full">
-                                <a href="index.php?page=home" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-500 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold dark:text-slate-200">
-                                    <i class="fa-solid fa-search"></i>
-                                    Recherche
-                                </a>
-                            </li>
-                            <li class="mx-auto w-full">
                                 <a href="index.php?page=users" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-500 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold dark:text-slate-200">
                                     <i class="fa-solid fa-users"></i>
                                     Utilisateurs
@@ -136,6 +130,7 @@ if (isset($_SESSION["user"])) {
                         <?php endif; ?>
                     </li>
                 </ul>
+
             </nav>
         </aside>
 
@@ -162,12 +157,6 @@ if (isset($_SESSION["user"])) {
                                     <a href="index.php?page=home" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-500 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold dark:text-slate-200">
                                         <i class="fa-solid fa-house"></i>
                                         Accueil
-                                    </a>
-                                </li>
-                                <li class="mx-auto w-full">
-                                    <a href="index.php?page=home" class="text-gray-500 text-left hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-500 transition-all group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold dark:text-slate-200">
-                                        <i class="fa-solid fa-search"></i>
-                                        Recherche
                                     </a>
                                 </li>
                                 <li class="mx-auto w-full">
@@ -254,6 +243,7 @@ if (isset($_SESSION["user"])) {
     <script src="/public/js/notification.js"></script>
     <script src="/public/js/dark_mode.js"></script>
 </body>
+
 </html>
 
 <?php ob_end_flush(); ?>

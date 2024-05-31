@@ -1287,7 +1287,7 @@ function deleteCatAdmin(int $idCat, array $userRequest)
     $pdo = dbConnect();
     if ($userRequest["roleId"] > 1) {
         $pdo = dbConnect();
-        $stmt = $pdo->prepare("SELECT id, 'name' FROM postCategory WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT id, name FROM postCategory WHERE id = ?");
         $stmt->execute([$idCat]);
         $isCategory = $stmt->fetch();
 
@@ -1304,7 +1304,6 @@ function deleteCatAdmin(int $idCat, array $userRequest)
         newLogs("DELETE CAT", "Utilisateur non autorisé : " . $userRequest["id"]);
         newNotification("error", "Vous n'avez pas les droits pour effectuer cette action.", true, "fa-circle-exclamation");
     }
-
     header("Refresh: 0");
 }
 
@@ -1402,6 +1401,16 @@ function searchLogs(string $search)
     $search = trim(htmlspecialchars($search));
     $pdo = dbConnect();
     $sql = "SELECT * FROM logs WHERE CONCAT(type, logs) LIKE ? ORDER BY createdAt ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(["%" . $search . "%"]);
+    return $stmt->fetchAll();
+}
+
+function searchAll(string $search)
+{
+    $search = trim(htmlspecialchars($search));
+    $pdo = dbConnect();
+    $sql = "SELECT * FROM posts WHERE CONCAT(title) LIKE ? ORDER BY createdAt ASC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(["%" . $search . "%"]);
     return $stmt->fetchAll();

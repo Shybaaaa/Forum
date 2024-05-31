@@ -2,6 +2,15 @@
 
 $categorys = getCategory(-1);
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    switch ($_POST) {
+        case isset($_POST["search"]):
+            $search = $_POST["searchbar"];
+            $posts = searchAll($_POST["searchbar"]);
+            break;
+    }
+}
+
 ?>
 
 <div class="container mx-auto max-w-screen w-fit gap-y-3 overflow-y-hidden min-h-screen flex flex-wrap py-6">
