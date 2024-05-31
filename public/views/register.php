@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Forum - register</title>
+    <title>Forum - Création de compte</title>
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="icon" href="/.github/logo.ico">
 </head>
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
             <div class="space-y-2">
-                <label for="username" class="block text-sm font-medium text-white">Username <sup class="text-red-500">*</sup></label>
+                <label for="username" class="block text-sm font-medium text-white">Nom d'utilisateur <sup class="text-red-500">*</sup></label>
                 <input type="text" name="username" aria-required="true" id="username" autocomplete="username"
                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-400 focus:ring-opacity-50">
             </div>
